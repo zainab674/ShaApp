@@ -1,0 +1,30 @@
+import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import Cards from './../../../../objects/cards';
+import { Map } from '../../modals/map';
+
+
+
+const Location = (service) => {
+
+
+
+
+
+    return (
+        <>
+
+            <div className='px-4 md:px-8 lg:px-16' id='location'>
+                <h1 className='text-xl md:text-2xl font-medium text-left mb-4'>Location</h1>
+                <p className='text-sm md:text-base text-left mb-5'>{service.city}, {service.country}</p>
+                <div className=''>
+                    <Map Service={service} />
+                </div>
+            </div>
+
+        </>
+    );
+
+}
+
+export default Location;
