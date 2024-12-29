@@ -25,18 +25,25 @@ const service_update_dto_1 = require("./dto/service-update.dto");
 const filter_service_dto_1 = require("./dto/filter.service.dto");
 const location_dto_1 = require("./dto/location.dto");
 const search_dto_1 = require("./dto/search.dto");
+const multi_upload_interceptor_1 = require("../../interceptors/multi-upload.interceptor");
 let ServiceController = class ServiceController {
     constructor(serviceService) {
         this.serviceService = serviceService;
     }
-    async create(user, createDto) {
+    async create(user, image, createDto) {
         createDto.userId = user.id;
+        if (image) {
+            createDto.image = image.map((file) => file.filename);
+        }
         return this.serviceService.create(createDto);
     }
     findall(page = 1, limit = 20) {
         return this.serviceService.findall(page, limit);
     }
-    async update(id, updateDatato) {
+    async update(id, image, updateDatato) {
+        if (image) {
+            updateDatato.image = image.map((file) => file.filename);
+        }
         return this.serviceService.update(id, updateDatato);
     }
     async deleteService(id) {
@@ -64,15 +71,18 @@ let ServiceController = class ServiceController {
 exports.ServiceController = ServiceController;
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseInterceptors)((0, multi_upload_interceptor_1.MultipleFileUpload)("image", 5)),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
     (0, decorators_1.ApiPageOkResponse)({
         description: "Create Service",
         type: service_schema_1.ServiceEntity,
     }),
     (0, decorators_1.Auth)(userRoles_1.Action.Create, "Service"),
     __param(0, (0, decorators_1.AuthUser)()),
-    __param(1, (0, common_1.Body)()),
+    __param(1, (0, common_1.UploadedFiles)()),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_schema_1.User, service_schema_1.ServiceEntity]),
+    __metadata("design:paramtypes", [user_schema_1.User, Array, service_schema_1.ServiceEntity]),
     __metadata("design:returntype", Promise)
 ], ServiceController.prototype, "create", null);
 __decorate([
@@ -91,15 +101,18 @@ __decorate([
 ], ServiceController.prototype, "findall", null);
 __decorate([
     (0, common_1.Patch)(constants_1.constTexts.serviceRoute.update),
+    (0, common_1.UseInterceptors)((0, multi_upload_interceptor_1.MultipleFileUpload)("image", 5)),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
     (0, decorators_1.ApiPageOkResponse)({
         description: "Update Service",
         type: service_schema_1.ServiceEntity,
     }),
     (0, decorators_1.Auth)(userRoles_1.Action.Update, "Service"),
     __param(0, (0, common_1.Param)("id")),
-    __param(1, (0, common_1.Body)()),
+    __param(1, (0, common_1.UploadedFiles)()),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, service_update_dto_1.UpdateServiceDto]),
+    __metadata("design:paramtypes", [String, Array, service_update_dto_1.UpdateServiceDto]),
     __metadata("design:returntype", Promise)
 ], ServiceController.prototype, "update", null);
 __decorate([

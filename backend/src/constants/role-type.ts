@@ -41,6 +41,7 @@ export enum ServiceCategory {
 
 
 export enum BookingStatus {
+  empty = "empty",
   pending = "pending",
   confirmed = "confirmed",
   rejected = "rejected",

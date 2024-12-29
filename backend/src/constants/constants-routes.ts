@@ -57,6 +57,7 @@ export const constTexts = {
     my: "myBookings",
     getUserBookings: "getUserBookings/:id",
     getServiceBookings: "getServiceBookings/:id",
+    checkBooking: "checkBooking/:id"
 
   },
   ratingRoute: {

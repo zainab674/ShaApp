@@ -1,71 +1,165 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../../authContext";
 import { useNavigate } from "react-router-dom";
 import { apiConst } from "../../constants/api.constants";
+import { DeleteService, UpdateUser } from "../../connection/apis";
+import ModalForm from "../service/components";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import UpdateModalForm from "../service/updateServiceModal";
+import { LoadingSpinner } from "../../constants/loadingSpinner";
 
 const ProfilePage = () => {
-    const { me } = useAuth();
+    const { me, token, fetchUserProfile, loading } = useAuth();
     const navigate = useNavigate();
-    const [page, setPage] = useState(me?.profile?.role === "VENDOR" ? "service" : "bookings");
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [formData, setFormData] = useState({
-        name: me?.profile?.name || "",
-        email: me?.profile?.email || "",
 
-        about: me?.profile?.about || "",
-        role: me?.profile?.role || "",
-        avatar: me?.profile?.avatar || "",
-        phone: me?.profile?.phone || "",
+    // State Hooks
+    const [isLoading, setIsLoading] = useState(true);
+    const [page, setPage] = useState("service");
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [isServiceModalOpen, setServiceModalOpen] = useState(false);
+    const [updateServiceModalOpen, setUpdateServiceModalOpen] = useState(false);
+    const [UpService, setUpService] = useState({});
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        about: "",
+        avatar: null,
+        phone: "",
     });
 
+    // Effect Hooks
+    useEffect(() => {
+        if (!loading && me) {
+            setIsLoading(false);
+            setFormData({
+                name: me.profile.name || "",
+                email: me.profile.email || "",
+                about: me.profile.about || "",
+                phone: me.profile.phone || "",
+                avatar: null,
+            });
+        }
+    }, [loading, me]);
+
+    // Handle Loading State
+    if (isLoading || !me) {
+        return <LoadingSpinner />;
+    }
+
+    // Return early if `me` is not available
     if (!me || !me.profile) {
         console.error("Error: Unable to load profile data", me);
         return <div>Error: Unable to load profile</div>;
     }
 
-    const isVendor = me.profile.role === "VENDOR";
+
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+
+        if (file) {
+            // Update the formData with the original file name and file itself
+            setFormData((prevData) => ({
+                ...prevData,
+                avatar: file     // Store the file object
+
+            }));
+        }
+    };
+
+
+
+
+    const handleupdate = (service) => {
+        setUpService(service);
+        setUpdateServiceModalOpen(true)
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Updated Profile Data:", formData);
-        setModalOpen(false); // Close the modal after submitting
+
+        const updatedData = { ...formData };
+
+
+        // Update user profile
+        try {
+            const response = await UpdateUser(updatedData, token);
+            if (response) {
+                fetchUserProfile();
+                setPage(response.role)
+                console.log("Profile updated successfully", response);
+                setModalOpen(false); // Close modal
+            } else {
+                console.error("Error updating profile");
+            }
+        } catch (err) {
+            console.error("Error during profile update:", err);
+        }
     };
 
     const handleClick = (id) => {
-        console.log("Navigating to card:", id);
         navigate(apiConst.card.replace(":id", id));
     };
+
+
+
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await DeleteService(id, token);
+            if (response) {
+                fetchUserProfile()
+                console.log("Service deleted successfully", response);
+
+            } else {
+                console.error("Error Deleting service");
+            }
+        } catch (err) {
+            console.error("Error during service delete:", err);
+        }
+    }
 
     return (
         <div className="min-h-screen bg-gray-100 flex justify-center p-8">
             <div className="max-w-6xl w-full bg-white rounded-lg shadow-md p-8">
                 {/* Profile Header */}
                 <div className="flex flex-col md:flex-row md:items-center md:space-x-8">
+
                     <img
                         src={
-                            me.profile.avatar ||
-                            "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
+                            me.profile.avatar
+                                ? `http://localhost:1234/${me.profile.avatar}`
+                                : "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
                         }
                         alt={me.profile.name}
                         className="w-28 h-28 rounded-full object-cover"
                     />
+
                     <div className="flex-1">
                         <h1 className="text-2xl font-bold">{me.profile.name}</h1>
                         <p className="text-gray-500">{me.profile.about || "About section here"}</p>
                         <div className="mt-4 flex space-x-4">
-                            {isVendor && (
+
+                            <button
+                                className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+                                onClick={() => setModalOpen(true)}
+                            >
+                                Edit Profile
+                            </button>
+                            {me.profile.role === "VENDOR" &&
                                 <button
                                     className="bg-blue-600 text-white px-4 py-2 rounded-lg"
-                                    onClick={() => setModalOpen(true)}
+                                    onClick={() => setServiceModalOpen(true)}
                                 >
-                                    Edit Profile
+                                    Add Service
                                 </button>
-                            )}
+                            }
                             <button className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg">
                                 Get in Touch
                             </button>
@@ -82,7 +176,7 @@ const ProfilePage = () => {
                 {/* Tabs */}
                 <div className="mt-8">
                     <div className="flex space-x-8 border-b">
-                        {isVendor && (
+                        {me.profile.role === "VENDOR" && (
                             <>
                                 <button
                                     className={`pb-2 border-b-2 ${page === "service" ? "border-blue-600" : ""}`}
@@ -118,16 +212,31 @@ const ProfilePage = () => {
                     <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {me.services.map((service) => (
                             <div key={service.id} className="bg-gray-50 p-4 rounded-lg shadow-sm">
+
                                 <img
                                     src={
-                                        service.image[0] ||
-                                        "https://media.istockphoto.com/id/1408146514/photo/minimalistic-modern-private-house-exterior-in-pink-with-flamingos.jpg?s=612x612&w=0&k=20&c=eBUQw8rdxo5bvxnl6EUcQWkJ0WwqTv6UNTcqrOI74Dg="
+                                        service.image[0]
+                                            ? `http://localhost:1234/uploads/${service.image[0]}`
+                                            : "https://media.istockphoto.com/id/1408146514/photo/minimalistic-modern-private-house-exterior-in-pink-with-flamingos.jpg?s=612x612&w=0&k=20&c=eBUQw8rdxo5bvxnl6EUcQWkJ0WwqTv6UNTcqrOI74Dg="
                                     }
                                     alt={service.title}
                                     className="w-full h-36 object-cover rounded-lg mb-4"
                                     onClick={() => handleClick(service._id)}
                                 />
-                                <h3 className="text-lg font-semibold">{service.title}</h3>
+
+                                <div className="flex justify-between items-center">
+                                    <h3 className="text-lg font-semibold">{service.title}</h3>
+                                    <div className="flex gap-2">
+                                        <FaEdit
+                                            className="text-gray-600 cursor-pointer hover:text-blue-600"
+                                            onClick={() => handleupdate(service)}
+                                        />
+                                        <FaTrash
+                                            className="text-gray-600 cursor-pointer hover:text-red-600"
+                                            onClick={() => handleDelete(service._id)}
+                                        />
+                                    </div>
+                                </div>
                                 <p className="text-gray-600">{service.description}</p>
                             </div>
                         ))}
@@ -172,22 +281,7 @@ const ProfilePage = () => {
                                 </div>
                             </div>
                             <div className="mb-4 flex space-x-4">
-                                <div className="flex-1">
-                                    <label className="block text-gray-700">Role*</label>
-                                    <select
-                                        name="role"
-                                        value={formData.role}
-                                        onChange={handleInputChange}
-                                        className="w-full p-2 border rounded-lg"
-                                        required
-                                    >
-                                        <option disabled>
-                                            Select a Role
-                                        </option>
-                                        <option value="USER">USER</option>
-                                        <option value="VENDOR">VENDOR</option>
-                                    </select>
-                                </div>
+
                                 <div className="flex-1">
                                     <label className="block text-gray-700">About*</label>
                                     <textarea
@@ -209,9 +303,10 @@ const ProfilePage = () => {
                                     <input
                                         type="file"
                                         name="avatar"
-                                        onChange={(e) => handleFileChange(e)}
+                                        accept="image/*"
+                                        onChange={handleFileChange}
                                         className="w-full p-2 border rounded-lg"
-                                        required
+
                                     />
                                 </div>
                             </div>
@@ -234,6 +329,25 @@ const ProfilePage = () => {
                         </form>
                     </div>
                 </div>
+            )}
+
+
+            {isServiceModalOpen && (
+                <ModalForm
+                    isOpen={isServiceModalOpen}
+                    onClose={() => setServiceModalOpen(false)}
+                    token={token}
+                    fetchUserProfile={fetchUserProfile}
+                />
+            )}
+            {updateServiceModalOpen && (
+                <UpdateModalForm
+                    isOpen={updateServiceModalOpen}
+                    onClose={() => setUpdateServiceModalOpen(false)}
+                    token={token}
+                    service={UpService}
+                    fetchUserProfile={fetchUserProfile}
+                />
             )}
 
         </div>

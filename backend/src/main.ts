@@ -11,7 +11,9 @@ import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder, SwaggerDocumentOptions } from '@nestjs/swagger';
+// import path from 'path';
 import { join } from 'path';
+
 import * as express from 'express';
 import * as cors from 'cors';
 import { ConfigurationModule } from './configuration/configuration.module';
@@ -23,8 +25,9 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
     new ExpressAdapter(),
-    // { cors: true, },
+    { cors: true, },
   );
+  // app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
   app.use(cors());
   const options: SwaggerDocumentOptions = {
     operationIdFactory: (
@@ -43,7 +46,11 @@ async function bootstrap() {
   app.use(express.json({ limit: '50mb' }));
 
   app.useStaticAssets(join(__dirname, '..', 'assets', 'messages'));
-  app.useStaticAssets(join(__dirname, '..', 'assets', 'images'));
+  app.use('/uploads', express.static(join(__dirname, '..', 'uploads'), { index: false }));
+
+
+
+
   app.set('trust proxy', 1); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
   app.use(helmet());
   // app.setGlobalPrefix('/api'); use api as global prefix if you don't have subdomain

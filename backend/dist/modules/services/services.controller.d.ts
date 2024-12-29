@@ -1,3 +1,4 @@
+/// <reference types="multer" />
 /// <reference types="mongoose/types/aggregate" />
 /// <reference types="mongoose/types/callback" />
 /// <reference types="mongoose/types/collection" />
@@ -33,13 +34,13 @@ import { SearchDto } from "./dto/search.dto";
 export declare class ServiceController {
     private readonly serviceService;
     constructor(serviceService: ServiceService);
-    create(user: User, createDto: ServiceEntity): Promise<import("./schema/service.schema").ServiceDocument>;
+    create(user: User, image: Express.Multer.File[], createDto: ServiceEntity): Promise<import("./schema/service.schema").ServiceDocument>;
     findall(page?: number, limit?: number): Promise<{
         totalCount: number;
         totalPages: number;
         data: any[];
     }>;
-    update(id: string, updateDatato: UpdateServiceDto): Promise<{
+    update(id: string, image: Express.Multer.File[], updateDatato: UpdateServiceDto): Promise<{
         data: import("mongoose").Document<unknown, {}, import("./schema/service.schema").ServiceDocument> & ServiceEntity & import("mongoose").Document<any, any, any> & {
             _id: import("mongoose").Types.ObjectId;
         };

@@ -48,9 +48,7 @@ export const AuthProvider = ({ children }) => {
         }
     }, []);
 
-    useEffect(() => {
-        console.log("AuthContext State Update:", { token, me, loading });
-    }, [me, loading, token]);
+
 
 
     return (

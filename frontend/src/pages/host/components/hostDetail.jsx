@@ -60,7 +60,7 @@ function HostDe() {
                     <div className="pb-4 rounded-lg shadow-md flex justify-evenly items-center w-full mb-6">
                         <div className="text-center md:text-left">
                             <img
-                                src={host.avator ? host.avator : "https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg"}
+                                src={host.avatar ? `http://localhost:1234/${host.avatar}` : "https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg"}
                                 alt={host.name}
                                 className="h-24 w-24 rounded-full mb-4 mx-auto md:mx-0"
                             />

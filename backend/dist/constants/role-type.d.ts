@@ -35,6 +35,7 @@ export declare enum ServiceCategory {
     Choreographers = "Choreographers"
 }
 export declare enum BookingStatus {
+    empty = "empty",
     pending = "pending",
     confirmed = "confirmed",
     rejected = "rejected"

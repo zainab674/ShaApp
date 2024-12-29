@@ -121,6 +121,20 @@ export class BookingService {
 
     }
 
+    async findByServiceAndUserId(serviceId: string, userId: string): Promise<any> {
+        try {
+            const pendingBooking = await this.schemaModel.findOne({
+                serviceId,
+                userId,
+                status: 'pending',
+            });
+            return !!pendingBooking; // Returns true if a document is found, false otherwise.
+        } catch (err) {
+            throw new HttpException(err.message, ResponseCode.BAD_REQUEST);
+        }
+
+    }
+
     async find(id: string): Promise<any> {
         return await this.schemaModel
             .findById(id)

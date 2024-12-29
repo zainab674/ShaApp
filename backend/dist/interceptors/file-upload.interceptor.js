@@ -4,10 +4,11 @@ exports.FileUpload = void 0;
 const multer_1 = require("multer");
 const path_1 = require("path");
 const platform_express_1 = require("@nestjs/platform-express");
-function FileUpload(image, destination) {
+function FileUpload(image) {
+    const dest = 'uploads/';
     return (0, platform_express_1.FileInterceptor)(image, {
         storage: (0, multer_1.diskStorage)({
-            destination: destination,
+            destination: dest,
             filename: (req, file, cb) => {
                 const randomName = Array(32)
                     .fill(null)

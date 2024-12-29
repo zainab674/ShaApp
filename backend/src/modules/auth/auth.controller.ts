@@ -19,11 +19,7 @@ import { IsUserUnique } from "./../../decorators/user-signup.decorator";
 import { AuthService } from "./auth.service";
 import { UserLoginDto } from "./dto/user.login.dto";
 import { TokenPayloadDto } from "./dto/TokenPayloadDto";
-// import { VerifyOtpDto } from "./dto/verify-otp.dto";
-// import { ResetPasswordDto } from "./dto/reset-password.dto";
-// import { ForgotPasswordDto } from "./dto/forgot-password.dto";
-// import { ErrorCodesMeta, ResponseCode } from "src/exceptions";
-// import { VerifyAccountDto } from "./dto/verify-account.dto";
+
 import { UserSignupDto } from "./dto/user.signup.dto";
 import { ServiceService } from "../services/services.service";
 import { BookingService } from "../bookings/booking.service";

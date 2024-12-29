@@ -48,6 +48,10 @@ let BookingController = class BookingController {
     async findBookingOfService(id) {
         return this.bookingService.findByServiceId(id);
     }
+    async CheckBooking(user, serviceId) {
+        const userId = user.id;
+        return this.bookingService.findByServiceAndUserId(serviceId, userId);
+    }
 };
 exports.BookingController = BookingController;
 __decorate([
@@ -135,6 +139,19 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], BookingController.prototype, "findBookingOfService", null);
+__decorate([
+    (0, common_1.Get)(constants_1.constTexts.bookingRoute.checkBooking),
+    (0, decorators_1.ApiPageOkResponse)({
+        description: 'Check if there is a pending booking for the given service and user.',
+        type: Boolean,
+    }),
+    (0, decorators_1.Auth)(userRoles_1.Action.Update, "Booking"),
+    __param(0, (0, decorators_1.AuthUser)()),
+    __param(1, (0, common_1.Param)('serviceId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_schema_1.User, String]),
+    __metadata("design:returntype", Promise)
+], BookingController.prototype, "CheckBooking", null);
 exports.BookingController = BookingController = __decorate([
     (0, common_1.Controller)(constants_1.constTexts.bookingRoute.name),
     (0, swagger_1.ApiTags)(constants_1.constTexts.bookingRoute.name),

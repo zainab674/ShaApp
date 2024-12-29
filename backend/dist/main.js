@@ -16,7 +16,7 @@ const configuration_service_1 = require("./configuration/configuration.service")
 const dotenv = require("dotenv");
 dotenv.config({ path: `.env.test` });
 async function bootstrap() {
-    const app = await core_1.NestFactory.create(app_module_1.AppModule, new platform_express_1.ExpressAdapter());
+    const app = await core_1.NestFactory.create(app_module_1.AppModule, new platform_express_1.ExpressAdapter(), { cors: true, });
     app.use(cors());
     const options = {
         operationIdFactory: (controllerKey, methodKey) => methodKey
@@ -31,7 +31,7 @@ async function bootstrap() {
     swagger_1.SwaggerModule.setup('api', app, document);
     app.use(express.json({ limit: '50mb' }));
     app.useStaticAssets((0, path_1.join)(__dirname, '..', 'assets', 'messages'));
-    app.useStaticAssets((0, path_1.join)(__dirname, '..', 'assets', 'images'));
+    app.use('/uploads', express.static((0, path_1.join)(__dirname, '..', 'uploads'), { index: false }));
     app.set('trust proxy', 1);
     app.use((0, helmet_1.default)());
     app.use((0, express_rate_limit_1.default)({

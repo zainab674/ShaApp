@@ -86,12 +86,20 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.MinLength)(3),
-    (0, swagger_1.ApiProperty)(),
+    (0, swagger_1.ApiProperty)({
+        type: 'string',
+        format: 'binary',
+        description: "Avatar of User",
+        title: "Avatar",
+    }),
     (0, class_validator_jsonschema_1.JSONSchema)({
         description: "Avatar of User",
         title: "Avatar",
     }),
-    (0, mongoose_1.Prop)({ type: "string", trim: true, default: "" }),
+    (0, mongoose_1.Prop)({
+        type: "string",
+        format: 'binary', trim: true
+    }),
     __metadata("design:type", String)
 ], User.prototype, "avatar", void 0);
 __decorate([

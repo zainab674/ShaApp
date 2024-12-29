@@ -1,24 +1,4 @@
-const getErrorMessage = (errorCode) => {
-    console.log("Error Code:", errorCode);
-    switch (errorCode) {
-        case "auth/invalid-email":
-            return "Invalid email address format.";
-        case "auth/email-already-in-use":
-            return "This email is already in use. Please log in.";
-        case "auth/weak-password":
-            return "The password is too weak. Use at least 6 characters.";
-        case "auth/missing-password":
-            return "Please enter a password.";
-        case "auth/user-not-found":
-            return "User not found. Please sign up first.";
-        case "auth/wrong-password":
-            return "Incorrect password. Please try again.";
-        case "auth/invalid-credential":
-            return "Incorrect credentials.";
-        default:
-            return "An error occurred. Please try again.";
-    }
-};
+
 
 export const Signup = async (name, email, password, role, setError) => {
     if (!name || !email || !password || !role) {
@@ -127,6 +107,162 @@ export const Profile = async (token) => {
 };
 
 
+export const UpdateUser = async (data, token) => {
+    try {
+        const formData = new FormData();
+        for (const key in data) {
+            if (data[key] !== null) {
+                formData.append(key, data[key]);
+            }
+        }
+
+        const response = await fetch(`http://localhost:1234/users`, {
+            method: "PATCH",
+            headers: {
+                "authorization": `Bearer ${token}`
+            },
+            body: formData,
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log("Error:", errorData);
+            return;
+        }
+
+        const responseData = await response.json();
+        console.log("User Updated:", responseData);
+        return responseData;
+
+    } catch (err) {
+        console.log("Error:", err);
+    }
+};
+
+
+export const SpecificUser = async (id) => {
+
+
+    try {
+
+
+        const response = await fetch(`http://localhost:1234/users/oneUser/${id}`, {
+            method: "GET",
+
+
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData);
+            return;
+        }
+
+        const dataa = await response.json();
+        console.log("Specific User:", dataa);
+        return dataa;
+
+
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+
+//SERVICE
+
+export const CreateService = async (dataa, token) => {
+    try {
+        const response = await fetch("http://localhost:1234/service", {
+            method: "POST",
+            headers: {
+                "authorization": `Bearer ${token}`, // Authorization header
+            },
+            body: dataa, // FormData instance
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Error creating service:", errorData);
+            return null; // Indicate failure
+        }
+
+        const data = await response.json();
+        console.log("Service created successfully:", data);
+        return data; // Indicate success
+    } catch (err) {
+        console.error("Error:", err);
+        return null;
+    }
+};
+
+
+export const UpdateService = async (id, data, token) => {
+
+
+    try {
+
+
+        const response = await fetch(`http://localhost:1234/service/${id}`, {
+            method: "PATCH",
+            headers: {
+
+                "authorization": `Bearer ${token}`
+            },
+            body: data
+
+
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData);
+            return;
+        }
+
+        const dataa = await response.json(); // Handle the success response from your API
+        console.log("Service Updated:", dataa);
+
+        return dataa;
+
+
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export const DeleteService = async (id, token) => {
+
+
+    try {
+
+
+        const response = await fetch(`http://localhost:1234/service/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": `Bearer ${token}`
+            },
+
+
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData);
+            return;
+        }
+
+        const dataa = await response.json(); // Handle the success response from your API
+        console.log("Service Deleted:", dataa);
+
+        return dataa;
+
+
+    } catch (err) {
+        console.log(err);
+    }
+};
 
 export const AllServices = async () => {
 
@@ -155,9 +291,6 @@ export const AllServices = async () => {
         console.log(err);
     }
 };
-
-
-
 
 export const UserService = async (id) => {
 
@@ -216,7 +349,6 @@ export const SpecificService = async (id) => {
 };
 
 
-
 export const ServiceReviews = async (id) => {
 
 
@@ -244,14 +376,87 @@ export const ServiceReviews = async (id) => {
         console.log(err);
     }
 };
-export const SpecificUser = async (id) => {
+
+
+//SEARCH
+
+export const SearchServiceByName = async (dataa) => {
+
+    try {
+        const response = await fetch("http://localhost:1234/service/searchByName", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+
+            },
+            body: JSON.stringify(
+                dataa
+            ),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData);
+            return; // Indicate failure
+        }
+
+        const data = await response.json();
+        console.log("service searched successfully:", data);
+        return data; // Indicate success
+    } catch (err) {
+        console.log(err);
+
+    }
+};
+
+
+
+
+
+//BOOKING
+export const RequestBooking = async (dataa, token) => {
+    try {
+        const response = await fetch("http://localhost:1234/booking", {
+            method: "POST",
+            headers: {
+                "authorization": `Bearer ${token}`, // Authorization header
+                "Content-Type": "application/json",
+            },
+
+            body: JSON.stringify(
+                dataa
+            )
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Error requesting booking:", errorData);
+            return null; // Indicate failure
+        }
+
+        const data = await response.json();
+        console.log("booking created successfully:", data);
+        return data; // Indicate success
+    } catch (err) {
+        console.error("Error:", err);
+        return null;
+    }
+};
+
+
+export const CheckBooking = async (id, token) => {
 
 
     try {
 
 
-        const response = await fetch(`http://localhost:1234/users/oneUser/${id}`, {
+        const response = await fetch(`http://localhost:1234/booking/checkBooking/${id}`, {
             method: "GET",
+            headers: {
+
+                "authorization": `Bearer ${token}`
+            },
+
 
 
         });
@@ -262,8 +467,9 @@ export const SpecificUser = async (id) => {
             return;
         }
 
-        const dataa = await response.json();
-        console.log("Specific User:", dataa);
+        const dataa = await response.json(); // Handle the success response from your API
+
+
         return dataa;
 
 
@@ -271,5 +477,3 @@ export const SpecificUser = async (id) => {
         console.log(err);
     }
 };
-
-

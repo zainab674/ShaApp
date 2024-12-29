@@ -1,3 +1,4 @@
+/// <reference types="multer" />
 /// <reference types="mongoose/types/aggregate" />
 /// <reference types="mongoose/types/callback" />
 /// <reference types="mongoose/types/collection" />
@@ -29,7 +30,7 @@ import { UserService } from "./user.service";
 export declare class UserController {
     private userService;
     constructor(userService: UserService);
-    update(user: User, userUpdateDto: UpdateUserDto): Promise<{
+    update(user: User, avatar: Express.Multer.File, userUpdateDto: UpdateUserDto): Promise<{
         data: import("mongoose").Document<unknown, {}, import("./user.schema").UserDocument> & User & import("mongoose").Document<any, any, any> & {
             _id: import("mongoose").Types.ObjectId;
         };

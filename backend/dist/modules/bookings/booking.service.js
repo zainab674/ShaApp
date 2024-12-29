@@ -97,6 +97,19 @@ let BookingService = class BookingService {
             throw new common_1.HttpException(err.message, exceptions_1.ResponseCode.BAD_REQUEST);
         });
     }
+    async findByServiceAndUserId(serviceId, userId) {
+        try {
+            const pendingBooking = await this.schemaModel.findOne({
+                serviceId,
+                userId,
+                status: 'pending',
+            });
+            return !!pendingBooking;
+        }
+        catch (err) {
+            throw new common_1.HttpException(err.message, exceptions_1.ResponseCode.BAD_REQUEST);
+        }
+    }
     async find(id) {
         return await this.schemaModel
             .findById(id)

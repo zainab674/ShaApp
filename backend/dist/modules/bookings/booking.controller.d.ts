@@ -47,4 +47,5 @@ export declare class BookingController {
     findBooking(id: string): Promise<any>;
     findBookingOfUser(id: string): Promise<any>;
     findBookingOfService(id: string): Promise<any>;
+    CheckBooking(user: User, serviceId: string): Promise<boolean>;
 }

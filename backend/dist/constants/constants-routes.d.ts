@@ -57,6 +57,7 @@ export declare const constTexts: {
         my: string;
         getUserBookings: string;
         getServiceBookings: string;
+        checkBooking: string;
     };
     ratingRoute: {
         name: string;

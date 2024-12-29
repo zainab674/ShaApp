@@ -18,6 +18,7 @@ export class ServiceService {
 
 
     async create(createDto: ServiceEntity) {
+
         const create: ServiceDocument = new this.schemaModel(createDto);
         return await create.save().catch((err) => {
             throw new HttpException(err.message, ResponseCode.BAD_REQUEST);

@@ -45,6 +45,7 @@ var ServiceCategory;
 })(ServiceCategory || (exports.ServiceCategory = ServiceCategory = {}));
 var BookingStatus;
 (function (BookingStatus) {
+    BookingStatus["empty"] = "empty";
     BookingStatus["pending"] = "pending";
     BookingStatus["confirmed"] = "confirmed";
     BookingStatus["rejected"] = "rejected";

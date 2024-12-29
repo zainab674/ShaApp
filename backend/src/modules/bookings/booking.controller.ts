@@ -96,5 +96,19 @@ export class BookingController {
     }
 
 
+    @Get(constTexts.bookingRoute.checkBooking)
+    @ApiPageOkResponse({
+        description: 'Check if there is a pending booking for the given service and user.',
+        type: Boolean,
+    })
+    @Auth(Action.Update, "Booking")
+    async CheckBooking(
+        @AuthUser() user: User,
+        @Param('serviceId') serviceId: string,
+
+    ): Promise<boolean> {
+        const userId = user.id;
+        return this.bookingService.findByServiceAndUserId(serviceId, userId);
+    }
 
 }

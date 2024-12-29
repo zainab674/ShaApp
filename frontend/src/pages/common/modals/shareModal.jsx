@@ -9,10 +9,10 @@ import 'slick-carousel/slick/slick-theme.css';
 
 
 
-const ShareModal = ({ isOpen, onClose, selectedLocation }) => {
+const ShareModal = ({ isOpen, onClose, selectedService }) => {
     if (!isOpen) return null;
 
-    console.log("sssssss", selectedLocation)
+    console.log("sssssss", selectedService)
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 hidden md:flex justify-center items-center z-50">
             <div className="bg-white rounded-lg w-7/12 p-6 text-left">
@@ -28,11 +28,11 @@ const ShareModal = ({ isOpen, onClose, selectedLocation }) => {
                 {/* Location Details */}
                 <div className="flex items-center mb-4">
                     <img
-                        src={selectedLocation.image}
-                        alt={selectedLocation.title}
+                        src={"https://cdn.openart.ai/published/9ohAD2ktCjGkZWAOLxle/le4zwnzr_BIsd_1024.webp"}
+                        alt={selectedService.title}
                         className="w-12 h-12 rounded-lg mr-4"
                     />
-                    <p className="font-medium">{selectedLocation.title}</p>
+                    <p className="font-medium">{selectedService.title}</p>
                 </div>
 
                 {/* Sharing Options */}

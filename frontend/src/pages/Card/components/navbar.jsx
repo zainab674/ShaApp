@@ -8,6 +8,7 @@ import LoginModal from '../../common/modals/loginModal';
 import { useNavigate } from 'react-router-dom';
 import { apiConst } from './../../../constants/api.constants';
 import { useAuth } from '../../../authContext';
+import { LogOut } from '../../../connection/apiFunction';
 
 const CardNavbar = ({ className }) => {
     const navigate = useNavigate();
@@ -20,30 +21,23 @@ const CardNavbar = ({ className }) => {
 
         LogOut(setToken, navigate);
     }
-    const openModal = () => {
 
-        setModalOpen(true);
-    };
     const closeModal = () => {
 
         setModalOpen(false);
     };
-    const [showNavbar2, setShowNavbar2] = useState(true); // State to toggle Navbar2 visibility
-    const [buttonClicked, setButtonClicked] = useState('');
+
+
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
 
-    const handleButtonClick = (buttonName) => {
-        console.log(`${buttonName} button was clicked`);
-        setButtonClicked(buttonName); // Save which button was clicked
-        setShowNavbar2(false); // Hide Navbar2 and show Navbar
-    };
+
     useEffect(() => {
 
         const handleScroll = () => {
-            setShowNavbar2(true);
+            // setShowNavbar2(true);
         };
 
 
@@ -55,9 +49,7 @@ const CardNavbar = ({ className }) => {
         };
     }, []);
 
-    if (!showNavbar2) {
-        return <Navbar buttonClicked={buttonClicked} />;
-    }
+
 
     return (
         <div className={`hidden md:flex justify-between items-center p-4 lg:px-16 border-b ${className}`}>
@@ -66,19 +58,6 @@ const CardNavbar = ({ className }) => {
                 <img src={airbnb} alt="Airbnb Logo" className="w-25 h-9" onClick={() => navigate(apiConst.home)} />
             </div>
 
-            {/* Center: Search Bar */}
-            <div className="flex items-center border rounded-full shadow-sm px-4 py-2 ml-20">
-                <button className="text-gray-600 px-4" onClick={() => handleButtonClick('Anywhere')}>Anywhere</button>
-                <span className="border-l h-6"></span>
-                <button className="text-gray-600 px-4" onClick={handleButtonClick}>Any week</button>
-                <span className="border-l h-6"></span>
-                <button className="text-gray-600 px-4" onClick={() => handleButtonClick('Guests')}>Add guests</button>
-                <button className="ml-4 bg-red-500 text-white p-2 rounded-full" onClick={handleButtonClick}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-4 h-4">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-3a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </button>
-            </div>
 
             {/* Right: User Menu */}
             <div className="flex space-x-6 mr-10 items-center">

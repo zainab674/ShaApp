@@ -74,13 +74,6 @@ export class User {
   @Prop({ type: "string", default: "" })
   about: string;
 
-  // @ApiProperty()
-  // @JSONSchema({
-  //   description: "User email verification",
-  //   title: "Email Verify",
-  // })
-  // @Prop({ type: "boolean", default: false })
-  // verify: boolean;
 
   @IsEnum(RoleType)
   @IsOptional()
@@ -92,23 +85,25 @@ export class User {
   @Prop({ type: "string", required: false, trim: true, default: RoleType.USER })
   role: string;
 
-  // @ApiProperty()
-  // @Prop({ type: "string", trim: true, default: "" })
-  // otp: string;
 
-  // @ApiProperty()
-  // @Prop({ type: "Boolean", default: false })
-  // isOtpUsed: boolean;
 
   @IsOptional()
   @IsString()
   @MinLength(3)
-  @ApiProperty()
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    description: "Avatar of User",
+    title: "Avatar",
+  })
   @JSONSchema({
     description: "Avatar of User",
     title: "Avatar",
   })
-  @Prop({ type: "string", trim: true, default: "" })
+  @Prop({
+    type: "string",
+    format: 'binary', trim: true
+  })
   avatar: string;
 
   @IsOptional()

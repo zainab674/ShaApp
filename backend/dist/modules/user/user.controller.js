@@ -21,11 +21,15 @@ const decorators_1 = require("../../decorators");
 const update_user_dto_1 = require("./dto/update-user.dto");
 const user_schema_1 = require("./user.schema");
 const user_service_1 = require("./user.service");
+const file_upload_interceptor_1 = require("../../interceptors/file-upload.interceptor");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
-    async update(user, userUpdateDto) {
+    async update(user, avatar, userUpdateDto) {
+        if (avatar) {
+            userUpdateDto.avatar = avatar.destination + avatar.filename;
+        }
         return this.userService.update(user.id, userUpdateDto);
     }
     async deleteAccount(user) {
@@ -40,16 +44,19 @@ let UserController = class UserController {
 };
 exports.UserController = UserController;
 __decorate([
+    (0, common_1.UseInterceptors)((0, file_upload_interceptor_1.FileUpload)('avatar')),
     (0, common_1.Patch)(),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
     (0, decorators_1.ApiPageOkResponse)({
         description: "Update User Profile",
         type: user_schema_1.User,
     }),
     (0, decorators_1.Auth)(userRoles_1.Action.Read, "User"),
     __param(0, (0, decorators_1.AuthUser)()),
-    __param(1, (0, common_1.Body)()),
+    __param(1, (0, common_1.UploadedFile)()),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_schema_1.User, update_user_dto_1.UpdateUserDto]),
+    __metadata("design:paramtypes", [user_schema_1.User, Object, update_user_dto_1.UpdateUserDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "update", null);
 __decorate([

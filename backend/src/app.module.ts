@@ -17,9 +17,11 @@ import { AppConfig } from "./configuration/app.config";
 import { ServiceModule } from "./modules/services/services.module";
 import { BookingModule } from "./modules/bookings/booking.module";
 import { RatingModule } from "./modules/ratings/rating.module";
+// import { ServeStaticModule } from "@nestjs/serve-static";
 
 @Module({
   imports: [
+
     ConfigurationModule,
     ConfigModule.forRoot({
       isGlobal: true,

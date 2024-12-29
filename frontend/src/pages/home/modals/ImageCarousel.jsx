@@ -1,11 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
-
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import Slider from 'react-slick';
-
-
-
+import React from "react";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 const PrevArrow = ({ onClick }) => (
     <button
@@ -17,7 +13,6 @@ const PrevArrow = ({ onClick }) => (
     </button>
 );
 
-
 const NextArrow = ({ onClick }) => (
     <button
         className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white w-8 h-8 rounded-full flex items-center justify-center shadow-lg z-10"
@@ -28,16 +23,9 @@ const NextArrow = ({ onClick }) => (
     </button>
 );
 
-const ImageCarousel = ({ title, id, handleClick }) => {
-    const images = [
-        "https://media.istockphoto.com/id/1408146514/photo/minimalistic-modern-private-house-exterior-in-pink-with-flamingos.jpg?s=612x612&w=0&k=20&c=eBUQw8rdxo5bvxnl6EUcQWkJ0WwqTv6UNTcqrOI74Dg=",
-        "https://cdn.openart.ai/published/9ohAD2ktCjGkZWAOLxle/le4zwnzr_BIsd_1024.webp",
-        " https://images.squarespace-cdn.com/content/v1/603879fa0773aa458e567927/1706711476458-AIWCVV1X6VUZX9KJX26Z/Cover+Image.JPG",
-        " https://assets.teenvogue.com/photos/58e3b07d9093dd2fbd6babca/16:9/w_2560%2Cc_limit/47a2da2a-0193-4e88-b99d-1bca2d7c6235.jpg",
-        " https://cdn.apartmenttherapy.info/image/upload/f_jpg,q_auto:eco,c_fill,g_auto,w_1500,ar_4:3/at%2Fhouse%20tours%2F2022-07%2FAdora%2F09_Apartment_Therapy_House_of_Adora",
+const ImageCarousel = ({ service }) => {
 
 
-    ]
     const settings = {
         dots: true,
         infinite: true,
@@ -46,7 +34,7 @@ const ImageCarousel = ({ title, id, handleClick }) => {
         slidesToScroll: 1,
         prevArrow: <PrevArrow />,
         nextArrow: <NextArrow />,
-        appendDots: dots => (
+        appendDots: (dots) => (
             <div
                 style={{
                     backgroundColor: "transparent",
@@ -70,21 +58,28 @@ const ImageCarousel = ({ title, id, handleClick }) => {
     };
 
     return (
-        <div className="w-full h-56 overflow-hidden rounded-lg">
+        <div className="w-full h-56 overflow-hidden ">
+            {console.log("iiiiii", service.image)}
             <Slider {...settings}>
-                {Array.isArray(images) && images.length > 0 ? (
-                    images.map((img, index) => (
+                {Array.isArray(service.image) && (service.image).length > 0 ? (
+
+                    (service.image).map((img, index) => (
                         <div key={index} className="w-full h-full">
                             <img
-                                src={img}
-                                alt={`${title} image ${index + 1}`}
+                                src={`http://localhost:1234/uploads/${img}`}
+                                alt="https://www.w3schools.com/w3images/nature.jpg"
                                 className="w-full h-56 object-cover"
-                                onClick={() => handleClick(id)}
+
                             />
                         </div>
                     ))
                 ) : (
-                    <p>No images available</p>
+                    <img
+
+                        src="https://www.w3schools.com/w3images/nature.jpg"
+                        className="w-full h-56 object-cover"
+
+                    />
                 )}
             </Slider>
         </div>

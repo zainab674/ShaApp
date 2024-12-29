@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query } from "@nestjs/common";
-import { ApiOkResponse, ApiQuery, ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, UploadedFiles, UseInterceptors } from "@nestjs/common";
+import { ApiConsumes, ApiOkResponse, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { constTexts } from "src/constants";
 import { ServiceService } from "./services.service";
 import { ServiceEntity } from "./schema/service.schema";
@@ -10,6 +10,7 @@ import { UpdateServiceDto } from "./dto/service-update.dto";
 import { FilterDto } from "./dto/filter.service.dto";
 import { LocationDto } from "./dto/location.dto";
 import { SearchDto } from "./dto/search.dto";
+import { MultipleFileUpload } from "src/interceptors/multi-upload.interceptor";
 
 
 
@@ -21,15 +22,25 @@ export class ServiceController {
 
 
     @Post()
+    @UseInterceptors(MultipleFileUpload("image", 5)) // 'image' matches the key for file uploads
+    @ApiConsumes('multipart/form-data')
     @ApiPageOkResponse({
         description: "Create Service",
         type: ServiceEntity,
     })
     @Auth(Action.Create, "Service")
-    async create(@AuthUser() user: User, @Body() createDto: ServiceEntity) {
+    async create(
+        @AuthUser() user: User,
+        @UploadedFiles() image: Express.Multer.File[],
+        @Body() createDto: ServiceEntity) {
         createDto.userId = user.id;
 
+        if (image) {
+            createDto.image = image.map((file) => file.filename); // Save file names or paths
+        }
+
         return this.serviceService.create(createDto);
+
     }
 
     @Get()
@@ -43,13 +54,23 @@ export class ServiceController {
         return this.serviceService.findall(page, limit);
     }
 
+
+
     @Patch(constTexts.serviceRoute.update)
+    @UseInterceptors(MultipleFileUpload("image", 5)) // 'image' matches the key for file uploads
+    @ApiConsumes('multipart/form-data')
     @ApiPageOkResponse({
         description: "Update Service",
         type: ServiceEntity,
     })
     @Auth(Action.Update, "Service")
-    async update(@Param("id") id: string, @Body() updateDatato: UpdateServiceDto) {
+    async update(
+        @Param("id") id: string,
+        @UploadedFiles() image: Express.Multer.File[],
+        @Body() updateDatato: UpdateServiceDto) {
+        if (image) {
+            updateDatato.image = image.map((file) => file.filename); // Save file names or paths
+        }
         return this.serviceService.update(id, updateDatato);
     }
 

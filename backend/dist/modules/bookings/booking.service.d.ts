@@ -44,5 +44,6 @@ export declare class BookingService {
     }>>;
     findByUserId(id: string): Promise<any>;
     findByServiceId(id: string): Promise<any>;
+    findByServiceAndUserId(serviceId: string, userId: string): Promise<any>;
     find(id: string): Promise<any>;
 }

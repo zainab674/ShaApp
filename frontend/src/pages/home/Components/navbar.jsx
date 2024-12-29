@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RiGlobalLine } from "react-icons/ri";
+
 import { IoPersonCircle, IoReorderThreeSharp } from "react-icons/io5";
-import { AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineFileSearch, AiOutlineSearch } from 'react-icons/ai';
 import airbnb from './../../../assets/airbnb.png';
-import LoginModal from './../../common/modals/loginModal'
-import Search from './search';
+
 import NavModal from "./../modals/navModal"
 import { apiConst } from './../../../constants/api.constants';
 import { is } from 'date-fns/locale';
@@ -48,8 +47,6 @@ function DesktopComponent() {
     const navigate = useNavigate();
     const dropdownRef = useRef(null);
 
-    const openModal = () => setModalOpen(true);
-    const closeModal = () => setModalOpen(false);
 
     const toggleSidebar = () => setIsOpen(!isOpen);
 
@@ -82,40 +79,9 @@ function DesktopComponent() {
                 <div className="flex items-center pl-4">
                     <img src={airbnb} alt="Airbnb Logo" className="w-25 h-8 md:w-25 md:h-9 cursor-pointer" onClick={() => navigate(apiConst.home)} />
                 </div>
-                {!scrolled &&
-
-                    <div >
-
-                        <div className="ml-4 lg:ml-16 flex items-center">
-                            <ul className="flex text-gray-700 space-x-4 lg:space-x-6">
-                                <li className={isStay ? "text-black" : ""}>
-                                    <a href="#" onClick={() => setIsStay(true)}>Stays</a>
-                                </li>
-
-                            </ul>
-                        </div>
 
 
 
-                    </div>}
-
-
-                {scrolled &&
-                    <>
-                        <div className="flex items-center border rounded-full shadow-sm px-4 py-2 ml-20">
-                            <button className="text-gray-600 px-4" onClick={anywhere} >Anywhere</button>
-                            <span className="border-l h-6"></span>
-                            <button className="text-gray-600 px-4" onClick={anyweek} >Any week</button>
-                            <span className="border-l h-6"></span>
-                            <button className="text-gray-600 px-4" onClick={guest} >Add guests</button>
-                            <button className="ml-4 bg-red-500 text-white p-2 rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-4 h-4">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-3a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                            </button>
-                        </div>
-                    </>
-                }
 
                 <div className="flex space-x-2 lg:space-x-6 items-center pr-2 lg:pr-5">
                     <div className="hidden md:block">
@@ -123,12 +89,14 @@ function DesktopComponent() {
                             Airbnb your home
                         </button>
                     </div>
-                    <div className="flex items-center" >
-                        <button className="text-black hover:text-gray-700" onClick={() => navigate(apiConst.profileMe)}>
-                            Profile
+                    {token &&
+                        <div className="flex items-center" >
+                            <button className="text-black hover:text-gray-700" onClick={() => navigate(apiConst.profileMe)}>
+                                Profile
 
-                        </button>
-                    </div>
+                            </button>
+                        </div>
+                    }
                     <div className="relative">
                         <button
                             className="rounded-full px-3 py-1 flex items-center border border-gray-300 hover:shadow-2xl"
@@ -182,7 +150,7 @@ function DesktopComponent() {
 
             </div>
 
-            <Search isStay={isStay} isG={isGuest} isR={isRegion} setG={setIsGuest} setR={setIsRegion} />
+
         </>
 
     );

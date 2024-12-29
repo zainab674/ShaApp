@@ -25,65 +25,8 @@ export class UserService {
 
   ) { }
 
-  /**
-   * get user schema
-   * @returns
-   */
-  // async sendForgetPassword(ForgetPasswordDto: ForgotPasswordDto) {
-  //   const getFourDigitRandomNumber = this.generateString(4);
-  //   const sendOTP = await this.userModel.findOneAndUpdate(
-  //     { email: ForgetPasswordDto.email },
-  //     {
-  //       $set: {
-  //         otp: (await getFourDigitRandomNumber).toString(),
-  //         isOtpUsed: false,
-  //       },
-  //     }
-  //   );
 
-  //   if (!sendOTP) {
-  //     throw new HttpException(
-  //       ErrorCodesMeta.USER_NOT_EXISTS_WITH_THIS_EMAIL,
-  //       ResponseCode.UNAUTHORIZED
-  //     );
-  //   }
 
-  //   const user = {
-  //     email: ForgetPasswordDto.email,
-  //     otp: (await getFourDigitRandomNumber).toString(),
-  //   };
-
-  //   await this.sendMail.sendForgetPasswordEmail(user);
-  //   return {
-  //     message: ResponseMessage.SUCCESS,
-  //     successCode: ResponseCode.SUCCESS,
-  //   };
-  // }
-
-  /**
-   * get user schema
-   * @returns
-   */
-  // async verifyOtp(verifyOtpDto: VerifyOtpDto) {
-  //   const otp = await this.userModel.findOneAndUpdate(
-  //     { otp: verifyOtpDto.otp, isOtpUsed: false },
-  //     {
-  //       $set: {
-  //         isOtpUsed: true,
-  //       },
-  //     }
-  //   );
-  //   if (!otp) {
-  //     throw new HttpException(
-  //       ErrorCodesMeta.INVALID_OTP,
-  //       ResponseCode.UNAUTHORIZED
-  //     );
-  //   }
-
-  //   return {
-  //     email: otp.email,
-  //   };
-  // }
 
   async logout(userId: string): Promise<any> {
     return await this.userModel
@@ -93,75 +36,13 @@ export class UserService {
       });
   }
 
-  /**
-   * get user schema
-   * @returns
-   */
-  // async resetPassword(resetPasswordDto: ResetPasswordDto) {
-  //   resetPasswordDto.password = generateHash(resetPasswordDto.password);
-  //   const data = await this.userModel.findOneAndUpdate(
-  //     {
-  //       email: resetPasswordDto.email,
-  //       isOtpUsed: true,
-  //       otp: resetPasswordDto.otp,
-  //     },
-  //     {
-  //       $set: {
-  //         password: resetPasswordDto.password,
-  //         isOtpUsed: false,
-  //       },
-  //     }
-  //   );
-  //   if (!data) {
-  //     throw new HttpException(
-  //       ErrorCodesMeta.USER_NOT_EXISTS_WITH_THIS_EMAIL,
-  //       ResponseCode.UNAUTHORIZED
-  //     );
-  //   }
-  //   data.password = "";
-  //   data.otp = "";
-  //   return {
-  //     data,
-  //   };
-  // }
-  /**
-   * get user schema
-   * @returns
-   */
+
   async getSchema() {
     return await userJsonSchema.Category;
   }
 
-  /**
-   * verify the account
-   * @param email
-   * @returns
-   */
-  // async verifyAccount(dto: VerifyAccountDto): Promise<any> {
-  //   const accExist = await this.findOne({
-  //     email: dto.email
 
-  //   });
-  //   if (!accExist) {
-  //     throw new HttpException(
-  //       ErrorCodesMeta.USER_NOT_EXISTS_WITH_THIS_EMAIL,
-  //       ResponseCode.UNAUTHORIZED
-  //     );
-  //   }
-  //   const data = await this.userModel.updateOne(
-  //     { email: dto.email },
-  //     {
-  //       $set: {
-  //         verify: "true",
-  //         isOtpUsed: false,
-  //       },
-  //     }
-  //   );
 
-  //   if (data) {
-  //     return accExist;
-  //   }
-  // }
   /**
    * Get User
    * @param pageOptionsDto

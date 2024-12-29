@@ -4,45 +4,56 @@ import {
   Delete,
   Get,
   Param,
-  // HttpCode,
-  // HttpStatus,
   Patch,
   Query,
-  // ValidationPipe,
+  UploadedFile,
+  UseInterceptors,
+
+
 } from "@nestjs/common";
-import { ApiQuery, ApiTags } from "@nestjs/swagger";
+import { ApiConsumes, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { constTexts } from "src/constants";
 import { Action } from "../../casl/userRoles";
-// import { PageOptionsDto } from "../../common/dto/page-options.dto";
+
 import { ApiPageOkResponse, Auth, AuthUser } from "../../decorators";
-// import { LoggerMessages } from "../../exceptions/index";
-// import { LoggerService } from "../../logger/logger.service";
+
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { User } from "./user.schema";
 import { UserService } from "./user.service";
+import { FileUpload } from "src/interceptors/file-upload.interceptor";
 
 @Controller(constTexts.userRoute.name)
 @ApiTags(constTexts.userRoute.name)
 export class UserController {
   constructor(
     private userService: UserService,
-    // private readonly loggerService: LoggerService
+
   ) {
-    // this.loggerService.setContext("users controller");
+
   }
 
 
 
 
+  @UseInterceptors(FileUpload('avatar',))
   @Patch()
+  @ApiConsumes('multipart/form-data')
   @ApiPageOkResponse({
     description: "Update User Profile",
     type: User,
   })
   @Auth(Action.Read, "User")
-  async update(@AuthUser() user: User, @Body() userUpdateDto: UpdateUserDto) {
+  async update(
+    @AuthUser() user: User,
+    @UploadedFile() avatar: Express.Multer.File,
+    @Body() userUpdateDto: UpdateUserDto) {
+    if (avatar) {
+      userUpdateDto.avatar = avatar.destination + avatar.filename;
+    }
     return this.userService.update(user.id, userUpdateDto);
   }
+
+
 
   @Delete(constTexts.userRoute.deleteAccount)
   @ApiPageOkResponse({

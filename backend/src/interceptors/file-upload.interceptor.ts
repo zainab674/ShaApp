@@ -2,10 +2,11 @@ import { diskStorage } from "multer";
 import { extname } from "path";
 import { FileInterceptor } from "@nestjs/platform-express";
 
-export function FileUpload(image: string, destination: string) {
+export function FileUpload(image: string) {
+  const dest = 'uploads/';
   return FileInterceptor(image, {
     storage: diskStorage({
-      destination: destination,
+      destination: dest,
       filename: (req, file, cb) => {
         const randomName = Array(32)
           .fill(null)

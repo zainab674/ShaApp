@@ -5,20 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { apiConst } from '../../constants/api.constants';
 import { OnSignUp } from '../../connection/apiFunction';
 
-const schema = yup.object().shape({
-  fullName: yup.string().required('Full Name is required'),
-  email: yup
-    .string()
-    .email('Invalid email format')
-    .required('Email is required'),
-
-  password: yup
-    .string()
-    .min(6, 'Password must be at least 6 characters')
-    .required('Password is required'),
-
-  roles: yup.string().required('Role is required'),
-});
 const SignupForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("")
@@ -77,9 +63,9 @@ const SignupForm = () => {
             onChange={(e) => setRole(e.target.value)}
             className={`w-full p-2 border rounded mt-1`}
           >
-            <option disabled hidden >Select a role</option>
-            <option value='VENDOR'>Vendor</option>
+            <option disabled value='' selected >Select a role</option>
             <option value='USER'>User</option>
+            <option value='VENDOR'>Vendor</option>
           </select>
 
         </div>

@@ -3,12 +3,39 @@ import { useState, useEffect } from 'react';
 import { FaRegStar } from "react-icons/fa";
 
 import { useNavigate } from 'react-router-dom';
-import Cards from '../../../../objects/cards';
+import { useAuth } from '../../../../authContext';
 import { apiConst } from '../../../../constants/api.constants';
+import RequestBookingForm from '../../../booking/components/request';
+import { CheckBooking } from '../../../../connection/apis';
 
 
 const Section2 = ({ service, vendor }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [status, setStatus] = useState(false);
+    const { token } = useAuth();
 
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        Check()
+        setIsModalOpen(false);
+    };
+
+    const Check = async () => {
+        try {
+            const res = await CheckBooking(service._id, token);
+            setStatus(res);
+            console.log("res", res)
+
+        } catch (error) {
+            console.error("Error fetching Service DATA:", error);
+        }
+    }
+    useEffect(() => {
+        Check()
+    }, [])
 
     console.log("service", service)
     console.log("vendor", vendor)
@@ -22,7 +49,34 @@ const Section2 = ({ service, vendor }) => {
 
 
 
+    const categoryDetails = () => {
+        switch (Dservice.category) {
+            case "Venue":
+                return JSON.parse(Dservice.venueDetails);
+            case "Bridal Makeup":
+                return JSON.parse(Dservice.bridalMakeupDetails);
+            case "Catering":
+                return JSON.parse(Dservice.cateringDetails);
+            case "Car Rental":
+                return JSON.parse(Dservice.carRentalDetails);
+            case "Choreographer":
+                return JSON.parse(Dservice.choreographerDetails);
+            case "Decor":
+                return JSON.parse(Dservice.decorDetails);
+            case "Henna Artist":
+                return JSON.parse(Dservice.hennaArtistDetails);
+            case "Invitations":
+                return JSON.parse(Dservice.invitationsDetails);
+            case "Photographer":
+                return JSON.parse(Dservice.photographerDetails);
+            case "Singer":
+                return JSON.parse(Dservice.singerDetails);
+            default:
+                return {};
+        }
+    };
 
+    const details = categoryDetails();
 
 
 
@@ -49,25 +103,27 @@ const Section2 = ({ service, vendor }) => {
                         <h1 className="text-xl md:text-2xl font-medium text-black mt-0 md:mt-7">{Dservice.city}, {Dservice.country}</h1>
 
                     </div>
-                    <hr className='border border-t-1 border-gray-200 mt-10 mb-6' />
-                    <div className="flex  md:flex-row items-left mb-4 mt-6">
-                        <img src={Dvendor.avatar ? Dvendor.avatar : "https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg"} alt="Host Image" className="rounded-full mr-4 h-14 w-14" />
-                        <div>
-                            <h3 className="text-lg font-medium text-gray-800">Hosted by {Dvendor.name}</h3>
 
+                    <div className="w-full">
+                        <p className="text-gray-800 mb-4">{Dservice.desc}</p>
+                        <hr className='border border-t-1 border-gray-200 mt-10 mb-6' />
+                        <div>
+                            <h1 className="text-xl md:text-2xl font-medium mb-4">Service Details</h1>
+                            <div>
+                                {Object.entries(details).map(([key, value]) => (
+                                    <div key={key} className="mb-2">
+                                        <strong className="capitalize">{key.replace(/([A-Z])/g, ' $1')}:</strong> {Array.isArray(value) ? value.join(", ") : value.toString() || "N/A"}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                     <hr className='border border-t-1 border-gray-200 mt-10 mb-6' />
 
-                    <div className="w-full">
-                        <p className="text-gray-800 mb-4">{Dservice.desc}</p>
-                    </div>
-
-                    <hr className='border border-t-1 border-gray-200 mt-10 mb-6' />
                     <div>
                         <h1 className='text-xl md:text-2xl font-medium'>Meet Your Host</h1>
                         <div className="bg-white p-4 w-full md:w-96 pb-6 text-center rounded-md shadow-2xl h-auto md:h-52 border border-gray-100 mt-2 mb-5">
-                            <img src={Dvendor.avatar ? Dvendor.avatar : "https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg"}
+                            <img src={Dvendor.avatar ? `http://localhost:1234/${Dvendor.avatar}` : "https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg"}
                                 alt=""
                                 className='w-24 h-24 rounded-full mx-auto'
                                 onClick={handleClick}
@@ -77,15 +133,21 @@ const Section2 = ({ service, vendor }) => {
                         </div>
                         <p className='w-full md:w-3/4 '>{Dvendor.description}</p>
                     </div>
+
                 </div>
 
 
                 <div className="hidden md:block bg-white p-4 pb-6 text-center rounded-md shadow-md w-full md:w-96 h-40 border border-gray-300 mt-10">
-                    <h2 className="text-xl font-bold text-gray-800 mb-2">${Dservice.price} </h2>
+                    <h2 className="text-xl font-bold text-gray-800 mb-2">${Dservice.price} per day </h2>
+                    {status == false ?
+                        <button className="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-md mt-4 w-full"
+                            onClick={handleOpenModal}
+                        >Request</button>
+                        :
+                        <button className="bg-gray-600 hover:bg-gray-700 text-black font-bold py-2 px-4 rounded-md mt-4 w-full"
 
-                    <button className="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-md mt-4 w-full"
-                        onClick={() => payment(Dservice.id)}
-                    >Request</button>
+                        >Requested For Booking</button>
+                    }
                 </div>
 
 
@@ -93,7 +155,12 @@ const Section2 = ({ service, vendor }) => {
 
 
 
-
+            <RequestBookingForm
+                service={service}
+                token={token}
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+            />
 
 
 

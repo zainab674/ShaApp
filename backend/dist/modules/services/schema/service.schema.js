@@ -24,12 +24,24 @@ __decorate([
     (0, class_validator_1.MinLength)(1),
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_jsonschema_1.JSONSchema)({
-        description: "title of the Service",
-        title: "title",
+        description: "Title of the Service",
+        title: "Title",
     }),
     (0, mongoose_1.Prop)({ type: "string", required: true, trim: true }),
     __metadata("design:type", String)
 ], ServiceEntity.prototype, "title", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEmail)(),
+    (0, class_validator_1.MinLength)(1),
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_jsonschema_1.JSONSchema)({
+        description: "Email of the Service",
+        title: "Email",
+    }),
+    (0, mongoose_1.Prop)({ type: "string", trim: true }),
+    __metadata("design:type", String)
+], ServiceEntity.prototype, "email", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
@@ -39,7 +51,7 @@ __decorate([
         description: "Description of Service",
         title: "Description",
     }),
-    (0, mongoose_1.Prop)({ type: "string", required: true, trim: true }),
+    (0, mongoose_1.Prop)({ type: "string", trim: true }),
     __metadata("design:type", String)
 ], ServiceEntity.prototype, "description", void 0);
 __decorate([
@@ -49,7 +61,7 @@ __decorate([
         description: "Category of Service",
         title: "Category",
     }),
-    (0, mongoose_1.Prop)({ type: "string", required: false, trim: true }),
+    (0, mongoose_1.Prop)({ type: "string", trim: true }),
     __metadata("design:type", String)
 ], ServiceEntity.prototype, "category", void 0);
 __decorate([
@@ -60,7 +72,7 @@ __decorate([
         description: "Price of Service",
         title: "Price",
     }),
-    (0, mongoose_1.Prop)({ type: "string", required: true, trim: true }),
+    (0, mongoose_1.Prop)({ type: "string", trim: true }),
     __metadata("design:type", String)
 ], ServiceEntity.prototype, "price", void 0);
 __decorate([
@@ -71,7 +83,7 @@ __decorate([
         description: "Country of Service",
         title: "Country",
     }),
-    (0, mongoose_1.Prop)({ type: "string", required: true, trim: true }),
+    (0, mongoose_1.Prop)({ type: "string", trim: true }),
     __metadata("design:type", String)
 ], ServiceEntity.prototype, "country", void 0);
 __decorate([
@@ -79,10 +91,10 @@ __decorate([
     (0, class_validator_1.MinLength)(1),
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_jsonschema_1.JSONSchema)({
-        description: "city of Service",
-        title: "city",
+        description: "City of Service",
+        title: "City",
     }),
-    (0, mongoose_1.Prop)({ type: "string", required: true, trim: true }),
+    (0, mongoose_1.Prop)({ type: "string", trim: true }),
     __metadata("design:type", String)
 ], ServiceEntity.prototype, "city", void 0);
 __decorate([
@@ -90,10 +102,10 @@ __decorate([
     (0, class_validator_1.MinLength)(1),
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_jsonschema_1.JSONSchema)({
-        description: "zipcode of Service",
-        title: "zipcode",
+        description: "Zipcode of Service",
+        title: "Zipcode",
     }),
-    (0, mongoose_1.Prop)({ type: "string", required: true, trim: true }),
+    (0, mongoose_1.Prop)({ type: "string", trim: true }),
     __metadata("design:type", String)
 ], ServiceEntity.prototype, "zipcode", void 0);
 __decorate([
@@ -101,59 +113,324 @@ __decorate([
     (0, class_validator_1.MinLength)(1),
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_jsonschema_1.JSONSchema)({
-        description: "address of Service",
-        title: "address",
+        description: "Address of Service",
+        title: "Address",
     }),
-    (0, mongoose_1.Prop)({ type: "string", required: true, trim: true }),
+    (0, mongoose_1.Prop)({ type: "string", trim: true }),
     __metadata("design:type", String)
 ], ServiceEntity.prototype, "address", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_jsonschema_1.JSONSchema)({
-        description: "Images of Service",
-        title: "Images",
+    (0, swagger_1.ApiProperty)({ description: "Venue details", }),
+    (0, mongoose_1.Prop)({
+        type: Object,
+        required: false,
+        default: {},
+        properties: {
+            capacity: {
+                type: String,
+                default: null
+            },
+            type: {
+                type: String,
+                default: null,
+            },
+            eventTypes: {
+                type: [String],
+                default: null,
+            }
+        }
+    }),
+    __metadata("design:type", Object)
+], ServiceEntity.prototype, "venueDetails", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)({ description: "Catering details", }),
+    (0, mongoose_1.Prop)({
+        type: Object,
+        required: false,
+        default: {},
+        properties: {
+            cuisineTypes: {
+                type: [String],
+                default: null
+            },
+            foodTastingAvailable: {
+                type: Boolean,
+                default: false,
+            },
+            serviceStyle: {
+                type: String,
+                default: null,
+            }
+        }
+    }),
+    __metadata("design:type", Object)
+], ServiceEntity.prototype, "cateringDetails", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)({ description: "Photographer details", }),
+    (0, mongoose_1.Prop)({
+        type: Object,
+        required: false,
+        default: {},
+        properties: {
+            coverage: {
+                type: String,
+                default: null
+            },
+            deliveryTime: {
+                type: String,
+                default: null,
+            },
+            equipmentDetails: {
+                type: [String],
+                default: null,
+            }
+        }
+    }),
+    __metadata("design:type", Object)
+], ServiceEntity.prototype, "photographerDetails", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)({ description: "Car rental details", }),
+    (0, mongoose_1.Prop)({
+        type: Object,
+        required: false,
+        default: {},
+        properties: {
+            vehicleOptions: {
+                type: [String],
+                default: null
+            },
+            rentalDuration: {
+                type: String,
+                default: null,
+            },
+            driverAvailability: {
+                type: Boolean,
+                default: false,
+            },
+        }
+    }),
+    __metadata("design:type", Object)
+], ServiceEntity.prototype, "carRentalDetails", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)({ description: "Bridal makeup details", }),
+    (0, mongoose_1.Prop)({
+        type: Object,
+        required: false,
+        default: {},
+        properties: {
+            makeupStyles: {
+                type: [String],
+                default: null
+            },
+            brandsUsed: {
+                type: [String],
+                default: null
+            },
+            trialSessionsAvailable: {
+                type: Boolean,
+                default: false,
+            },
+            additionalServices: {
+                type: [String],
+                default: null
+            },
+        }
+    }),
+    __metadata("design:type", Object)
+], ServiceEntity.prototype, "bridalMakeupDetails", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)({ description: "Decor details", }),
+    (0, mongoose_1.Prop)({
+        type: Object,
+        required: false,
+        default: {},
+        properties: {
+            themeOptions: {
+                type: [String],
+                default: null
+            },
+            setupTime: {
+                type: String,
+                default: null,
+            },
+            customizationAvailable: {
+                type: Boolean,
+                default: false,
+            },
+        }
+    }),
+    __metadata("design:type", Object)
+], ServiceEntity.prototype, "decorDetails", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)({ description: "Henna artist details", }),
+    (0, mongoose_1.Prop)({
+        type: Object,
+        required: false,
+        default: {},
+        properties: {
+            designTypes: {
+                type: [String],
+                default: null
+            },
+            materialsUsed: {
+                type: String,
+                default: null,
+            },
+            teamAvailability: {
+                type: Boolean,
+                default: false,
+            },
+        }
+    }),
+    __metadata("design:type", Object)
+], ServiceEntity.prototype, "hennaArtistDetails", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)({ description: "Bridal wear details", }),
+    (0, mongoose_1.Prop)({
+        type: Object,
+        required: false,
+        default: {},
+        properties: {
+            collectionDetails: {
+                type: [String],
+                default: null
+            },
+            fittingsAvailable: {
+                type: Boolean,
+                default: false,
+            },
+            deliveryTime: {
+                type: String,
+                default: null,
+            },
+        }
+    }),
+    __metadata("design:type", Object)
+], ServiceEntity.prototype, "bridalWearDetails", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)({ description: "Invitation details", }),
+    (0, mongoose_1.Prop)({
+        type: Object,
+        required: false,
+        default: {},
+        properties: {
+            designOptions: {
+                type: [String],
+                default: null
+            },
+            customizationAvailable: {
+                type: Boolean,
+                default: false,
+            },
+            deliveryOptions: {
+                type: [String],
+                default: null
+            },
+        }
+    }),
+    __metadata("design:type", Object)
+], ServiceEntity.prototype, "invitationsDetails", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)({ description: "Singer details", }),
+    (0, mongoose_1.Prop)({
+        type: Object,
+        required: false,
+        default: {},
+        properties: {
+            performanceStyle: {
+                type: String,
+                default: null,
+            },
+            repertoire: {
+                type: [String],
+                default: null
+            },
+            duration: {
+                type: String,
+                default: null,
+            },
+        }
+    }),
+    __metadata("design:type", Object)
+], ServiceEntity.prototype, "singerDetails", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)({ description: "Choreographer details", }),
+    (0, mongoose_1.Prop)({
+        type: Object,
+        required: false,
+        default: {},
+        properties: {
+            danceStyles: {
+                type: [String],
+                default: null
+            },
+            groupSize: {
+                type: String,
+                default: null,
+            },
+            sessionsOffered: {
+                type: String,
+                default: null,
+            },
+        }
+    }),
+    __metadata("design:type", Object)
+], ServiceEntity.prototype, "choreographerDetails", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)({
+        description: "Images of the service",
         type: "array",
         items: {
             type: "string",
+            format: "binary",
         },
     }),
-    (0, mongoose_1.Prop)({ type: [{ type: String, trim: true }] }),
+    (0, mongoose_1.Prop)({ type: "array" }),
     __metadata("design:type", Array)
 ], ServiceEntity.prototype, "image", void 0);
 __decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, swagger_1.ApiProperty)({
         properties: {
             coordinates: {
-                type: 'array',
-                items: { type: 'number' },
+                type: "array",
+                items: { type: "number" },
                 example: [40.7128, -74.0060],
-                description: 'Array of coordinates: [longitude, latitude]',
+                description: "Array of coordinates: [longitude, latitude]",
             },
         },
     }),
     (0, mongoose_1.Prop)({
         type: {
             type: String,
-            enum: ['Point'],
-            default: "Point"
+            enum: ["Point"],
+            default: undefined,
         },
         coordinates: {
             type: [Number],
-            required: true,
-            validate: {
-                validator: function (value) {
-                    return value.length === 2;
-                },
-                message: 'Coordinates must be an array of two numbers [longitude, latitude]',
-            },
+            default: undefined,
         },
     }),
     __metadata("design:type", Object)
 ], ServiceEntity.prototype, "location", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, mongoose_1.Prop)({ type: mongoose_2.default.Schema.Types.ObjectId, ref: "User" }),
+    (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)({
+        description: "The ID of the user associated with the service",
+    }),
+    (0, mongoose_1.Prop)({ type: mongoose_2.default.Schema.Types.ObjectId, ref: "User", required: false }),
     __metadata("design:type", String)
 ], ServiceEntity.prototype, "userId", void 0);
 exports.ServiceEntity = ServiceEntity = __decorate([
