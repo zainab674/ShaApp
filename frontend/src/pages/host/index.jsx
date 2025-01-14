@@ -1,12 +1,13 @@
 
 import HostDe from "./components/hostDetail";
-import HostNavbar from "./components/hostNav";
+
 import Footer from "../common/footer";
+import Navbar from "../home/Components/navbar";
 
 const HostDetail = () => {
     return (
         <>
-            <HostNavbar />
+            <Navbar />
             <HostDe />
             <div className="hidden md:block">
                 <Footer />

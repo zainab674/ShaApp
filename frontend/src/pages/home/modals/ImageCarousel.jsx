@@ -59,7 +59,7 @@ const ImageCarousel = ({ service }) => {
 
     return (
         <div className="w-full h-56 overflow-hidden ">
-            {console.log("iiiiii", service.image)}
+
             <Slider {...settings}>
                 {Array.isArray(service.image) && (service.image).length > 0 ? (
 

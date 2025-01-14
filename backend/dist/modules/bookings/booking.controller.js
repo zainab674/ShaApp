@@ -34,6 +34,7 @@ let BookingController = class BookingController {
         return this.bookingService.findall(page, limit);
     }
     async update(id, updateDatato) {
+        console.log(updateDatato);
         return this.bookingService.update(id, updateDatato);
     }
     async deleteService(id) {
@@ -42,15 +43,17 @@ let BookingController = class BookingController {
     async findBooking(id) {
         return this.bookingService.find(id);
     }
-    async findBookingOfUser(id) {
+    async findBookingOfUser(user) {
+        const id = user.id;
         return this.bookingService.findByUserId(id);
     }
     async findBookingOfService(id) {
         return this.bookingService.findByServiceId(id);
     }
-    async CheckBooking(user, serviceId) {
+    async CheckBooking(user, id) {
         const userId = user.id;
-        return this.bookingService.findByServiceAndUserId(serviceId, userId);
+        console.log(id, userId);
+        return this.bookingService.findByServiceAndUserId(id, userId);
     }
 };
 exports.BookingController = BookingController;
@@ -123,9 +126,10 @@ __decorate([
         description: "Get Booking of User",
         type: booking_schema_1.BookingEntity,
     }),
-    __param(0, (0, common_1.Param)("id")),
+    (0, decorators_1.Auth)(userRoles_1.Action.Update, "Booking"),
+    __param(0, (0, decorators_1.AuthUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [user_schema_1.User]),
     __metadata("design:returntype", Promise)
 ], BookingController.prototype, "findBookingOfUser", null);
 __decorate([
@@ -142,12 +146,12 @@ __decorate([
 __decorate([
     (0, common_1.Get)(constants_1.constTexts.bookingRoute.checkBooking),
     (0, decorators_1.ApiPageOkResponse)({
-        description: 'Check if there is a pending booking for the given service and user.',
-        type: Boolean,
+        description: 'Check if there is a  booking for the given service and user.',
+        type: booking_schema_1.BookingEntity,
     }),
     (0, decorators_1.Auth)(userRoles_1.Action.Update, "Booking"),
     __param(0, (0, decorators_1.AuthUser)()),
-    __param(1, (0, common_1.Param)('serviceId')),
+    __param(1, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_schema_1.User, String]),
     __metadata("design:returntype", Promise)

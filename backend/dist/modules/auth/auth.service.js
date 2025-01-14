@@ -22,6 +22,10 @@ let AuthService = class AuthService {
         this.jwtService = jwtService;
         this.userService = userService;
     }
+    getUserFromToken(token) {
+        const decoded = this.jwtService.decode(token);
+        return decoded;
+    }
     async createAccessToken(user) {
         user.password = "";
         return new TokenPayloadDto_1.TokenPayloadDto({

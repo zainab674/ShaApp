@@ -7,7 +7,8 @@ import airbnb from './../../../assets/airbnb.png';
 
 import NavModal from "./../modals/navModal"
 import { apiConst } from './../../../constants/api.constants';
-import { is } from 'date-fns/locale';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../../authContext';
 import { LogOut } from "./../../../connection/apiFunction";
 
@@ -32,18 +33,7 @@ function DesktopComponent() {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-    const anywhere = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-        setIsRegion(true);
-    }
-    const guest = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-        setIsGuest(true);
-    }
-    const anyweek = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
 
-    }
     const navigate = useNavigate();
     const dropdownRef = useRef(null);
 
@@ -90,12 +80,33 @@ function DesktopComponent() {
                         </button>
                     </div>
                     {token &&
-                        <div className="flex items-center" >
-                            <button className="text-black hover:text-gray-700" onClick={() => navigate(apiConst.profileMe)}>
-                                Profile
+                        <>
+                            <div className="flex items-center" >
+                                <button className="text-black hover:text-gray-700" onClick={() => navigate(apiConst.profileMe)}>
+                                    Profile
 
-                            </button>
-                        </div>
+                                </button>
+                            </div>
+                            <div className="flex items-center" >
+                                <button className="text-black hover:text-gray-700" onClick={() => navigate(apiConst.notifications)}>
+                                    Notifications
+
+                                </button>
+                            </div>
+
+
+                        </>
+                    }
+                    {token &&
+                        <>
+                            <div className="flex items-center" >
+                                <button className="text-black hover:text-gray-700" onClick={() => navigate(apiConst.dashboard)}>
+                                    Dashboard
+
+                                </button>
+                            </div>
+
+                        </>
                     }
                     <div className="relative">
                         <button
@@ -169,10 +180,7 @@ function MobileComponent() {
             >
                 <div className=" flex items-center text-gray-700 border border-gray-300 rounded-3xl p-3 m-4 lg:mx-4 ">
                     <AiOutlineSearch className="text-3xl text-black mt-1 mr-2" />
-                    <div>
-                        <p className="font-medium text-sm  text-black">Where to?</p>
-                        <p className="text-xs">AnyWhere · Anyweek · Add Guest</p>
-                    </div>
+
                 </div>
             </div>
             <NavModal
@@ -186,8 +194,33 @@ function MobileComponent() {
 
 
 const Navbar = () => {
+    const { socket } = useAuth();
+    useEffect(() => {
+        if (!socket) {
+            console.warn('Socket not available');
+            return;
+        }
+
+        const handleBookingStatusUpdated = (message) => {
+            console.log('New booking status received:', message);
+            toast.info(`New Notification: ${message}`, {
+                position: "bottom-right",
+                autoClose: false,
+                closeOnClick: true,
+            });
+        };
+
+        // Set up listener for booking status updates
+        socket.on('bookingStatusUpdated', handleBookingStatusUpdated);
+
+        // Cleanup listener on unmount
+        return () => {
+            socket.off('bookingStatusUpdated', handleBookingStatusUpdated);
+        };
+    }, [socket]);
     return (
         <>
+            <ToastContainer />
             <DesktopComponent />
             <MobileComponent />
 

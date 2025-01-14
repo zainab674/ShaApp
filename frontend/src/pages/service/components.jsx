@@ -217,6 +217,7 @@ const ModalForm = ({ isOpen, onClose, token, fetchUserProfile }) => {
 
             if (response) {
                 fetchUserProfile();
+
                 console.log("Service created successfully:", response);
                 alert("Service created successfully!");
                 // Reset form

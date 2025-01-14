@@ -18,6 +18,7 @@ const app_config_1 = require("./../../configuration/app.config");
 const axios_1 = require("@nestjs/axios");
 const services_module_1 = require("../services/services.module");
 const booking_module_1 = require("../bookings/booking.module");
+const socket_module_1 = require("../socket/socket.module");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -34,7 +35,8 @@ exports.AuthModule = AuthModule = __decorate([
             }),
             axios_1.HttpModule,
             services_module_1.ServiceModule,
-            booking_module_1.BookingModule
+            booking_module_1.BookingModule,
+            socket_module_1.SocketModule,
         ],
         controllers: [auth_controller_1.AuthController],
         providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy],

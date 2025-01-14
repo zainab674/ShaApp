@@ -122,6 +122,18 @@ __decorate([
     __metadata("design:type", String)
 ], BookingEntity.prototype, "status", void 0);
 __decorate([
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_jsonschema_1.JSONSchema)({
+        description: "Payment of booking",
+        title: "payment of booking ",
+    }),
+    (0, mongoose_1.Prop)({ type: Boolean, trim: true, required: true, default: "false" }),
+    __metadata("design:type", Boolean)
+], BookingEntity.prototype, "isPaid", void 0);
+__decorate([
     (0, swagger_1.ApiProperty)(),
     (0, mongoose_1.Prop)({ type: mongoose_2.default.Schema.Types.ObjectId, ref: "User" }),
     __metadata("design:type", String)

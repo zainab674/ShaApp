@@ -17,6 +17,8 @@ import { AppConfig } from "./configuration/app.config";
 import { ServiceModule } from "./modules/services/services.module";
 import { BookingModule } from "./modules/bookings/booking.module";
 import { RatingModule } from "./modules/ratings/rating.module";
+import { SocketModule } from "./modules/socket/socket.module";
+import { StripeModule } from "./modules/stripe/stripe.module";
 // import { ServeStaticModule } from "@nestjs/serve-static";
 
 @Module({
@@ -64,6 +66,8 @@ import { RatingModule } from "./modules/ratings/rating.module";
     BookingModule,
     ServiceModule,
     RatingModule,
+    SocketModule,
+    StripeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,7 +1,7 @@
 import { Prop } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 // import { Transform } from 'class-transformer';
-import { IsDate, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsBoolean, IsDate, IsOptional, IsString, MinLength } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 
 import { Transform } from "class-transformer";
@@ -122,7 +122,15 @@ export class UpdateBookingDto {
     @Prop({ type: "string", trim: true, required: true, default: "pending" })
     status: string;
 
-
+    @IsBoolean()
+    @ApiProperty()
+    @IsOptional()
+    @JSONSchema({
+        description: "Payment of booking",
+        title: "payment of booking ",
+    })
+    @Prop({ type: Boolean, trim: true, required: true, default: "false" })
+    isPaid: Boolean;
 
 
 

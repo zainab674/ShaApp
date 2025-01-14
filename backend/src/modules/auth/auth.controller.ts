@@ -23,6 +23,7 @@ import { TokenPayloadDto } from "./dto/TokenPayloadDto";
 import { UserSignupDto } from "./dto/user.signup.dto";
 import { ServiceService } from "../services/services.service";
 import { BookingService } from "../bookings/booking.service";
+import { SocketService } from "../socket/socket.service";
 
 @Controller(constTexts.authRoute.name)
 @ApiTags(constTexts.authRoute.name)
@@ -33,7 +34,10 @@ export class AuthController {
     private authService: AuthService,
     private serviceService: ServiceService,
     private bookingService: BookingService,
-  ) { }
+    private socketService: SocketService,
+
+  ) {
+  }
 
   async generateString(length) {
     let result = "";
@@ -81,17 +85,18 @@ export class AuthController {
   @Auth(Action.Read, "User")
   @ApiOkResponse({ type: User, description: "current user info" })
   async getCurrentUser(@AuthUser() user: User) {
-    const [profileData, services, booking] = await Promise.all([
+    const [profileData, services, booking, notify] = await Promise.all([
       this.userService.getProfileData(user.id),
       this.serviceService.findByUserId(user.id),
       this.bookingService.findByUserId(user.id),
+      this.socketService.getAll(user.id),
 
     ])
     return {
       profile: profileData,
       services: services,
       booking: booking,
-
+      notify: notify,
     };
   }
 
@@ -102,4 +107,5 @@ export class AuthController {
   logOut(@AuthUser() user: User) {
     return this.userService.logout(user.id);
   }
+
 }

@@ -42,7 +42,8 @@ let RatingController = class RatingController {
     async findRating(id) {
         return this.ratingService.find(id);
     }
-    async findRatingOfUser(id) {
+    async findRatingOfUser(user) {
+        const id = user.id;
         return this.ratingService.findByUserId(id);
     }
     async findRatingOfService(id) {
@@ -116,18 +117,19 @@ __decorate([
 __decorate([
     (0, common_1.Get)(constants_1.constTexts.ratingRoute.user),
     (0, decorators_1.ApiPageOkResponse)({
-        description: "Get Booking of User",
+        description: "Get Rating of User",
         type: rating_schema_1.RatingEntity,
     }),
-    __param(0, (0, common_1.Param)("id")),
+    (0, decorators_1.Auth)(userRoles_1.Action.Create, "Rating"),
+    __param(0, (0, decorators_1.AuthUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [user_schema_1.User]),
     __metadata("design:returntype", Promise)
 ], RatingController.prototype, "findRatingOfUser", null);
 __decorate([
     (0, common_1.Get)(constants_1.constTexts.ratingRoute.getServiceRatings),
     (0, decorators_1.ApiPageOkResponse)({
-        description: "Get Rating of User",
+        description: "Get Rating of Service",
         type: rating_schema_1.RatingEntity,
     }),
     __param(0, (0, common_1.Param)("id")),

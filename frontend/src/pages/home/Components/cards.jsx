@@ -16,7 +16,7 @@ function CardsContainer({ selectedCategory }) {
     const navigate = useNavigate();
     const [services, setServices] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState(null);
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
@@ -48,15 +48,26 @@ function CardsContainer({ selectedCategory }) {
         console.log("Services updated:", services);
     }, [services]);
 
-    const handleSearch = async () => {
-        if (searchQuery) {
+
+
+    const handleSearch = async (query) => {
+        if (query) {
+            console.log("searchQuery", query);
             try {
-                const results = await SearchServiceByName({ title: searchQuery });
+                const results = await SearchServiceByName({ title: query });
                 setSearchResults(results);
             } catch (error) {
                 console.error("Error searching services:", error);
             }
+        } else {
+            setSearchResults([]);
         }
+    };
+
+    const handleEmptySearch = () => {
+        setSearchQuery(null);
+        console.log("Search cleared");
+        handleSearch(null);
     };
 
     const filteredServices = selectedCategory === "All"
@@ -81,6 +92,12 @@ function CardsContainer({ selectedCategory }) {
         setSelectedService(null);
         setModalOpen(false);
     };
+    useEffect(() => {
+        if (searchQuery !== null) {
+            console.log("Searching for:", searchQuery);
+            handleSearch(searchQuery);
+        }
+    }, [searchQuery]);
 
     return (
         <>
@@ -89,8 +106,12 @@ function CardsContainer({ selectedCategory }) {
                     type="text"
                     placeholder="Search services by name..."
                     className="flex-grow px-4 py-2 rounded-l-full outline-none"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    value={searchQuery || ""}
+                    onChange={(e) => {
+                        const value = e.target.value
+                        setSearchQuery(value)
+                        value ? handleSearch(value) : handleEmptySearch();
+                    }}
                 />
                 <button
                     onClick={handleSearch}

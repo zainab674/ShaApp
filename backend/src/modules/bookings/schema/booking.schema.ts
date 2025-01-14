@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { ApiProperty } from "@nestjs/swagger";
 import {
+    IsBoolean,
     IsDate,
     IsEnum,
     IsOptional,
@@ -132,6 +133,17 @@ export class BookingEntity {
     })
     @Prop({ type: "string", trim: true, required: true, default: "pending" })
     status: string;
+
+    @IsBoolean()
+    @IsString()
+    @ApiProperty()
+    @IsOptional()
+    @JSONSchema({
+        description: "Payment of booking",
+        title: "payment of booking ",
+    })
+    @Prop({ type: Boolean, trim: true, required: true, default: "false" })
+    isPaid: Boolean;
 
 
 

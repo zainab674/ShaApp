@@ -77,18 +77,19 @@ export class RatingController {
 
     @Get(constTexts.ratingRoute.user)
     @ApiPageOkResponse({
-        description: "Get Booking of User",
+        description: "Get Rating of User",
         type: RatingEntity,
     })
-
-    async findRatingOfUser(@Param("id") id: string) {
+    @Auth(Action.Create, "Rating")
+    async findRatingOfUser(@AuthUser() user: User) {
+        const id = user.id;
         return this.ratingService.findByUserId(id);
     }
 
 
     @Get(constTexts.ratingRoute.getServiceRatings)
     @ApiPageOkResponse({
-        description: "Get Rating of User",
+        description: "Get Rating of Service",
         type: RatingEntity,
     })
 

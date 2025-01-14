@@ -14,6 +14,7 @@ import { UpdateBookingDto } from "./dto/booking-update.dto";
 
 
 
+
 @Controller(constTexts.bookingRoute.name)
 @ApiTags(constTexts.bookingRoute.name)
 export class BookingController {
@@ -49,6 +50,7 @@ export class BookingController {
     })
     @Auth(Action.Update, "Booking")
     async update(@Param("id") id: string, @Body() updateDatato: UpdateBookingDto) {
+        console.log(updateDatato)
         return this.bookingService.update(id, updateDatato);
     }
 
@@ -78,8 +80,9 @@ export class BookingController {
         description: "Get Booking of User",
         type: BookingEntity,
     })
-
-    async findBookingOfUser(@Param("id") id: string) {
+    @Auth(Action.Update, "Booking")
+    async findBookingOfUser(@AuthUser() user: User,) {
+        const id = user.id;
         return this.bookingService.findByUserId(id);
     }
 
@@ -98,17 +101,18 @@ export class BookingController {
 
     @Get(constTexts.bookingRoute.checkBooking)
     @ApiPageOkResponse({
-        description: 'Check if there is a pending booking for the given service and user.',
-        type: Boolean,
+        description: 'Check if there is a  booking for the given service and user.',
+        type: BookingEntity,
     })
     @Auth(Action.Update, "Booking")
     async CheckBooking(
         @AuthUser() user: User,
-        @Param('serviceId') serviceId: string,
+        @Param('id') id: string,
 
-    ): Promise<boolean> {
+    ): Promise<any> {
         const userId = user.id;
-        return this.bookingService.findByServiceAndUserId(serviceId, userId);
+        console.log(id, userId)
+        return this.bookingService.findByServiceAndUserId(id, userId);
     }
 
 }

@@ -9,6 +9,7 @@ import { AppConfig } from "./../../configuration/app.config";
 import { HttpModule } from "@nestjs/axios";
 import { ServiceModule } from "../services/services.module";
 import { BookingModule } from "../bookings/booking.module";
+import { SocketModule } from "../socket/socket.module";
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { BookingModule } from "../bookings/booking.module";
     }),
     HttpModule,
     ServiceModule,
-    BookingModule
+    BookingModule,
+    SocketModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],

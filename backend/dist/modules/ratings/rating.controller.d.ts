@@ -45,6 +45,6 @@ export declare class RatingController {
         _id: import("mongoose").Types.ObjectId;
     }>>;
     findRating(id: string): Promise<any>;
-    findRatingOfUser(id: string): Promise<any>;
+    findRatingOfUser(user: User): Promise<any>;
     findRatingOfService(id: string): Promise<any>;
 }

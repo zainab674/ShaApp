@@ -159,7 +159,7 @@ export const SpecificUser = async (id) => {
         }
 
         const dataa = await response.json();
-        console.log("Specific User:", dataa);
+
         return dataa;
 
 
@@ -466,9 +466,329 @@ export const CheckBooking = async (id, token) => {
             console.log(errorData);
             return;
         }
+        if (response == null) {
+            return null
+        }
+        else {
+            const dataa = await response.json(); // Handle the success response from your API
+            return dataa;
+        }
+
+
+
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+
+export const ServiceBookings = async (id) => {
+
+
+    try {
+
+
+        const response = await fetch(`http://localhost:1234/booking/getServiceBookings/${id}`, {
+            method: "GET",
+
+
+
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData);
+            return;
+        }
+
+        const dataa = await response.json();
+        console.log("Service bookings:", dataa);
+        return dataa;
+
+
+    } catch (err) {
+        console.log(err);
+    }
+};
+export const SpecificBooking = async (id) => {
+
+
+    try {
+
+
+        const response = await fetch(`http://localhost:1234/booking/details/${id}`, {
+            method: "GET",
+
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData);
+            return;
+        }
+
+        const dataa = await response.json();
+        console.log(" booking:", dataa);
+        return dataa;
+
+
+    } catch (err) {
+        console.log(err);
+    }
+};
+export const UserBookings = async (token) => {
+
+
+    try {
+
+
+        const response = await fetch(`http://localhost:1234/booking/getUserBookings`, {
+            method: "GET",
+            headers: {
+
+                "authorization": `Bearer ${token}`
+            },
+
+
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData);
+            return;
+        }
+
+        const dataa = await response.json();
+        console.log("Users bookings:", dataa);
+        return dataa;
+
+
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+
+export const UpdateBooking = async (id, data, token) => {
+
+
+    try {
+
+
+        const response = await fetch(`http://localhost:1234/booking/${id}`, {
+            method: "PATCH",
+            headers: {
+
+                "authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+
+            },
+            body: JSON.stringify(data)
+
+
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData);
+            return;
+        }
 
         const dataa = await response.json(); // Handle the success response from your API
+        console.log("booking Updated:", dataa);
 
+        return dataa;
+
+
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export const DeleteBooking = async (id, token) => {
+
+
+    try {
+
+
+        const response = await fetch(`http://localhost:1234/booking/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": `Bearer ${token}`
+            },
+
+
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData);
+            return;
+        }
+
+        const dataa = await response.json(); // Handle the success response from your API
+        console.log("booking Deleted:", dataa);
+
+        return dataa;
+
+
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+
+
+
+export const DeleteNotifications = async (id, token) => {
+    try {
+        console.log("Authorization Token: ", token);
+
+        const response = await fetch(`http://localhost:1234/socket/delete/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Error deleting project:", errorData);
+            return;
+        }
+
+        const data = await response.json();
+        console.log("Deleted project:", data);
+        return data;
+
+    } catch (err) {
+        console.error("Error in DeleteProject:", err); // Log the error
+    }
+};
+
+export const AddReview = async (dataa, token) => {
+    try {
+        const response = await fetch("http://localhost:1234/rating", {
+            method: "POST",
+            headers: {
+                "authorization": `Bearer ${token}`, // Authorization header
+                "Content-Type": "application/json",
+            },
+
+            body: JSON.stringify(
+                dataa
+            )
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Error rating:", errorData);
+            return null; // Indicate failure
+        }
+
+        const data = await response.json();
+        console.log("rating created successfully:", data);
+        return data; // Indicate success
+    } catch (err) {
+        console.error("Error:", err);
+        return null;
+    }
+};
+export const UserRatings = async (token) => {
+
+
+    try {
+
+
+        const response = await fetch(`http://localhost:1234/rating/UserRatings`, {
+            method: "GET",
+            headers: {
+
+                "authorization": `Bearer ${token}`
+            },
+
+
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData);
+            return;
+        }
+
+        const dataa = await response.json();
+        console.log("Users Ratings:", dataa);
+        return dataa;
+
+
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export const UpdateRating = async (id, data, token) => {
+
+
+    try {
+
+
+        const response = await fetch(`http://localhost:1234/rating/${id}`, {
+            method: "PATCH",
+            headers: {
+
+                "authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+
+            },
+            body: JSON.stringify(data)
+
+
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData);
+            return;
+        }
+
+        const dataa = await response.json(); // Handle the success response from your API
+        console.log("review Updated:", dataa);
+
+        return dataa;
+
+
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+
+
+export const DeleteRating = async (id, token) => {
+
+
+    try {
+
+
+        const response = await fetch(`http://localhost:1234/rating/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": `Bearer ${token}`
+            },
+
+
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData);
+            return;
+        }
+
+        const dataa = await response.json(); // Handle the success response from your API
+        console.log("review Deleted:", dataa);
 
         return dataa;
 

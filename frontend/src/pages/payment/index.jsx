@@ -1,11 +1,12 @@
 
 import PayNav from "./components/PayNav";
 import ConfirmAndPay from "./components/pay";
-import Login from "./components/login";
+
 import Footer from "./components/footer"
 import { useParams } from "react-router-dom";
 import { SpecificService } from "../../connection/apis";
 import { useEffect, useState } from "react";
+import Navbar from "../home/Components/navbar";
 
 const Payment = () => {
     const { id } = useParams();
@@ -23,9 +24,6 @@ const Payment = () => {
     };
 
 
-
-
-
     useEffect(() => {
         GetService();
 
@@ -34,7 +32,7 @@ const Payment = () => {
 
     return (
         <>
-            <PayNav />
+            <Navbar />
             <ConfirmAndPay Service={Service} />
             <Footer />
 

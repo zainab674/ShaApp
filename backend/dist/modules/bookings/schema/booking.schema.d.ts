@@ -34,6 +34,7 @@ export declare class BookingEntity {
     startTime: string;
     endTime: string;
     status: string;
+    isPaid: Boolean;
     userId: string;
     serviceId: string;
 }

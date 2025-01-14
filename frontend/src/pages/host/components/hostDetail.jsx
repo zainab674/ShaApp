@@ -53,7 +53,7 @@ function HostDe() {
 
 
     return (
-        <div className="p-6 bg-gray-50 min-h-screen">
+        <div className="p-6 mt-20 bg-gray-50 min-h-screen">
             <div className="bg-white flex flex-col md:flex-row ">
 
                 <div className="w-full md:w-1/3 mr-0 md:mr-5 mb-6 md:mb-0">

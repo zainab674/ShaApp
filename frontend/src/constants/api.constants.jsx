@@ -15,6 +15,8 @@ export const apiConst = {
   host: '/host/:id',
   payment: '/payment/:id',
   landing: '/host/landing',
+  dashboard: '/dashboard',
+  notifications: '/notifications',
 
 
 

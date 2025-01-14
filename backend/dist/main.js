@@ -18,6 +18,11 @@ dotenv.config({ path: `.env.test` });
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule, new platform_express_1.ExpressAdapter(), { cors: true, });
     app.use(cors());
+    app.use(cors({
+        origin: 'http://localhost:5173',
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        credentials: true
+    }));
     const options = {
         operationIdFactory: (controllerKey, methodKey) => methodKey
     };

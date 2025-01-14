@@ -29,12 +29,14 @@ const TokenPayloadDto_1 = require("./dto/TokenPayloadDto");
 const user_signup_dto_1 = require("./dto/user.signup.dto");
 const services_service_1 = require("../services/services.service");
 const booking_service_1 = require("../bookings/booking.service");
+const socket_service_1 = require("../socket/socket.service");
 let AuthController = class AuthController {
-    constructor(userService, authService, serviceService, bookingService) {
+    constructor(userService, authService, serviceService, bookingService, socketService) {
         this.userService = userService;
         this.authService = authService;
         this.serviceService = serviceService;
         this.bookingService = bookingService;
+        this.socketService = socketService;
     }
     async generateString(length) {
         let result = "";
@@ -54,15 +56,17 @@ let AuthController = class AuthController {
         return await this.userService.createUser(userRegisterDto);
     }
     async getCurrentUser(user) {
-        const [profileData, services, booking] = await Promise.all([
+        const [profileData, services, booking, notify] = await Promise.all([
             this.userService.getProfileData(user.id),
             this.serviceService.findByUserId(user.id),
             this.bookingService.findByUserId(user.id),
+            this.socketService.getAll(user.id),
         ]);
         return {
             profile: profileData,
             services: services,
             booking: booking,
+            notify: notify,
         };
     }
     logOut(user) {
@@ -120,6 +124,7 @@ exports.AuthController = AuthController = __decorate([
     __metadata("design:paramtypes", [user_service_1.UserService,
         auth_service_1.AuthService,
         services_service_1.ServiceService,
-        booking_service_1.BookingService])
+        booking_service_1.BookingService,
+        socket_service_1.SocketService])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

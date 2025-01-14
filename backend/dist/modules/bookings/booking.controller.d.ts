@@ -45,7 +45,7 @@ export declare class BookingController {
         _id: import("mongoose").Types.ObjectId;
     }>>;
     findBooking(id: string): Promise<any>;
-    findBookingOfUser(id: string): Promise<any>;
+    findBookingOfUser(user: User): Promise<any>;
     findBookingOfService(id: string): Promise<any>;
-    CheckBooking(user: User, serviceId: string): Promise<boolean>;
+    CheckBooking(user: User, id: string): Promise<any>;
 }

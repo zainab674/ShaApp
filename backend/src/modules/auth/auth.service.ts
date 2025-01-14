@@ -12,8 +12,16 @@ export class AuthService {
   constructor(
     private jwtService: JwtService,
     private userService: UserService
-  ) {}
+  ) { }
 
+  getUserFromToken(token: string): any {
+
+
+    const decoded = this.jwtService.decode(token);
+
+    return decoded;
+
+  }
   async createAccessToken(user: User): Promise<TokenPayloadDto> {
     user.password = "";
     return new TokenPayloadDto({

@@ -29,6 +29,11 @@ async function bootstrap() {
   );
   // app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
   app.use(cors());
+  app.use(cors({
+    origin: 'http://localhost:5173', // Allow this origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
+    credentials: true // Allow credentials (cookies, authorization headers, etc.)
+  }));
   const options: SwaggerDocumentOptions = {
     operationIdFactory: (
       controllerKey: string,

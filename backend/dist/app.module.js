@@ -24,6 +24,8 @@ const app_config_1 = require("./configuration/app.config");
 const services_module_1 = require("./modules/services/services.module");
 const booking_module_1 = require("./modules/bookings/booking.module");
 const rating_module_1 = require("./modules/ratings/rating.module");
+const socket_module_1 = require("./modules/socket/socket.module");
+const stripe_module_1 = require("./modules/stripe/stripe.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -66,6 +68,8 @@ exports.AppModule = AppModule = __decorate([
             booking_module_1.BookingModule,
             services_module_1.ServiceModule,
             rating_module_1.RatingModule,
+            socket_module_1.SocketModule,
+            stripe_module_1.StripeModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

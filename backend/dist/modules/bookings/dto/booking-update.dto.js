@@ -126,4 +126,15 @@ __decorate([
     (0, mongoose_1.Prop)({ type: "string", trim: true, required: true, default: "pending" }),
     __metadata("design:type", String)
 ], UpdateBookingDto.prototype, "status", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_jsonschema_1.JSONSchema)({
+        description: "Payment of booking",
+        title: "payment of booking ",
+    }),
+    (0, mongoose_1.Prop)({ type: Boolean, trim: true, required: true, default: "false" }),
+    __metadata("design:type", Boolean)
+], UpdateBookingDto.prototype, "isPaid", void 0);
 //# sourceMappingURL=booking-update.dto.js.map

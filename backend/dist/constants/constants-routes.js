@@ -58,7 +58,7 @@ exports.constTexts = {
         update: ":id",
         delete: ":id",
         my: "myBookings",
-        getUserBookings: "getUserBookings/:id",
+        getUserBookings: "getUserBookings",
         getServiceBookings: "getServiceBookings/:id",
         checkBooking: "checkBooking/:id"
     },
@@ -69,7 +69,7 @@ exports.constTexts = {
         update: ":id",
         delete: ":id",
         my: "myRatings/:id",
-        user: "userRatings/:id",
+        user: "userRatings",
         getServiceRatings: "getServiceRatings/:id",
     },
     commentRoute: {

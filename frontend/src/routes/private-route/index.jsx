@@ -1,11 +1,12 @@
 
 import ForgotPasswordPage from '../../pages/auth/forgot';
-import { HomePage } from '../../pages';
+import { HomePage, Notifications } from '../../pages';
 import { CardDetail } from '../../pages';
 import { HostDetail } from '../../pages';
 import { Payment } from '../../pages';
 import { HostLanding } from '../../pages';
 import { ProfilePage } from '../../pages';
+import Dashboard from '../../pages/dashboard/dashboard';
 
 const authenticatedRoutes = [
 
@@ -38,6 +39,16 @@ const authenticatedRoutes = [
         key: 5,
         path: '/profile/me',
         element: ProfilePage,
+    },
+    {
+        key: 6,
+        path: '/notifications',
+        element: Notifications,
+    },
+    {
+        key: 7,
+        path: '/dashboard',
+        element: Dashboard,
     },
 
 ];

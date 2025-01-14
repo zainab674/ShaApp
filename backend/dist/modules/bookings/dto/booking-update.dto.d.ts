@@ -7,4 +7,5 @@ export declare class UpdateBookingDto {
     startTime: string;
     endTime: string;
     status: string;
+    isPaid: Boolean;
 }

@@ -11,8 +11,15 @@ import { CheckBooking } from '../../../../connection/apis';
 
 const Section2 = ({ service, vendor }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [status, setStatus] = useState(false);
+    const [status, setStatus] = useState("");
     const { token } = useAuth();
+
+
+
+    console.log("service", service)
+    console.log("vendor", vendor)
+    const Dservice = service;
+    const Dvendor = vendor;
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -22,26 +29,34 @@ const Section2 = ({ service, vendor }) => {
         Check()
         setIsModalOpen(false);
     };
-
     const Check = async () => {
-        try {
-            const res = await CheckBooking(service._id, token);
-            setStatus(res);
-            console.log("res", res)
+        if (!service || !service._id) {
+            console.warn("Service or Service ID is not available");
+            return;
+        }
 
+        const id = service._id;
+
+        try {
+            const res = await CheckBooking(id, token);
+            if (res == null) {
+
+            }
+            else {
+
+                console.log("res", res);
+                setStatus(res.status)
+            }
         } catch (error) {
             console.error("Error fetching Service DATA:", error);
         }
-    }
+    };
+
     useEffect(() => {
-        Check()
-    }, [])
-
-    console.log("service", service)
-    console.log("vendor", vendor)
-    const Dservice = service;
-    const Dvendor = vendor;
-
+        if (service && service._id) {
+            Check();
+        }
+    }, [service]);
 
 
 
@@ -100,7 +115,8 @@ const Section2 = ({ service, vendor }) => {
             <div className="flex flex-col md:flex-row m-5 md:mx-16 justify-between text-left md:mb-8 mb-2">
                 <div className='w-full md:w-3/4'>
                     <div>
-                        <h1 className="text-xl md:text-2xl font-medium text-black mt-0 md:mt-7">{Dservice.city}, {Dservice.country}</h1>
+                        <h1 className="text-xl md:text-2xl font-medium text-black mt-0 md:mt-7">{Dservice.title}</h1>
+                        <p className="text-sm md:text-lg font-medium text-black mt-0 md:mt-2">{Dservice.city}, {Dservice.country}</p>
 
                     </div>
 
@@ -108,6 +124,7 @@ const Section2 = ({ service, vendor }) => {
                         <p className="text-gray-800 mb-4">{Dservice.desc}</p>
                         <hr className='border border-t-1 border-gray-200 mt-10 mb-6' />
                         <div>
+
                             <h1 className="text-xl md:text-2xl font-medium mb-4">Service Details</h1>
                             <div>
                                 {Object.entries(details).map(([key, value]) => (
@@ -139,14 +156,15 @@ const Section2 = ({ service, vendor }) => {
 
                 <div className="hidden md:block bg-white p-4 pb-6 text-center rounded-md shadow-md w-full md:w-96 h-40 border border-gray-300 mt-10">
                     <h2 className="text-xl font-bold text-gray-800 mb-2">${Dservice.price} per day </h2>
-                    {status == false ?
+                    {status === "pending" ?
+                        <button className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md mt-4 w-full"
+
+                        >Requested For Booking</button>
+                        :
+
                         <button className="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-md mt-4 w-full"
                             onClick={handleOpenModal}
                         >Request</button>
-                        :
-                        <button className="bg-gray-600 hover:bg-gray-700 text-black font-bold py-2 px-4 rounded-md mt-4 w-full"
-
-                        >Requested For Booking</button>
                     }
                 </div>
 
