@@ -31,7 +31,7 @@ const Detail = ({ Service, Vendor, reviews }) => {
             <div id="location">
                 <Location service={Service} />
             </div>
-            <MobileFooter service={Service} />
+            {/* <MobileFooter service={Service} /> */}
 
         </>
 

@@ -5,24 +5,25 @@ import { apiConst } from './../../../constants/api.constants';
 
 
 
-const Card = ({ title, id, }) => {
+const Card = ({ location }) => {
     const navigate = useNavigate();
-
+    {
+        console.log("hahahhahsbxhs", location)
+    }
     const handleClick = () => {
         console.log("hi")
-        navigate(apiConst.card.replace(':id', id));
+        navigate(apiConst.card.replace(':id', location.id));
     };
     return (
         <li className="relative w-72 p-2 mb-5 bg-white rounded-lg shadow-md flex-shrink-0">
-            {/* Image */}
             <img
-                src="https://media.istockphoto.com/id/1408146514/photo/minimalistic-modern-private-house-exterior-in-pink-with-flamingos.jpg?s=612x612&w=0&k=20&c=eBUQw8rdxo5bvxnl6EUcQWkJ0WwqTv6UNTcqrOI74Dg="
+                src={`http://localhost:1234/uploads/${location.image[0]}`}
 
-                alt={title}
+                alt={location.title}
                 className="w-full h-56 object-cover rounded-lg"
                 onClick={handleClick}
             />
-            <p className='xl font-normal'>{title} </p>
+            <p className='xl font-normal'>{location.title} </p>
 
 
         </li>

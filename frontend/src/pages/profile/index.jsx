@@ -115,7 +115,7 @@ const ProfilePage = () => {
 
         <>
             <Navbar />
-            <div className="min-h-screen bg-gray-100 flex justify-center p-8">
+            <div className="min-h-screen bg-gray-100 flex justify-center p-8 mt-5">
                 <div className="max-w-6xl w-full bg-white rounded-lg shadow-md p-8">
                     {/* Profile Header */}
                     <div className="flex flex-col md:flex-row md:items-center md:space-x-8">
@@ -132,7 +132,7 @@ const ProfilePage = () => {
 
                         <div className="flex-1">
                             <h1 className="text-2xl font-bold">{me.profile.name}</h1>
-                            <p className="text-gray-500">{me.profile.about || "About section here"}</p>
+                            <p className="text-gray-500">{me.profile.about}</p>
                             <div className="mt-4 flex space-x-4">
 
                                 <button
@@ -149,16 +149,11 @@ const ProfilePage = () => {
                                         Add Service
                                     </button>
                                 }
-                                <button className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg">
-                                    Get in Touch
-                                </button>
+
                             </div>
                         </div>
                         <div className="text-center md:text-right">
-                            <p className="text-gray-600">Followers</p>
-                            <h2 className="text-xl font-bold">2,985</h2>
-                            <p className="text-gray-600 mt-2">Likes</p>
-                            <h2 className="text-xl font-bold">548</h2>
+
                         </div>
                     </div>
 

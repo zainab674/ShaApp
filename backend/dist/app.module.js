@@ -26,6 +26,7 @@ const booking_module_1 = require("./modules/bookings/booking.module");
 const rating_module_1 = require("./modules/ratings/rating.module");
 const socket_module_1 = require("./modules/socket/socket.module");
 const stripe_module_1 = require("./modules/stripe/stripe.module");
+const chat_module_1 = require("./modules/chat/chat.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -63,6 +64,7 @@ exports.AppModule = AppModule = __decorate([
                 inject: [configuration_service_1.ConfigurationService],
             }),
             logger_module_1.LoggerModule,
+            chat_module_1.ChatModule,
             auth_module_1.AuthModule,
             casl_module_1.CaslModule,
             booking_module_1.BookingModule,

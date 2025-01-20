@@ -19,6 +19,7 @@ import { BookingModule } from "./modules/bookings/booking.module";
 import { RatingModule } from "./modules/ratings/rating.module";
 import { SocketModule } from "./modules/socket/socket.module";
 import { StripeModule } from "./modules/stripe/stripe.module";
+import { ChatModule } from "./modules/chat/chat.module";
 // import { ServeStaticModule } from "@nestjs/serve-static";
 
 @Module({
@@ -29,15 +30,10 @@ import { StripeModule } from "./modules/stripe/stripe.module";
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
-    // MailModule,
     MailerModule.forRoot({
-      // transport: 'smtps://user@example.com:topsecret@smtp.example.com',
-      // or
       transport: {
-        // host: 'smtp.example.com',
         host: AppConfig.sendGridConfig.host,
         secure: AppConfig.sendGridConfig.secure,
-        // port: AppConfig.sendGridConfig.port,
         auth: {
           user: AppConfig.sendGridConfig.user,
           pass: AppConfig.sendGridConfig.password,
@@ -61,6 +57,7 @@ import { StripeModule } from "./modules/stripe/stripe.module";
       inject: [ConfigurationService],
     }),
     LoggerModule,
+    ChatModule,
     AuthModule,
     CaslModule,
     BookingModule,

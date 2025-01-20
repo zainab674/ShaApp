@@ -31,7 +31,7 @@ function App() {
     } else {
       return (
         <Routes>
-          <Route path="*" element={<Navigate to="/login" />} />
+          <Route path="*" element={<Navigate to="/" />} />
           {PublicRoutes.map(({ path, element, key }) => (
             <Route key={key} exact path={path} element={element} />
           ))}

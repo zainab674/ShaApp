@@ -12,7 +12,7 @@ import { CheckBooking } from '../../../../connection/apis';
 const Section2 = ({ service, vendor }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [status, setStatus] = useState("");
-    const { token } = useAuth();
+    const { token, socket } = useAuth();
 
 
 
@@ -176,6 +176,7 @@ const Section2 = ({ service, vendor }) => {
             <RequestBookingForm
                 service={service}
                 token={token}
+                socket={socket}
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
             />

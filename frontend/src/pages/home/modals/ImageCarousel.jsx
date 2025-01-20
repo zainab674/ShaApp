@@ -58,7 +58,7 @@ const ImageCarousel = ({ service }) => {
     };
 
     return (
-        <div className="w-full h-56 overflow-hidden ">
+        <div className="w-full h-96 overflow-hidden ">
 
             <Slider {...settings}>
                 {Array.isArray(service.image) && (service.image).length > 0 ? (
@@ -68,7 +68,7 @@ const ImageCarousel = ({ service }) => {
                             <img
                                 src={`http://localhost:1234/uploads/${img}`}
                                 alt="https://www.w3schools.com/w3images/nature.jpg"
-                                className="w-full h-56 object-cover"
+                                className="w-full h-96 object-cover"
 
                             />
                         </div>

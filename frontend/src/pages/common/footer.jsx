@@ -8,41 +8,33 @@ const Footer = () => {
     return (
         <>
             <hr className='w-full border border-t-gray-200 mb-4 mt-10' />
-            <footer className="bg-gray-100 px-8 sm:px-10 md:px-16">
+            <footer className="bg-gray-100 px-8 sm:px-10 md:px-16 bottom-1">
                 <div className="container ">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div className="col-span-1 text-left">
                             <h3 className="text-sm font-medium mb-2">Support</h3>
                             <ul className="text-sm space-y-2">
                                 <li>Help Center</li>
-                                <li>AirCover</li>
-                                <li>Anti-discrimination</li>
-                                <li>Disability support</li>
                                 <li>Cancellation options</li>
-                                <li>Report neighborhood concern</li>
+                                <li>Community forum</li>
                             </ul>
                         </div>
                         <div className="col-span-1 text-left">
                             <h3 className="text-sm font-medium mb-2">Hosting</h3>
                             <ul className="text-sm space-y-2">
-                                <li>Airbnb your home</li>
-                                <li>AirCover for Hosts</li>
-                                <li>Hosting resources</li>
-                                <li>Community forum</li>
-                                <li>Hosting responsibly</li>
-                                <li>Airbnb-friendly apartments</li>
-                                <li>Join a free Hosting class</li>
-                            </ul>
-                        </div>
-                        <div className="col-span-1 text-left">
-                            <h3 className="text-sm font-medium mb-2">Airbnb</h3>
-                            <ul className="text-sm space-y-2">
                                 <li>Newsroom</li>
                                 <li>New features</li>
                                 <li>Careers</li>
+
+                            </ul>
+                        </div>
+                        <div className="col-span-1 text-left">
+                            <h3 className="text-sm font-medium mb-2">AWP</h3>
+                            <ul className="text-sm space-y-2">
+
                                 <li>Investors</li>
                                 <li>Gift cards</li>
-                                <li>Airbnb.org emergency stays</li>
+                                <li>emergency </li>
                             </ul>
                         </div>
                     </div>
@@ -50,7 +42,7 @@ const Footer = () => {
                     <hr className="w-full border border-t-gray-200 my-4" />
                     <div className="mt-8 mb-10 flex flex-col md:flex-row justify-between items-center text-sm">
                         <div className="flex flex-wrap space-x-4 mb-4 md:mb-0 text-left">
-                            <p className="text-gray-800">&copy; 2024 Airbnb, Inc.</p>
+                            <p className="text-gray-800">&copy; 2025 AWP, Inc.</p>
                             <a href="#" className="text-gray-800 hover:text-gray-900">Terms</a>
                             <a href="#" className="text-gray-800 hover:text-gray-900">Sitemap</a>
                             <a href="#" className="text-gray-800 hover:text-gray-900">Privacy</a>

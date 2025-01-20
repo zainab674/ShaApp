@@ -41,7 +41,7 @@ async function bootstrap() {
     app.use((0, helmet_1.default)());
     app.use((0, express_rate_limit_1.default)({
         windowMs: 15 * 60 * 1000,
-        max: 100,
+        max: 10000,
     }));
     app.enableVersioning();
     app.useGlobalPipes(new common_1.ValidationPipe({}));

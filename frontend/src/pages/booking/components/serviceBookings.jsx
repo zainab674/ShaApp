@@ -263,6 +263,8 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
                                 <th className="border border-gray-300 px-4 py-2 text-left">Price</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">No. of Days</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">Status</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">Confirm</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">Reject</th>
 
                             </tr>
                         </thead>
@@ -286,6 +288,23 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
                                     </td>
                                     <td className="border border-gray-300 px-4 py-2">
                                         <span style={getStatusStyle(booking.status)}>{booking.status}</span>
+                                    </td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center">
+                                        <button
+                                            className="bg-green-500 text-white px-4 py-2 rounded"
+                                            disabled={booking.status === "confirmed"}
+                                            onClick={() => handleUpdateStatus(booking._id, "confirmed")}
+                                        >
+                                            Confirm
+                                        </button>
+                                    </td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center">
+                                        <button
+                                            className="bg-red-500 text-white px-4 py-2 rounded"
+                                            onClick={() => handleUpdateStatus(booking._id, "rejected")}
+                                        >
+                                            Reject
+                                        </button>
                                     </td>
 
                                 </tr>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { RequestBooking } from '../../../connection/apis';
 
-const RequestBookingForm = ({ service, token, isOpen, onClose, }) => {
+const RequestBookingForm = ({ service, token, isOpen, onClose, socket }) => {
 
     const [formData, setFormData] = useState({
 
@@ -70,7 +70,22 @@ const RequestBookingForm = ({ service, token, isOpen, onClose, }) => {
         // Send the API request
         const response = await RequestBooking(updatedData, token);
 
+
         if (response) {
+            console.log("i am response", response)
+            const userId = response.userId;
+            const title = response.title;
+            const bookid = response._id; // Assuming response includes userId
+
+            const info = {
+                userId: userId,
+                bookingId: bookid,
+
+                message: ` booking has been requested `
+            }
+            console.log("info", info)
+
+            socket.emit('bookingStatusUpdated', info);
             console.log("Booking created successfully:", response);
         } else {
             console.error("Error creating booking");

@@ -15,79 +15,60 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChatController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
-const constants_1 = require("../../constants");
 const chat_service_1 = require("./chat.service");
+const chat_dto_1 = require("./chat.dto");
 const decorators_1 = require("../../decorators");
 const userRoles_1 = require("../../casl/userRoles");
-const chat_entities_1 = require("./entities/chat.entities");
 const user_schema_1 = require("../user/user.schema");
-const platform_express_1 = require("@nestjs/platform-express");
-const file_upload_service_1 = require("../fileupload/file-upload.service");
 let ChatController = class ChatController {
-    constructor(chatService, fileService) {
+    constructor(chatService) {
         this.chatService = chatService;
-        this.fileService = fileService;
     }
-    async createChat(user, image, createChatDto) {
-        createChatDto.senderId = user.id;
-        if (image) {
-            const imageUrls = await this.fileService.uploadSingleFile(image);
-            createChatDto.image = imageUrls;
-        }
-        return this.chatService.createChat(createChatDto, user);
+    async getMessages(user) {
+        const userId = user.id;
+        return this.chatService.getAllMessages(userId);
     }
-    findInbox(user) {
-        return this.chatService.findInbox(user.id);
-    }
-    findDetail(user, id) {
-        return this.chatService.findDetail(id, user.id);
+    async addMessage(user, body) {
+        const { sender, message } = body;
+        const userId = user.id;
+        await this.chatService.addMessage(sender, message, userId);
+        const botResponse = await this.chatService.getBotResponse(message, userId);
+        return {
+            userMessage: message,
+            botResponse,
+        };
     }
 };
 exports.ChatController = ChatController;
 __decorate([
-    (0, common_1.Post)(),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)("image")),
-    (0, decorators_1.Auth)(userRoles_1.Action.Create, "Chat"),
-    (0, decorators_1.ApiPageOkResponse)({
-        description: "Create Message",
-        type: chat_entities_1.Chat,
+    (0, swagger_1.ApiOperation)({ summary: 'Get all chat messages for a user' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'List of all messages for the specified user',
+        type: [chat_dto_1.ChatMessage],
     }),
-    __param(0, (0, decorators_1.AuthUser)()),
-    __param(1, (0, common_1.UploadedFile)()),
-    __param(2, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_schema_1.User, Object, chat_entities_1.Chat]),
-    __metadata("design:returntype", Promise)
-], ChatController.prototype, "createChat", null);
-__decorate([
-    (0, common_1.Get)(constants_1.constTexts.chatRoute.inbox),
-    (0, decorators_1.Auth)(userRoles_1.Action.Read, "Chat"),
-    (0, decorators_1.ApiPageOkResponse)({
-        description: "Get Inbox User List",
-        type: chat_entities_1.Chat,
-    }),
+    (0, common_1.Get)(),
+    (0, decorators_1.Auth)(userRoles_1.Action.Update, "Chat"),
     __param(0, (0, decorators_1.AuthUser)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_schema_1.User]),
-    __metadata("design:returntype", void 0)
-], ChatController.prototype, "findInbox", null);
+    __metadata("design:returntype", Promise)
+], ChatController.prototype, "getMessages", null);
 __decorate([
-    (0, common_1.Get)(constants_1.constTexts.chatRoute.detail),
-    (0, decorators_1.Auth)(userRoles_1.Action.Read, "Chat"),
-    (0, decorators_1.ApiPageOkResponse)({
-        description: "Get all Chat between two users",
-        type: chat_entities_1.Chat,
-    }),
+    (0, swagger_1.ApiOperation)({ summary: 'Add a new message and get bot response if sender is user' }),
+    (0, swagger_1.ApiBody)({ type: chat_dto_1.AddMessageDto }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: 'Message added successfully with bot response if applicable' }),
+    (0, common_1.Post)(),
+    (0, decorators_1.Auth)(userRoles_1.Action.Update, "Chat"),
     __param(0, (0, decorators_1.AuthUser)()),
-    __param(1, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_schema_1.User, String]),
-    __metadata("design:returntype", void 0)
-], ChatController.prototype, "findDetail", null);
+    __metadata("design:paramtypes", [user_schema_1.User, chat_dto_1.AddMessageDto]),
+    __metadata("design:returntype", Promise)
+], ChatController.prototype, "addMessage", null);
 exports.ChatController = ChatController = __decorate([
-    (0, common_1.Controller)(constants_1.constTexts.chatRoute.name),
-    (0, swagger_1.ApiTags)(constants_1.constTexts.chatRoute.name),
-    __metadata("design:paramtypes", [chat_service_1.ChatService,
-        file_upload_service_1.FileUploadService])
+    (0, swagger_1.ApiTags)('Chat'),
+    (0, common_1.Controller)('chat'),
+    __metadata("design:paramtypes", [chat_service_1.ChatService])
 ], ChatController);
 //# sourceMappingURL=chat.controller.js.map

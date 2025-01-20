@@ -797,3 +797,62 @@ export const DeleteRating = async (id, token) => {
         console.log(err);
     }
 };
+
+
+
+export const Chatbot = async (dataa, token) => {
+    console.log("i am data", dataa)
+    try {
+        const response = await fetch("http://localhost:1234/chat", {
+            method: "POST",
+            headers: {
+                "authorization": `Bearer ${token}`, // Authorization header
+            },
+            body: dataa, // FormData instance
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Error creating service:", errorData);
+            return null; // Indicate failure
+        }
+
+        const data = await response.json();
+        console.log("chat created successfully:", data);
+        return data; // Indicate success
+    } catch (err) {
+        console.error("Error:", err);
+        return null;
+    }
+};
+export const UserMessages = async (token) => {
+
+
+    try {
+
+
+        const response = await fetch(`http://localhost:1234/chat`, {
+            method: "GET",
+            headers: {
+
+                "authorization": `Bearer ${token}`
+            },
+
+
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData);
+            return;
+        }
+
+        const dataa = await response.json();
+        console.log("Users chat:", dataa);
+        return dataa;
+
+
+    } catch (err) {
+        console.log(err);
+    }
+};

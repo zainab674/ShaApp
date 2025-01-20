@@ -22,39 +22,12 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from "mongoose";
-import { Chat, ChatDocument } from "./entities/chat.entities";
-import { AuthService } from "../auth/auth.service";
-import { User } from "../user/user.schema";
-import { ChatGateway } from "./chat.gateway";
-import { UserService } from "../user/user.service";
-import { NotificationService } from "../notification/notification.service";
+import { Model } from 'mongoose';
+import { Chat, ChatDocument } from './chat.schema';
 export declare class ChatService {
     private chatModel;
-    private authService;
-    private userService;
-    private readonly notificationService;
-    private readonly chatGateway;
-    constructor(chatModel: Model<ChatDocument>, authService: AuthService, userService: UserService, notificationService: NotificationService, chatGateway: ChatGateway);
-    createChat(createchatDto: Chat, creator: User): Promise<ChatDocument>;
-    findInbox(userId: string): Promise<{
-        data: any[];
-    }>;
-    findDetail(id: string, userId: string): Promise<{
-        myProfile: {
-            name: string;
-            avatar: string;
-            id: string;
-            email: string;
-        };
-        otherProfile: {
-            name: string;
-            avatar: string;
-            id: string;
-            email: string;
-            notification: boolean;
-            block: boolean;
-        };
-        data: any[];
-    }>;
+    constructor(chatModel: Model<ChatDocument>);
+    getAllMessages(userId: string): Promise<Chat[]>;
+    addMessage(sender: string, message: string, userId: string): Promise<Chat>;
+    getBotResponse(message: string, userId: string): Promise<string>;
 }

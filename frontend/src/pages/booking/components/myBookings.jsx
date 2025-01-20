@@ -83,11 +83,10 @@ const MyBookings = () => {
             {/* Confirmed Bookings */}
             {Bookings == false ? <p>No  bookings.</p> : ""}
             <div className="mb-8">
-                {/* <h2 className="text-xl font-semibold text-green-600 mb-2">Confirmed Bookings</h2> */}
                 <div className="space-y-4">
                     {confirmedBookings.length === 0 ? (
-                        // <p>No confirmed bookings.</p>
-                        ""
+                        <p>No confirmed bookings.</p>
+
                     ) : (
                         confirmedBookings.map((booking) => (
                             <div key={booking._id} className="p-4 bg-white rounded-md shadow-md border border-gray-200">
@@ -135,11 +134,10 @@ const MyBookings = () => {
 
             {/* Pending Bookings */}
             <div>
-                {/* <h2 className="text-xl font-semibold text-yellow-600 mb-2">Pending Bookings</h2> */}
                 <div className="space-y-4">
                     {pendingBookings.length === 0 ? (
-                        // <p>No pending bookings.</p>
-                        ""
+                        <p>No pending bookings.</p>
+
                     ) : (
                         pendingBookings.map((booking) => (
                             <div key={booking._id} className="p-4 bg-white rounded-md shadow-md border border-gray-200" >

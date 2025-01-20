@@ -9,7 +9,7 @@ import { RxCross1 } from "react-icons/rx";
 import { TiFlag } from "react-icons/ti";
 import Hosts from '../../../objects/hosts';
 import Card from '../modals/card';
-import { UserService } from '../../../connection/apis';
+import { SpecificUser, UserService } from '../../../connection/apis';
 
 
 
@@ -67,10 +67,10 @@ function HostDe() {
                             <h1 className="text-2xl font-bold">{host.name}</h1>
                             <span className="text-gray-500 flex items-center justify-center md:justify-start space-x-2">
                                 <span>🏆</span>
-                                <span>Superhost</span>
+                                <span>Host</span>
                             </span>
                         </div>
-                        <div className="mt-4 space-y-2">
+                        {/* <div className="mt-4 space-y-2">
                             <div className="flex items-center space-x-2">
                                 <strong className="text-lg">833</strong>
                                 <span className="text-gray-500">Reviews</span>
@@ -80,23 +80,22 @@ function HostDe() {
                                 <span className="text-gray-500">Rating</span>
                             </div>
                             <div className="flex items-center space-x-2">
-                                {/* <strong className="text-lg">{host.totalYears}</strong> */}
                                 <span className="text-gray-500">Years hosting</span>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="pb-4 rounded-lg shadow-md flex flex-col justify-evenly items-center w-full mb-6">
                         <div>
                             <h1 className="text-xl font-medium mb-4">{host.name} Confirmed Information</h1>
                             <div className="flex justify-start">
                                 {/* {host.identity ? <IoCheckmark className="text-2xl mt-1 m-2" /> : <RxCross1 className="text-2xl mt-1 m-2" />} */}
-                                <p className="text-lg text-gray-600">Identity</p>
+                                <p className="text-lg text-gray-600">{host.email}</p>
                             </div>
                             <div className="flex justify-start">
                                 {/* {host.number ? <IoCheckmark className="text-2xl mt-1 m-2" /> : <RxCross1 className="text-2xl mt-1 m-2" />} */}
-                                <p className="text-lg text-gray-600">Number</p>
+                                {/* <p className="text-lg text-gray-600">Number</p> */}
                             </div>
-                            <p className="underline">Learn about identity verification</p>
+
                         </div>
                     </div>
                     <p className="underline text-gray-900 font-medium inline-flex">
@@ -115,7 +114,7 @@ function HostDe() {
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                         {services.map((location, index) => (
                             <li key={index}>
-                                <Card {...location} />
+                                <Card location={location} />
                             </li>
                         ))}
                     </ul>
