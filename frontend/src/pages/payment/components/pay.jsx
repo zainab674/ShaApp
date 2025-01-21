@@ -132,8 +132,8 @@ const PaymentForm = ({ booking, id, token, socket }) => {
 
     return (
         <div className="flex flex-col md:flex-row justify-between mt-10 p-6 md:p-12">
-            <div className="md:ml-10 md:sticky lg:w-1/3 lg:fixed lg:right-40 w-full mx-auto">
-                <div className="border border-gray-300 rounded-lg p-6 space-y-6">
+            <div className=" w-full mx-auto">
+                <div className="border border-pink-500 rounded-lg p-6 space-y-6">
                     <div className="flex space-x-4">
                         <div>
                             <h3 className="text-lg font-semibold text-left">{booking.title || 'No Title'}</h3>

@@ -1,4 +1,4 @@
-import { CardDetail, HomePage, HostDetail, HostLanding, Payment, SignInPage } from '../../pages';
+import { CardDetail, HomePage, HostDetail, SignInPage } from '../../pages';
 import SignupForm from '../../pages/auth/Signup';
 
 const authenticatedRoutes = [
@@ -17,11 +17,7 @@ const authenticatedRoutes = [
     path: '/host/:id',
     element: HostDetail,
   },
-  {
-    key: 3,
-    path: '/host/landing',
-    element: HostLanding,
-  },
+
   {
     key: 4,
     path: '/login',

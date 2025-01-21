@@ -1,10 +1,8 @@
 
-import ForgotPasswordPage from '../../pages/auth/forgot';
 import { HomePage, Notifications } from '../../pages';
 import { CardDetail } from '../../pages';
 import { HostDetail } from '../../pages';
 import { Payment } from '../../pages';
-import { HostLanding } from '../../pages';
 import { ProfilePage } from '../../pages';
 import Dashboard from '../../pages/dashboard/dashboard';
 
@@ -30,11 +28,7 @@ const authenticatedRoutes = [
         path: '/payment/:id',
         element: Payment,
     },
-    {
-        key: 4,
-        path: '/host/landing',
-        element: HostLanding,
-    },
+
     {
         key: 5,
         path: '/profile/me',

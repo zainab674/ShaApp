@@ -1187,7 +1187,7 @@ const ModalForm = ({ isOpen, onClose, token, fetchUserProfile }) => {
                                 multiple
                                 onChange={handlePhotoChange}
                                 className="border p-2 rounded w-full"
-                                disabled={formData.image.length >= 5}
+                                disabled={formData.image.length >= 3}
                                 required
                             />
                         </div>

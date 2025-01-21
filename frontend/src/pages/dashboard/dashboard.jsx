@@ -104,7 +104,7 @@ const Dashboard = () => {
 
                         {bookingCategories.some((category) => category.name === selectedOption) && (
                             <div>
-                                <p>Details about {selectedOption} bookings.</p>
+
                                 {selectedOption === "All" && <ServiceBookingsList me={me} all={selectedOption} />}
                                 {selectedOption === "Pending" && <ServiceBookingsList me={me} pending={selectedOption} />}
                                 {selectedOption === "Confirmed" && <ServiceBookingsList me={me} confirmed={selectedOption} />}

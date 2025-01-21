@@ -34,7 +34,6 @@ const Payment = () => {
         <>
             <Navbar />
             <ConfirmAndPay Service={Service} />
-            <Footer />
 
 
         </>

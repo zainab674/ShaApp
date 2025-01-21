@@ -9,9 +9,7 @@ import {
   AuthorizeWrapper,
   PrivateRoutes,
   PublicRoutes,
-  UnAuthorizedWrapper,
 } from './routes';
-import { CardDetail, HomePage, HostLanding } from './pages';
 import { useAuth } from './authContext';
 function App() {
   const { token } = useAuth();

@@ -1,9 +1,8 @@
-import Images from "./detailParts/images";
 import Section2 from "./detailParts/section2";
-import MobileFooter from "./detailParts/mobilefooter";
 import Location from "./detailParts/location";
 import Reviews from "./detailParts/reviews";
 import ImageCarousel from "../../home/modals/ImageCarousel";
+import Images from "./detailParts/images";
 
 const Detail = ({ Service, Vendor, reviews }) => {
 
@@ -14,8 +13,8 @@ const Detail = ({ Service, Vendor, reviews }) => {
     return (<>
         <>
             <div id="photos">
-                {/* <Images service={Service} /> */}
-                <ImageCarousel service={Service} />
+                {/* <ImageCarousel service={Service} /> */}
+                <Images service={Service} />
             </div>
 
             <Section2 service={Service} vendor={Vendor} />
@@ -31,7 +30,6 @@ const Detail = ({ Service, Vendor, reviews }) => {
             <div id="location">
                 <Location service={Service} />
             </div>
-            {/* <MobileFooter service={Service} /> */}
 
         </>
 

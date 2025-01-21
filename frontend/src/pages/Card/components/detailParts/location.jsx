@@ -1,7 +1,4 @@
-import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import Cards from './../../../../objects/cards';
-import { Map } from '../../modals/map';
+
 
 
 

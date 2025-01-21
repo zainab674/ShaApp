@@ -3,11 +3,7 @@
 
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { IoCheckmark } from "react-icons/io5";
-import { RxCross1 } from "react-icons/rx";
-
 import { TiFlag } from "react-icons/ti";
-import Hosts from '../../../objects/hosts';
 import Card from '../modals/card';
 import { SpecificUser, UserService } from '../../../connection/apis';
 

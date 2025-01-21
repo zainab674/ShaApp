@@ -8,6 +8,7 @@ const ContentDashboard = ({ me, token, fetchUserProfile }) => {
     const [pastBookings, setPastBookings] = useState(0);
     const [totalServices, setTotalServices] = useState(0);
     const [isServiceModalOpen, setServiceModalOpen] = useState(false);
+    const [selectedBooking, setSelectedBooking] = useState(null);
 
     const fetchDashboardData = async () => {
         try {
@@ -44,6 +45,15 @@ const ContentDashboard = ({ me, token, fetchUserProfile }) => {
 
         fetchDashboardData();
     }, [me.services]);
+
+
+    const openModal = (booking) => {
+        setSelectedBooking(booking);
+    };
+
+    const closeModal = () => {
+        setSelectedBooking(null);
+    };
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
@@ -84,14 +94,14 @@ const ContentDashboard = ({ me, token, fetchUserProfile }) => {
                         {upcomingBookings.map((booking) => (
                             <li
                                 key={booking._id}
-                                className="flex items-center justify-between py-4"
+                                className="flex items-center justify-between py-4 cursor-pointer"
+                                onClick={() => openModal(booking)}
+
                             >
                                 <div className="flex items-center">
-                                    <img
-                                        src={booking.image || "https://via.placeholder.com/50"}
-                                        alt={booking.title}
-                                        className="w-12 h-12 rounded-full mr-4"
-                                    />
+                                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-500 text-lg font-bold text-white mr-4">
+                                        {booking.title.charAt(0).toUpperCase()}
+                                    </div>
                                     <div>
                                         <p className="font-semibold">{booking.title}</p>
                                         <p className="text-sm text-gray-500">
@@ -110,6 +120,45 @@ const ContentDashboard = ({ me, token, fetchUserProfile }) => {
                 )}
             </div>
 
+            {selectedBooking && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white w-2/3 p-6 rounded-lg relative">
+                        <button
+                            className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+                            onClick={closeModal}
+                        >
+                            &times;
+                        </button>
+
+                        {selectedBooking.status === "confirmed" ? ""
+                            :
+                            <div className="absolute top-2 right-10 flex space-x-4">
+                                <button
+                                    className="text-blue-500 hover:text-blue-700"
+                                    onClick={() => handleUpdate(selectedBooking)}
+                                >
+                                    ✎
+                                </button>
+                                <button
+                                    className="text-red-500 hover:text-red-700"
+                                    onClick={() => handleDelete(selectedBooking._id)}
+                                >
+                                    🗑
+                                </button>
+                            </div>
+                        }
+
+                        <h2 className="text-2xl font-bold mb-4">Booking Details</h2>
+                        <p><strong>Booking ID:</strong> {selectedBooking._id}</p>
+                        <p><strong>Title:</strong> {selectedBooking.title}</p>
+                        <p><strong>Description:</strong> {selectedBooking.description}</p>
+                        <p><strong>Price:</strong> ${selectedBooking.price}</p>
+                        <p><strong>Start Date:</strong> {new Date(selectedBooking.startDate).toLocaleDateString()}</p>
+                        <p><strong>End Date:</strong> {new Date(selectedBooking.endDate).toLocaleDateString()}</p>
+                        <p><strong>Status:</strong> {selectedBooking.status}</p>
+                    </div>
+                </div>
+            )}
 
             {isServiceModalOpen && (
                 <ModalForm

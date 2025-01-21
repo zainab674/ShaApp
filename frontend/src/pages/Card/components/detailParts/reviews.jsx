@@ -72,11 +72,10 @@ const Reviews = ({ service, rating }) => {
                         <div className="bg-white shadow-lg rounded-lg p-4">
                             {/* First Row */}
                             <div className="flex flex-col sm:flex-row items-center">
-                                <img
-                                    src={`https://via.placeholder.com/100?text=User`}
-                                    alt="User's profile"
-                                    className="w-16 h-16 rounded-full object-cover"
-                                />
+
+                                <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-500 text-lg font-bold text-white mr-4">
+                                    {/* {users[review.userId].charAt(0).toUpperCase()} */}
+                                </div>
                                 <div className="mt-4 sm:mt-0 sm:ml-4">
                                     <h2 className="text-lg font-semibold whitespace-nowrap">
                                         {users[review.userId] || 'Anonymous'}

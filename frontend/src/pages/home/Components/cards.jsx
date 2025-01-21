@@ -4,9 +4,6 @@ import { MdOutlineFileUpload } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import { IoIosHeart } from 'react-icons/io';
 import { AiOutlineSearch } from 'react-icons/ai';
-
-import Cards from '../../../objects/cards';
-import ImageCarousel from '../modals/ImageCarousel';
 import ShareModal from '../../common/modals/shareModal';
 import { apiConst } from './../../../constants/api.constants';
 import { AllServices, SearchServiceByName } from '../../../connection/apis';
