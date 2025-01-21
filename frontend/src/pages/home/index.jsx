@@ -3,11 +3,10 @@ import Category from "./Components/category";
 // import { InspirationSection } from "./Components/inspiration";
 import Footer from "../common/footer";
 import FixedFooter from "./Components/fixedFooter";
-import ChatbotComponent from "../common/chatbot";
+
 import FloatingChatbot from "../common/chatbot";
-import Chatbot from "react-chatbot-kit";
-import config from "../common/chatbotConfig";
-import MessageParser from "../common/chatParser";
+
+import AiRecomendation from "../common/reccomendation";
 
 const HomePage = () => {
     return (<>
@@ -15,14 +14,14 @@ const HomePage = () => {
         <Navbar />
         <Category />
         <FloatingChatbot />
-        {/* <InspirationSection /> */}
+        <AiRecomendation />
         <div className="pb-20 md:pb-0">
 
             <Footer />
         </div>
-        <div className="block md:hidden">
+        {/* <div className="block md:hidden">
             <FixedFooter />
-        </div>
+        </div> */}
 
     </>)
 }

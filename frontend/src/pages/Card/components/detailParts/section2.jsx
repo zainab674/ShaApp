@@ -107,9 +107,6 @@ const Section2 = ({ service, vendor }) => {
     };
 
 
-
-
-
     return (
         <>
             <div className="flex flex-col md:flex-row m-5 md:mx-16 justify-between text-left md:mb-8 mb-2">
@@ -146,7 +143,7 @@ const Section2 = ({ service, vendor }) => {
                                 onClick={handleClick}
                             />
                             <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">{Dvendor.name}</h2>
-                            {/* <p className="font-medium text-sm text-black">Hosting From {Dvendor.totalYears} Years</p> */}
+
                         </div>
                         <p className='w-full md:w-3/4 '>{Dvendor.description}</p>
                     </div>
@@ -154,8 +151,8 @@ const Section2 = ({ service, vendor }) => {
                 </div>
 
 
-                <div className="hidden md:block bg-white p-4 pb-6 text-center rounded-md shadow-md w-full md:w-96 h-40 border border-gray-300 mt-10">
-                    <h2 className="text-xl font-bold text-gray-800 mb-2">${Dservice.price} per day </h2>
+                <div className=" bg-white p-4 pb-6 text-center rounded-md shadow-md w-full md:w-96 h-40 border border-gray-300 mt-10">
+                    <h2 className="text-xl font-bold text-gray-800 mb-2">Pkr {Dservice.price} </h2>
                     {status === "pending" ?
                         <button className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md mt-4 w-full"
 

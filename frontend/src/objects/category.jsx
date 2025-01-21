@@ -1,5 +1,5 @@
 
-import { FaShip, FaPalette, FaUtensils, FaLandmark, FaTree, FaWater, FaCampground, FaMugHot, FaMountain } from 'react-icons/fa';
+import { FaShip, FaPalette, FaUtensils, FaLandmark, FaTree, FaWater, FaCampground, FaMugHot, FaMountain, FaCamera, FaBrush, FaMicrophone } from 'react-icons/fa';
 import { GiGrandPiano } from "react-icons/gi";
 const MiconMap = {
     FaShip,
@@ -11,6 +11,9 @@ const MiconMap = {
     FaCampground,
     FaMugHot,
     FaMountain,
+    FaCamera,
+    FaBrush,
+    FaMicrophone,
 
 
 };
@@ -36,13 +39,13 @@ const Menu = [
 
     {
         id: 4,
-        icon: MiconMap.GiGrandPiano,
+        icon: MiconMap.FaCamera,
         type: "Photographer"
     },
 
     {
         id: 5,
-        icon: MiconMap.FaShip,
+        icon: MiconMap.FaBrush,
         type: "BridalMakeup"
     },
     {
@@ -52,32 +55,32 @@ const Menu = [
     },
     {
         id: 7,
-        icon: MiconMap.FaShip,
+        icon: MiconMap.GiGrandPiano,
         type: "HennaArtist"
     },
     {
         id: 8,
-        icon: MiconMap.FaShip,
+        icon: MiconMap.FaWater,
         type: "BridalWear"
     },
     {
         id: 9,
-        icon: MiconMap.FaShip,
+        icon: MiconMap.FaMugHot,
         type: "Invitations"
     },
     {
         id: 10,
-        icon: MiconMap.FaShip,
+        icon: MiconMap.FaMicrophone,
         type: "Singers"
     },
     {
         id: 11,
-        icon: MiconMap.FaShip,
+        icon: MiconMap.FaCampground,
         type: "Choreographers"
     },
     {
         id: 11,
-        icon: MiconMap.FaShip,
+        icon: MiconMap.FaLandmark,
         type: "CarRental"
     },
 

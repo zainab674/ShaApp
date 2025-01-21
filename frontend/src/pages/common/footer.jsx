@@ -53,7 +53,7 @@ const Footer = () => {
                                 <RiGlobalLine className="text-xl font-extralight" />
                                 <span className="mr-2">English (US)</span>
                             </div>
-                            <span className="mr-2">$ USD</span>
+                            <span className="mr-2">PKR</span>
                             <FaFacebookSquare className="text-xl font-extralight" />
                             <FaTwitterSquare className="text-xl font-extralight" />
                             <FaInstagramSquare className="text-xl font-extralight" />

@@ -443,7 +443,33 @@ export const RequestBooking = async (dataa, token) => {
     }
 };
 
+export const AllBookings = async () => {
 
+
+    try {
+
+
+        const response = await fetch("http://localhost:1234/booking", {
+            method: "GET",
+
+
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData);
+            return;
+        }
+
+        const dataa = await response.json();
+        console.log("All Bookings:", dataa);
+        return dataa.data;
+
+
+    } catch (err) {
+        console.log(err);
+    }
+};
 export const CheckBooking = async (id, token) => {
 
 

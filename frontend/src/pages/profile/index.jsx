@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../authContext";
 import { useNavigate } from "react-router-dom";
-import { apiConst } from "../../constants/api.constants";
-import { DeleteService, UpdateUser } from "../../connection/apis";
+import { UpdateUser } from "../../connection/apis";
 import ModalForm from "../service/components";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import UpdateModalForm from "../service/updateServiceModal";
 import { LoadingSpinner } from "../../constants/loadingSpinner";
 import MyBookings from "../booking/components/myBookings";
-import Dashboard from "../dashboard/dashboard";
-import ServiceBookingsList from "../booking/components/serviceBookings";
 import Navbar from "../home/Components/navbar";
 import OldBookings from "../booking/components/oldBookings";
 import UserReviews from "../review/UserReviews";
@@ -18,7 +13,6 @@ const ProfilePage = () => {
     const { me, token, fetchUserProfile, loading } = useAuth();
     const navigate = useNavigate();
 
-    // State Hooks
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState("bookings");
     const [isModalOpen, setModalOpen] = useState(false);
@@ -32,7 +26,6 @@ const ProfilePage = () => {
         phone: "",
     });
 
-    // Effect Hooks
     useEffect(() => {
         if (!loading && me) {
             setIsLoading(false);
@@ -46,12 +39,10 @@ const ProfilePage = () => {
         }
     }, [loading, me]);
 
-    // Handle Loading State
     if (isLoading || !me) {
         return <LoadingSpinner />;
     }
 
-    // Return early if `me` is not available
     if (!me || !me.profile) {
         console.error("Error: Unable to load profile data", me);
         return <div>Error: Unable to load profile</div>;
@@ -69,10 +60,10 @@ const ProfilePage = () => {
         const file = e.target.files[0];
 
         if (file) {
-            // Update the formData with the original file name and file itself
+
             setFormData((prevData) => ({
                 ...prevData,
-                avatar: file     // Store the file object
+                avatar: file
 
             }));
         }
@@ -95,7 +86,7 @@ const ProfilePage = () => {
                 fetchUserProfile();
                 setPage(response.role)
                 console.log("Profile updated successfully", response);
-                setModalOpen(false); // Close modal
+                setModalOpen(false);
             } else {
                 console.error("Error updating profile");
             }
@@ -117,9 +108,7 @@ const ProfilePage = () => {
             <Navbar />
             <div className="min-h-screen bg-gray-100 flex justify-center p-8 mt-5">
                 <div className="max-w-6xl w-full bg-white rounded-lg shadow-md p-8">
-                    {/* Profile Header */}
                     <div className="flex flex-col md:flex-row md:items-center md:space-x-8">
-
                         <img
                             src={
                                 me.profile.avatar
@@ -136,14 +125,14 @@ const ProfilePage = () => {
                             <div className="mt-4 flex space-x-4">
 
                                 <button
-                                    className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+                                    className="bg-pink-500 text-white px-4 py-2 rounded-lg"
                                     onClick={() => setModalOpen(true)}
                                 >
                                     Edit Profile
                                 </button>
                                 {me.profile.role === "VENDOR" &&
                                     <button
-                                        className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+                                        className="bg-pink-500 text-white px-4 py-2 rounded-lg"
                                         onClick={() => setServiceModalOpen(true)}
                                     >
                                         Add Service

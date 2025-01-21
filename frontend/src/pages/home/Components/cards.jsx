@@ -1,10 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { FaRegHeart } from "react-icons/fa";
-import { MdOutlineFileUpload } from "react-icons/md";
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IoIosHeart } from 'react-icons/io';
 import { AiOutlineSearch } from 'react-icons/ai';
-import ShareModal from '../../common/modals/shareModal';
 import { apiConst } from './../../../constants/api.constants';
 import { AllServices, SearchServiceByName } from '../../../connection/apis';
 
@@ -77,18 +73,6 @@ function CardsContainer({ selectedCategory }) {
         navigate(apiConst.card.replace(':id', id));
     };
 
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [selectedService, setSelectedService] = useState(null);
-
-    const openModal = (service) => {
-        setSelectedService(service);
-        setModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setSelectedService(null);
-        setModalOpen(false);
-    };
     useEffect(() => {
         if (searchQuery !== null) {
             console.log("Searching for:", searchQuery);
@@ -131,9 +115,6 @@ function CardsContainer({ selectedCategory }) {
                             onClick={() => handleClick(service._id)}
 
                         />
-                        <div className="absolute top-6 right-6 bg-white text-black rounded-full p-2 text-2xl" onClick={() => openModal(service)}>
-                            <MdOutlineFileUpload />
-                        </div>
                         <div className="mt-4">
                             <h3 className="font-medium text-gray-900 whitespace-nowrap text-sm text-left">{service.title}</h3>
                             <p className="text-gray-800 mt-2 font-medium text-left">{service.price}</p>
@@ -142,13 +123,6 @@ function CardsContainer({ selectedCategory }) {
                 ))}
             </ul>
 
-            {selectedService && (
-                <ShareModal
-                    isOpen={isModalOpen}
-                    onClose={closeModal}
-                    selectedService={selectedService}
-                />
-            )}
         </>
     );
 }
