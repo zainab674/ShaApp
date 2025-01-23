@@ -17,6 +17,7 @@ export const apiConst = {
   landing: '/host/landing',
   dashboard: '/dashboard',
   notifications: '/notifications',
+  privateChat: '/chat/:id'
 
 
 

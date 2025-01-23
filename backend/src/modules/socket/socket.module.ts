@@ -11,20 +11,20 @@ import { JwtModule } from '@nestjs/jwt';
 import { AppConfig } from 'src/configuration/app.config';
 import { UserModule } from '../user/user.module';
 import { SocketController } from './socket.controller';
+import { ChatModule } from '../chat/chat.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Socket.name, schema: SocketSchema }]),
-    // AuthModule,
     JwtModule.registerAsync({
       useFactory: async () => ({
         secret: AppConfig.authConfig.publicKey,
         signOptions: {
-          // expiresIn: AppConfig.authConfig.jwtExpirationTime,
         },
       }),
     }),
-    UserModule
+    UserModule,
+    ChatModule,
   ],
   controllers: [SocketController],
   providers: [SocketService, MyGateway, AuthService, JwtStrategy],

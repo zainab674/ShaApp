@@ -22,16 +22,19 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Document } from 'mongoose';
-export type ChatDocument = Chat & Document;
-export declare class Chat {
-    sender: string;
-    message: string;
-    userId: string;
+import mongoose, { Document } from "mongoose";
+export type ChatDocument = ChatEntity & Document;
+export declare class ChatEntity {
+    id: string;
+    senderId: string;
+    receiverId: string;
+    content: string;
     timestamp: Date;
 }
-export declare const ChatSchema: import("mongoose").Schema<Chat, import("mongoose").Model<Chat, any, any, any, Document<unknown, any, Chat> & Chat & {
-    _id: import("mongoose").Types.ObjectId;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Chat, Document<unknown, {}, import("mongoose").FlatRecord<Chat>> & import("mongoose").FlatRecord<Chat> & {
-    _id: import("mongoose").Types.ObjectId;
+declare const ChatSchema: mongoose.Schema<ChatEntity, mongoose.Model<ChatEntity, any, any, any, mongoose.Document<unknown, any, ChatEntity> & ChatEntity & {
+    _id: mongoose.Types.ObjectId;
+}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, ChatEntity, mongoose.Document<unknown, {}, mongoose.FlatRecord<ChatEntity>> & mongoose.FlatRecord<ChatEntity> & {
+    _id: mongoose.Types.ObjectId;
 }>;
+export { ChatSchema };
+export declare const userJsonSchema: Record<string, import("openapi3-ts").SchemaObject>;

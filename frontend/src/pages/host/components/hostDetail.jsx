@@ -1,19 +1,23 @@
 
 
 
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { TiFlag } from "react-icons/ti";
 import Card from '../modals/card';
 import { SpecificUser, UserService } from '../../../connection/apis';
+import ChatComponent from '../../privatechat/pchat';
+import { useAuth } from '../../../authContext';
+import { apiConst } from '../../../constants/api.constants';
 
 
 
 function HostDe() {
     const { id } = useParams();
+    const { token } = useAuth();
     const [host, setHost] = useState({});
     const [services, setServices] = useState([]);
-
+    const navigate = useNavigate();
 
     const GetVendor = async () => {
         try {
@@ -65,20 +69,18 @@ function HostDe() {
                                 <span>🏆</span>
                                 <span>Host</span>
                             </span>
+                            {token &&
+                                <button
+                                    onClick={() => navigate(apiConst.privateChat.replace(':id', id))}
+                                    className="mt-4 px-4 py-2 bg-pink-500 text-white rounded"
+                                >
+                                    Chat with Host
+                                </button>
+                            }
+
                         </div>
-                        {/* <div className="mt-4 space-y-2">
-                            <div className="flex items-center space-x-2">
-                                <strong className="text-lg">833</strong>
-                                <span className="text-gray-500">Reviews</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <strong className="text-lg">4.87</strong>
-                                <span className="text-gray-500">Rating</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <span className="text-gray-500">Years hosting</span>
-                            </div>
-                        </div> */}
+
+
                     </div>
                     <div className="pb-4 rounded-lg shadow-md flex flex-col justify-evenly items-center w-full mb-6">
                         <div>

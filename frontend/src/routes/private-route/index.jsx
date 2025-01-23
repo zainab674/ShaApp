@@ -1,5 +1,5 @@
 
-import { HomePage, Notifications } from '../../pages';
+import { HomePage, Notifications, Private } from '../../pages';
 import { CardDetail } from '../../pages';
 import { HostDetail } from '../../pages';
 import { Payment } from '../../pages';
@@ -43,6 +43,11 @@ const authenticatedRoutes = [
         key: 7,
         path: '/dashboard',
         element: Dashboard,
+    },
+    {
+        key: 7,
+        path: '/chat/:id',
+        element: Private,
     },
 
 ];

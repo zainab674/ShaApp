@@ -5,6 +5,7 @@ import ServiceBookingsList from "../booking/components/serviceBookings";
 import ShowAllServices from "../service/allServices";
 import ContentDashboard from "./content";
 import Navbar from "../home/Components/navbar";
+import ChatLayout from "../privatechat/allChats";
 
 const Dashboard = () => {
     const { me, loading, token, fetchUserProfile } = useAuth();
@@ -92,6 +93,14 @@ const Dashboard = () => {
                                 </ul>
                             )}
                         </div>
+                        <h3
+                            className={`text-lg font-bold cursor-pointer ${selectedOption === "Chats" ? "text-yellow-300" : ""
+                                }`}
+                            onClick={() => setSelectedOption("Chats")}
+                        >
+                            Chats
+                        </h3>
+
                     </div>
                 </div>
 
@@ -100,6 +109,7 @@ const Dashboard = () => {
                     <h2 className="text-2xl font-bold mb-4">{selectedOption}</h2>
                     <div className="mt-4">
                         {selectedOption === "Dashboard" && <ContentDashboard me={me} token={token} fetchUserProfile={fetchUserProfile} />}
+                        {selectedOption === "Chats" && <ChatLayout />}
                         {selectedOption === "All Services" && <ShowAllServices me={me} token={token} fetchUserProfile={fetchUserProfile} />}
 
                         {bookingCategories.some((category) => category.name === selectedOption) && (

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { IoPersonCircle, IoReorderThreeSharp } from "react-icons/io5";
 import { AiOutlineFileSearch, AiOutlineSearch } from 'react-icons/ai';
 import airbnb from './../../../assets/airbnb.png';
+import AWPL from './../../../assets/AWPL.png';
 
 import NavModal from "./../modals/navModal"
 import { apiConst } from './../../../constants/api.constants';
@@ -50,9 +51,9 @@ function DesktopComponent() {
 
     return (
         <>
-            <div className={` flex space-x-2 lg:space-x-7  pr-4 pl-4 lg:pl-10 lg:pr-10 bg-white  justify-between items-center mt-0 top-0 pt-6 fixed w-full z-50`}>
+            <div className={` flex space-x-2 lg:space-x-7  pr-4 pl-4 lg:pl-10 lg:pr-10 bg-white pt-2 justify-between items-center mt-0 top-0 fixed w-full z-50`}>
                 <div className="flex items-center pl-4">
-                    <img src={airbnb} alt="Airbnb Logo" className="w-25 h-8 md:w-25 md:h-9 cursor-pointer" onClick={() => navigate(apiConst.home)} />
+                    <img src={AWPL} alt="Airbnb Logo" className="w-40 h-auto cursor-pointer" onClick={() => navigate(apiConst.home)} />
                 </div>
 
 

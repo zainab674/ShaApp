@@ -18,6 +18,7 @@ const jwt_1 = require("@nestjs/jwt");
 const app_config_1 = require("../../configuration/app.config");
 const user_module_1 = require("../user/user.module");
 const socket_controller_1 = require("./socket.controller");
+const chat_module_1 = require("../chat/chat.module");
 let SocketModule = class SocketModule {
 };
 exports.SocketModule = SocketModule;
@@ -31,7 +32,8 @@ exports.SocketModule = SocketModule = __decorate([
                     signOptions: {},
                 }),
             }),
-            user_module_1.UserModule
+            user_module_1.UserModule,
+            chat_module_1.ChatModule,
         ],
         controllers: [socket_controller_1.SocketController],
         providers: [socket_service_1.SocketService, gateway_1.MyGateway, auth_service_1.AuthService, jwt_strategy_1.JwtStrategy],

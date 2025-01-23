@@ -5,13 +5,6 @@ import { Action } from 'src/casl/userRoles';
 import { ApiPageOkResponse, Auth } from 'src/decorators';
 
 import { Socket } from './socket.schema';
-// import { ApiConsumes } from '@nestjs/swagger';
-// import { Action } from 'src/casl/userRoles';
-// import { Auth, AuthUser } from 'src/decorators';
-// import { User } from '../user/user.schema';
-// import { SocketService } from './socket.service';
-// import { CreateSocketDto } from './dto/create-socket.dto';
-// import { MyGateway } from './gateway';
 
 @Controller('socket')
 @ApiTags('socket')

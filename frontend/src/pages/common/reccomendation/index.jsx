@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { AllBookings, AllServices } from "../../../connection/apis";
+import { apiConst } from "../../../constants/api.constants";
+import { useNavigate } from "react-router-dom";
+import { LoadingSpinner } from "../../../constants/loadingSpinner";
 
 const serviceCategories = [
-    { id: 1, type: "All" },
+    // { id: 1, type: "All" },
     { id: 2, type: "Venue" },
     { id: 3, type: "Catering" },
     { id: 4, type: "Photographer" },
@@ -20,7 +23,7 @@ const AiRecomendation = () => {
     const [services, setServices] = useState([]);
     const [bookings, setBookings] = useState([]);
     const [userInput, setUserInput] = useState({
-        serviceType: "All",
+        serviceType: "Venue",
         budget: "",
         startDate: "",
         endDate: "",
@@ -30,6 +33,7 @@ const AiRecomendation = () => {
     const [isFirstModalOpen, setIsFirstModalOpen] = useState(false);
     const [isSecondModalOpen, setIsSecondModalOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const fetchServices = async () => {
         try {
@@ -43,7 +47,10 @@ const AiRecomendation = () => {
     const fetchBookings = async () => {
         try {
             const res = await AllBookings();
-            setBookings(res);
+            const confirmedBookings = res.filter((booking) => booking.status === "confirmed");
+
+            // Set the filtered bookings
+            setBookings(confirmedBookings);
         } catch (error) {
             console.error("Error fetching bookings", error);
         }
@@ -55,38 +62,64 @@ const AiRecomendation = () => {
     };
 
     const filterServices = () => {
-        const { serviceType, budget, startDate, endDate } = userInput;
+        const { serviceType, startDate, endDate } = userInput;
+        console.log("userinput", userInput)
 
-        let filtered = services.filter((service) =>
-            (serviceType === "All" || service.type === serviceType) &&
-            (!budget || service.price <= parseFloat(budget))
-        );
-
-        if (startDate && endDate) {
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-
-            filtered = filtered.filter((service) => {
-                const bookedDates = bookings
-                    .filter((booking) => booking.serviceId === service.id)
-                    .map((booking) => ({
-                        start: new Date(booking.startDate),
-                        end: new Date(booking.endDate),
-                    }));
-
-                return bookedDates.every(
-                    (date) => end < date.start || start > date.end
-                );
-            });
+        if (!startDate || !endDate) {
+            setFilteredServices([]); // No filtering if dates are not provided
+            return;
         }
 
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        // Filter services by category
+        let filtered = services.filter((service) => service.category === serviceType);
+
+        console.log("Services before filtering by bookings:", filtered);
+        console.log("confirmed bookings:", bookings);
+
+        filtered = filtered.filter((service) => {
+            console.log(`Checking service: ${service.title}, ID: ${service._id}`);
+
+            const hasConflict = bookings.some((booking) => {
+                if (booking.serviceId !== service._id) {
+                    return false;
+                }
+
+                const bookingStart = new Date(booking.startDate);
+                const bookingEnd = new Date(booking.endDate);
+
+                const conflict =
+                    (start <= bookingEnd && end >= bookingStart) ||
+                    (bookingStart <= end && bookingEnd >= start);
+
+                console.log(
+                    `Booking conflict check for service ID ${service._id}:`,
+                    conflict ? "CONFLICT" : "NO CONFLICT",
+                    { bookingStart, bookingEnd, start, end }
+                );
+
+                return conflict;
+            });
+
+            return !hasConflict;
+        });
+
+
+        console.log("Filtered services after applying booking constraints:", filtered);
         setFilteredServices(filtered);
     };
 
 
 
+
+
+
+
     const getRecommendation = async () => {
         setLoading(true);
+        filterServices();
 
         const endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyADAuBQ6GEFPOf6Dep1Gvm9joYTDFU2oN8";
         const requestBody = {
@@ -96,8 +129,8 @@ const AiRecomendation = () => {
                     parts: [
                         {
                             "text": `User Details: ${JSON.stringify(userInput)}. Based on these services: ${JSON.stringify(
-                                services
-                            )}, recommend the best service considering the user's requirements. Output data in object "output" with headings as keys and their info`
+                                filteredServices
+                            )}, recommend the best service considering the user's requirements. Output data in object "output" with keys id title email price description and reason and their info only`
                         }
                     ]
                 }
@@ -117,10 +150,17 @@ const AiRecomendation = () => {
 
             const data = await response.json();
             console.log("result", data)
+            setUserInput({
+                serviceType: "Venue",
+                budget: "",
+                startDate: "",
+                endDate: "",
+            });
             if (data.candidates && data.candidates.length > 0) {
                 const recommendationText = data.candidates[0].content.parts[0].text;
 
                 setRecommendation(recommendationText);
+
                 setIsFirstModalOpen(false);
                 setIsSecondModalOpen(true);
 
@@ -147,23 +187,28 @@ const AiRecomendation = () => {
 
     return (
         <div>
-            <button
-                onClick={() => setIsFirstModalOpen(true)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md"
-            >
-                Open Recommendation Modal
-            </button>
+            <div className="fixed bottom-36 right-5 z-49 w-1/4 flex justify-end">
+                <button
+                    onClick={() => setIsFirstModalOpen(true)}
+                    className=" bg-pink-500 text-white p-3 rounded-full shadow-lg"
+                >
+                    Get Recommendation
+                </button>
+            </div>
 
             {isFirstModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
-                        <button
-                            onClick={() => setIsFirstModalOpen(false)}
-                            className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
-                        >
-                            ✕
-                        </button>
-                        <h2 className="text-lg font-bold mb-4">AI Service Recommendation</h2>
+                        <div className="flex justify-between">
+                            <h2 className="text-lg font-bold mb-4">AI Service Recommendation</h2>
+                            <button
+                                onClick={() => setIsFirstModalOpen(false)}
+                                className=" text-red-600 hover:text-gray-900"
+                            >
+                                ✕
+                            </button>
+                        </div>
+
                         <form
                             onSubmit={(e) => {
                                 e.preventDefault();
@@ -177,6 +222,7 @@ const AiRecomendation = () => {
                                     value={userInput.serviceType}
                                     onChange={handleInputChange}
                                     className="w-full border border-gray-300 rounded-md p-2 mt-1"
+                                    required
                                 >
                                     {serviceCategories.map((category) => (
                                         <option key={category.id} value={category.type}>
@@ -195,6 +241,7 @@ const AiRecomendation = () => {
                                     onChange={handleInputChange}
                                     placeholder="Enter your budget"
                                     className="w-full border border-gray-300 rounded-md p-2 mt-1"
+                                    required
                                 />
                             </label>
 
@@ -204,8 +251,10 @@ const AiRecomendation = () => {
                                     type="date"
                                     name="startDate"
                                     value={userInput.startDate}
+                                    min={new Date().toISOString().split('T')[0]}
                                     onChange={handleInputChange}
                                     className="w-full border border-gray-300 rounded-md p-2 mt-1"
+                                    required
                                 />
                             </label>
 
@@ -216,7 +265,9 @@ const AiRecomendation = () => {
                                     name="endDate"
                                     value={userInput.endDate}
                                     onChange={handleInputChange}
+                                    min={userInput.startDate}
                                     className="w-full border border-gray-300 rounded-md p-2 mt-1"
+                                    required
                                 />
                             </label>
 
@@ -231,11 +282,22 @@ const AiRecomendation = () => {
                 </div>
             )}
 
-            {isSecondModalOpen && (
+            {loading && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
+                    <LoadingSpinner />
+                </div>
+            )}
+
+            {isSecondModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-auto">
+                    <div
+                        className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg max-h-screen overflow-y-auto"
+                        style={{
+                            margin: "0 1rem", // Add margins to ensure the modal doesn't touch the edges on smaller screens
+                        }}
+                    >
                         <div className="flex justify-between items-center">
-                            <h2 className="text-lg font-bold"> </h2>
+
                             <button
                                 onClick={() => setIsSecondModalOpen(false)}
                                 className="text-red-600 hover:text-gray-900"
@@ -244,69 +306,71 @@ const AiRecomendation = () => {
                             </button>
                         </div>
                         {loading ? (
-                            <p>Loading...</p>
+                            <LoadingSpinner />
                         ) : (
                             <div className="mt-4">
-                                {console.log("recoooo", recommendation)
-                                }
+                                {console.log("recoooo", recommendation)}
                                 {recommendation && (
                                     <div>
                                         {(() => {
                                             try {
-                                                // Log raw recommendation for debugging
-                                                console.log("Raw recommendation:", recommendation);
-
-                                                // Remove unwanted formatting (` ```json` and ` ``` `) using more advanced regex
                                                 const cleanedRecommendation = recommendation
-                                                    .replace(/^\s*```json\s*/, '') // Remove starting ```json and leading whitespace
-                                                    .replace(/```[\s\S]*$/, '')   // Remove ending ``` with any content after
-                                                    .trim();                      // Trim extra spaces/newlines
+                                                    .replace(/^\s*```json\s*/, '')
+                                                    .replace(/```[\s\S]*$/, '')
+                                                    .trim();
 
-                                                console.log("Cleaned Recommendation:", cleanedRecommendation);
-                                                console.log("Cleaned Recommendation Length:", cleanedRecommendation.length);
-
-                                                // Parse the cleaned JSON string
                                                 const parsedRecommendation = JSON.parse(cleanedRecommendation);
-
-                                                console.log("Parsed Recommendation:", parsedRecommendation);
-
-                                                // Dynamically display the data
-                                                return Object.entries(parsedRecommendation.output).map(([key, value]) => (
-                                                    <div key={key} className="mb-4">
-                                                        <h3 className="font-bold text-lg">{key}</h3>
-                                                        {typeof value === "object" && value !== null ? (
-                                                            <ul className="list-disc list-inside">
-                                                                {Object.entries(value).map(([subKey, subValue]) => (
-                                                                    <li key={subKey}>
-                                                                        <strong>{subKey}:</strong> {subValue}
-                                                                    </li>
+                                                const id = parsedRecommendation?.output?.id
+                                                return (
+                                                    <>
+                                                        {id ?
+                                                            <>
+                                                                {Object.entries(parsedRecommendation.output).map(([key, value]) => (
+                                                                    <div key={key} className="mb-4">
+                                                                        <h3 className="font-bold">{key}</h3>
+                                                                        {typeof value === "object" && value !== null ? (
+                                                                            <ul className="list-disc list-inside">
+                                                                                {Object.entries(value).map(([subKey, subValue]) => (
+                                                                                    <li key={subKey}>
+                                                                                        <strong>{subKey}:</strong> {subValue}
+                                                                                    </li>
+                                                                                ))}
+                                                                            </ul>
+                                                                        ) : (
+                                                                            <p>{value}</p>
+                                                                        )}
+                                                                    </div>
                                                                 ))}
-                                                            </ul>
-                                                        ) : (
-                                                            <p>{value}</p>
-                                                        )}
-                                                    </div>
-                                                ));
+
+
+                                                                <button
+                                                                    onClick={() => navigate(apiConst.card.replace(':id', parsedRecommendation?.output?.id))}
+                                                                    className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+                                                                >
+                                                                    View Service Details
+                                                                </button>
+                                                            </>
+                                                            :
+                                                            <p>NO SERVICES AVAILABLE </p>
+                                                        }
+
+                                                    </>
+                                                )
+
                                             } catch (error) {
                                                 console.error("Error parsing recommendation:", error.message);
-                                                console.error("Problematic JSON string:", recommendation);
                                                 return <p>Unable to parse recommendation data.</p>;
                                             }
                                         })()}
+
                                     </div>
                                 )}
-                                <button
-                                    onClick={() => navigate(`/service-details/${parsedRecommendation.output['Recommended Service']._id}`)}
-                                    className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-                                >
-                                    View Service Details
-                                </button>
 
                             </div>
-
                         )}
                     </div>
                 </div>
+
             )
             }
 

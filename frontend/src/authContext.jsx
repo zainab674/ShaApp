@@ -30,9 +30,7 @@ export const AuthProvider = ({ children }) => {
                 console.log('Disconnected from socket server');
             });
 
-            return () => {
-                newSocket.disconnect();
-            };
+
         }
     }, [token]);
 

@@ -22,12 +22,19 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from 'mongoose';
-import { Chat, ChatDocument } from './chat.schema';
+import mongoose, { Model } from 'mongoose';
+import { ChatDocument, ChatEntity } from './chat.schema';
 export declare class ChatService {
     private chatModel;
     constructor(chatModel: Model<ChatDocument>);
-    getAllMessages(userId: string): Promise<Chat[]>;
-    addMessage(sender: string, message: string, userId: string): Promise<Chat>;
-    getBotResponse(message: string, userId: string): Promise<string>;
+    getSenderMessages(senderId: string): Promise<any>;
+    getReceiverMessages(receiverId: string): Promise<any>;
+    addMessage(senderId: string, message: string, receiverId: string): Promise<any>;
+    saveMessage(data: Partial<ChatEntity>): Promise<mongoose.Document<unknown, {}, ChatDocument> & ChatEntity & mongoose.Document<any, any, any> & {
+        _id: mongoose.Types.ObjectId;
+    }>;
+    getMessagesBetweenUsers(userId1: string, userId2: string): Promise<(mongoose.Document<unknown, {}, ChatDocument> & ChatEntity & mongoose.Document<any, any, any> & {
+        _id: mongoose.Types.ObjectId;
+    })[]>;
+    getAllConversationsForUser(userId: string): Promise<any[]>;
 }

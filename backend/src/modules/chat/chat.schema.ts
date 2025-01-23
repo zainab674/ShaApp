@@ -1,21 +1,50 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { ApiProperty } from "@nestjs/swagger";
 
-export type ChatDocument = Chat & Document;
+import {
 
-@Schema()
-export class Chat {
-    @Prop()
-    sender: string; // 'user' or 'bot'
+    validationMetadatasToSchemas,
+} from "class-validator-jsonschema";
+import mongoose, { Document } from "mongoose";
 
-    @Prop()
-    message: string;
 
-    @Prop()
-    userId: string; // Add this property to align with ChatMessage DTO
+export type ChatDocument = ChatEntity & Document;
+@Schema({
+    toJSON: {
+        getters: true,
+        virtuals: true,
+    },
+    timestamps: true,
+})
+export class ChatEntity {
+    id: string;
+
+
+    @ApiProperty()
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "User" })
+    senderId: string;
+
+    @ApiProperty()
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "User" })
+    receiverId: string;
+
+    @ApiProperty()
+    @Prop({ type: String })
+    content: string;
 
     @Prop({ default: Date.now })
     timestamp: Date;
+
+
 }
 
-export const ChatSchema = SchemaFactory.createForClass(Chat);
+const ChatSchema = SchemaFactory.createForClass(ChatEntity);
+ChatSchema.index({ location: "2dsphere" });
+
+// Hooks
+ChatSchema.virtual("id").get(function (this: ChatDocument) {
+    return this._id.toString();
+});
+export { ChatSchema };
+export const userJsonSchema = validationMetadatasToSchemas();
+//console.log('schemas=>', JSON.stringify(userJsonSchema)); logger , exclude fileds, test cases

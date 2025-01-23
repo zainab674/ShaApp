@@ -15,10 +15,12 @@ const socket_io_1 = require("socket.io");
 const auth_service_1 = require("../auth/auth.service");
 const socket_service_1 = require("./socket.service");
 const create_socket_dto_1 = require("./dto/create-socket.dto");
+const chat_service_1 = require("../chat/chat.service");
 let MyGateway = class MyGateway {
-    constructor(authService, socketService) {
+    constructor(authService, socketService, chatService) {
         this.authService = authService;
         this.socketService = socketService;
+        this.chatService = chatService;
         this.clients = new Map();
     }
     async getUserFromSocket(socket) {
@@ -83,6 +85,72 @@ let MyGateway = class MyGateway {
         const messages = await this.socketService.getAll(user.userId);
         socket.emit('allMessages', messages);
     }
+    async handleSendMessage(socket, body) {
+        console.log('sendMessage received:', body);
+        console.log("body", body);
+        console.log("typeof(body)", typeof (body));
+        if (typeof body === 'string') {
+            try {
+                body = JSON.parse(body);
+            }
+            catch (error) {
+                console.log("Error parsing body:", error);
+                return;
+            }
+        }
+        console.log("body", body);
+        console.log("typeof(body)", typeof (body));
+        const sender = await this.getUserFromSocket(socket);
+        if (!sender) {
+            socket.emit('error', { message: 'Unauthorized' });
+            return;
+        }
+        const { receiverId, message } = body;
+        const savedMessage = await this.chatService.saveMessage({
+            senderId: sender.userId,
+            receiverId,
+            content: message,
+            timestamp: new Date(),
+        });
+        const recipientSocket = this.clients.get(receiverId);
+        if (recipientSocket) {
+            this.server.to(recipientSocket.id).emit('receiveMessage', {
+                senderId: sender.userId,
+                message,
+                timestamp: savedMessage.timestamp,
+            });
+            console.log(`Message sent to user ${receiverId}`);
+        }
+        else {
+            console.log(`User ${receiverId} not connected. Message saved to database.`);
+        }
+    }
+    async handleGetChatHistory(socket, body) {
+        const sender = await this.getUserFromSocket(socket);
+        if (!sender) {
+            socket.emit('error', { message: 'Unauthorized' });
+            return;
+        }
+        const { receiverId } = body;
+        const messages = await this.chatService.getMessagesBetweenUsers(sender.userId, receiverId);
+        socket.emit('chatHistory', messages);
+    }
+    async handleGetAllConversations(socket) {
+        const sender = await this.getUserFromSocket(socket);
+        if (!sender) {
+            socket.emit('error', { message: 'Unauthorized' });
+            return;
+        }
+        try {
+            const conversations = await this.chatService.getAllConversationsForUser(sender.userId);
+            console.log("conversations", conversations);
+            socket.emit('conversationsList', conversations);
+        }
+        catch (error) {
+            console.error('Error fetching conversations:', error);
+            socket.emit('error', { message: 'Failed to fetch conversations' });
+        }
+    }
 };
 exports.MyGateway = MyGateway;
 __decorate([
@@ -101,6 +169,24 @@ __decorate([
     __metadata("design:paramtypes", [socket_io_1.Socket]),
     __metadata("design:returntype", Promise)
 ], MyGateway.prototype, "handleGetUserMessages", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('sendMessage'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
+    __metadata("design:returntype", Promise)
+], MyGateway.prototype, "handleSendMessage", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('getChatHistory'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
+    __metadata("design:returntype", Promise)
+], MyGateway.prototype, "handleGetChatHistory", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('getAllConversations'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [socket_io_1.Socket]),
+    __metadata("design:returntype", Promise)
+], MyGateway.prototype, "handleGetAllConversations", null);
 exports.MyGateway = MyGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({
         port: 1234,
@@ -111,6 +197,7 @@ exports.MyGateway = MyGateway = __decorate([
         },
     }),
     __metadata("design:paramtypes", [auth_service_1.AuthService,
-        socket_service_1.SocketService])
+        socket_service_1.SocketService,
+        chat_service_1.ChatService])
 ], MyGateway);
 //# sourceMappingURL=gateway.js.map

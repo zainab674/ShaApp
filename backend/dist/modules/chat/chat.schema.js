@@ -9,29 +9,47 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChatSchema = exports.Chat = void 0;
+exports.userJsonSchema = exports.ChatSchema = exports.ChatEntity = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
-let Chat = class Chat {
+const swagger_1 = require("@nestjs/swagger");
+const class_validator_jsonschema_1 = require("class-validator-jsonschema");
+const mongoose_2 = require("mongoose");
+let ChatEntity = class ChatEntity {
 };
-exports.Chat = Chat;
+exports.ChatEntity = ChatEntity;
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, swagger_1.ApiProperty)(),
+    (0, mongoose_1.Prop)({ type: mongoose_2.default.Schema.Types.ObjectId, ref: "User" }),
     __metadata("design:type", String)
-], Chat.prototype, "sender", void 0);
+], ChatEntity.prototype, "senderId", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, swagger_1.ApiProperty)(),
+    (0, mongoose_1.Prop)({ type: mongoose_2.default.Schema.Types.ObjectId, ref: "User" }),
     __metadata("design:type", String)
-], Chat.prototype, "message", void 0);
+], ChatEntity.prototype, "receiverId", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, swagger_1.ApiProperty)(),
+    (0, mongoose_1.Prop)({ type: String }),
     __metadata("design:type", String)
-], Chat.prototype, "userId", void 0);
+], ChatEntity.prototype, "content", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: Date.now }),
     __metadata("design:type", Date)
-], Chat.prototype, "timestamp", void 0);
-exports.Chat = Chat = __decorate([
-    (0, mongoose_1.Schema)()
-], Chat);
-exports.ChatSchema = mongoose_1.SchemaFactory.createForClass(Chat);
+], ChatEntity.prototype, "timestamp", void 0);
+exports.ChatEntity = ChatEntity = __decorate([
+    (0, mongoose_1.Schema)({
+        toJSON: {
+            getters: true,
+            virtuals: true,
+        },
+        timestamps: true,
+    })
+], ChatEntity);
+const ChatSchema = mongoose_1.SchemaFactory.createForClass(ChatEntity);
+exports.ChatSchema = ChatSchema;
+ChatSchema.index({ location: "2dsphere" });
+ChatSchema.virtual("id").get(function () {
+    return this._id.toString();
+});
+exports.userJsonSchema = (0, class_validator_jsonschema_1.validationMetadatasToSchemas)();
 //# sourceMappingURL=chat.schema.js.map

@@ -18,10 +18,11 @@ exports.ChatModule = ChatModule;
 exports.ChatModule = ChatModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forFeature([{ name: chat_schema_1.Chat.name, schema: chat_schema_1.ChatSchema }]),
+            mongoose_1.MongooseModule.forFeature([{ name: chat_schema_1.ChatEntity.name, schema: chat_schema_1.ChatSchema }]),
         ],
         controllers: [chat_controller_1.ChatController],
         providers: [chat_service_1.ChatService],
+        exports: [chat_service_1.ChatService],
     })
 ], ChatModule);
 //# sourceMappingURL=chat.module.js.map
