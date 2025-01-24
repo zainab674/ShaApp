@@ -20,10 +20,15 @@ let StripeController = class StripeController {
         this.stripeService = stripeService;
     }
     async createPaymentIntent(body) {
-        const paymentIntent = await this.stripeService.createPaymentIntent(body.amount, 'usd');
-        return {
-            clientSecret: paymentIntent.client_secret,
-        };
+        try {
+            const paymentIntent = await this.stripeService.createPaymentIntent(Math.round(body.amount), 'usd');
+            console.log("clientsecret", paymentIntent.client_secret);
+            return { clientSecret: paymentIntent.client_secret };
+        }
+        catch (error) {
+            console.error('Payment intent error:', error);
+            throw new common_1.HttpException('Payment intent creation failed', common_1.HttpStatus.BAD_REQUEST);
+        }
     }
 };
 exports.StripeController = StripeController;

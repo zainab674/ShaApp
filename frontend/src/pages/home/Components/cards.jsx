@@ -95,8 +95,8 @@ function CardsContainer({ selectedCategory }) {
                     }}
                 />
                 <button
-                    onClick={handleSearch}
-                    className="bg-pink-500 text-white p-3 rounded-full ml-4"
+
+                    className="bg-pink-600 text-white p-3 rounded-full ml-4"
                 >
                     <AiOutlineSearch className="text-xl" />
                 </button>

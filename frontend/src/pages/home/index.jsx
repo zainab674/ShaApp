@@ -7,14 +7,23 @@ import FixedFooter from "./Components/fixedFooter";
 import FloatingChatbot from "../common/chatbot";
 
 import AiRecomendation from "../common/reccomendation";
+import { useAuth } from "../../authContext";
 
 const HomePage = () => {
+    const { token } = useAuth();
     return (<>
 
         <Navbar />
         <Category />
-        <FloatingChatbot />
-        <AiRecomendation />
+        {token && <>
+
+            <FloatingChatbot />
+            <AiRecomendation />
+
+        </>
+
+        }
+
         <div className="pb-20 md:pb-0">
 
             <Footer />

@@ -22,7 +22,7 @@ const FloatingChatbot = () => {
             </button>
                 : <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="bg-pink-500 text-white p-3 rounded-full shadow-lg"
+                    className="bg-pink-600 text-white p-3 rounded-full shadow-lg"
                 >
                     Chat With Support
 

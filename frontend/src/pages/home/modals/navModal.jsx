@@ -407,7 +407,7 @@ function NavModal({ isOpen, onClose, }) {
                         >
                             Clear all
                         </button>
-                        <button className="px-6 py-2 bg-pink-500 text-white rounded-lg"
+                        <button className="px-6 py-2 bg-pink-600 text-white rounded-lg"
                             onClick={onClose}>
                             Search
                         </button>

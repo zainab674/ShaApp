@@ -54,7 +54,7 @@ function WishList({ isOpen, onClose }) {
                                 <br />
                                 You can create, view, or edit wishlists once you’ve logged in.
                             </p>
-                            <button className="px-6 py-3 bg-pink-500 text-white text-lg font-medium rounded-md hover:bg-pink-600 transition duration-300"
+                            <button className="px-6 py-3 bg-pink-600 text-white text-lg font-medium rounded-md hover:bg-pink-600 transition duration-300"
                                 onClick={() => openLogin()}
                             >
 

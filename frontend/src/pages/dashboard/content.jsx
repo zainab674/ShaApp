@@ -99,7 +99,7 @@ const ContentDashboard = ({ me, token, fetchUserProfile }) => {
 
                             >
                                 <div className="flex items-center">
-                                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-500 text-lg font-bold text-white mr-4">
+                                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-600 text-lg font-bold text-white mr-4">
                                         {booking.title.charAt(0).toUpperCase()}
                                     </div>
                                     <div>

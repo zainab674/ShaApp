@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react';
 import { TiFlag } from "react-icons/ti";
 import Card from '../modals/card';
 import { SpecificUser, UserService } from '../../../connection/apis';
-import ChatComponent from '../../privatechat/pchat';
 import { useAuth } from '../../../authContext';
 import { apiConst } from '../../../constants/api.constants';
 
@@ -72,7 +71,7 @@ function HostDe() {
                             {token &&
                                 <button
                                     onClick={() => navigate(apiConst.privateChat.replace(':id', id))}
-                                    className="mt-4 px-4 py-2 bg-pink-500 text-white rounded"
+                                    className="mt-4 px-4 py-2 bg-pink-600 text-white rounded"
                                 >
                                     Chat with Host
                                 </button>

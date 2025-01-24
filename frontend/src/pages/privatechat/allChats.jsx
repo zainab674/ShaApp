@@ -30,10 +30,6 @@ const ChatLayout = () => {
             return userId;
         }
     };
-
-
-
-
     useEffect(() => {
         if (!socket) return;
 
@@ -70,8 +66,7 @@ const ChatLayout = () => {
         if (socket) {
             socket.emit('getChatHistory', { receiverId: userId });
 
-            // Use a one-time listener for chat history
-            const chatHistoryHandler = (chatMessages) => {
+            socket.on('chatHistory', (chatMessages) => {
                 const formattedMessages = chatMessages.map((msg) => ({
                     text: msg.content,
                     isSender: msg.senderId === me.profile._id,
@@ -79,14 +74,66 @@ const ChatLayout = () => {
                 }));
 
                 setCurrentMessages(formattedMessages);
-
-                // Remove the listener after processing
-                socket.off('chatHistory', chatHistoryHandler);
-            };
-
-            socket.on('chatHistory', chatHistoryHandler);
+            });
         }
     };
+
+
+    useEffect(() => {
+        if (socket) {
+            // Fetch all conversations
+            socket.emit('getAllConversations');
+
+            socket.on('conversationsList', async (conversations) => {
+                console.log("Raw conversations:", conversations);
+
+                const groupedConversations = conversations.reduce((acc, conversation) => {
+                    // Handle different possible conversation structures
+                    const otherUserId = conversation.userId ||
+                        (conversation.participants &&
+                            conversation.participants.find(id => id !== token.userId));
+
+                    if (otherUserId && !acc.some(conv => conv.userId === otherUserId)) {
+                        acc.push({
+                            userId: otherUserId,
+                            lastMessage: conversation.lastMessage || conversation.content,
+                            timestamp: conversation.timestamp || new Date()
+                        });
+                    }
+                    return acc;
+                }, []);
+
+                // Fetch names for each user
+                const namesPromises = groupedConversations.map(async (conv) => {
+                    try {
+                        const userData = await SpecificUser(conv.userId);
+                        return {
+                            userId: conv.userId,
+                            name: userData.name
+                        };
+                    } catch (error) {
+                        console.error(`Error fetching name for user ${conv.userId}:`, error);
+                        return {
+                            userId: conv.userId,
+                            name: conv.userId
+                        };
+                    }
+                });
+
+                const userNameResults = await Promise.all(namesPromises);
+
+                // Create a map of userIds to names
+                const namesMap = userNameResults.reduce((acc, result) => {
+                    acc[result.userId] = result.name;
+                    return acc;
+                }, {});
+                console.log("namesMap", namesMap)
+                setUserNames(namesMap);
+                setConversations(groupedConversations);
+            });
+        }
+    }, [socket, token.userId, selectedUser]);
+
 
 
     const handleSendMessage = (text) => {

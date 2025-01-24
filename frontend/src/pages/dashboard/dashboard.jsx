@@ -37,7 +37,7 @@ const Dashboard = () => {
 
             <Navbar />
 
-            <div className="flex h-screen">
+            <div className="flex h-auto min-h-screen">
                 {/* Left-side Panel */}
                 <div className="w-64 bg-pink-700 border-r text-white border-pink-300 p-4 pt-20">
                     <h3
@@ -93,13 +93,14 @@ const Dashboard = () => {
                                 </ul>
                             )}
                         </div>
-                        <h3
-                            className={`text-lg font-bold cursor-pointer ${selectedOption === "Chats" ? "text-yellow-300" : ""
+                        <h4
+                            className={`flex mt-6 items-center justify-between text-sm font-semibold cursor-pointer ${selectedOption === "Chats" ? "text-yellow-300" : ""
                                 }`}
                             onClick={() => setSelectedOption("Chats")}
                         >
                             Chats
-                        </h3>
+                            <span> ▶</span>
+                        </h4>
 
                     </div>
                 </div>

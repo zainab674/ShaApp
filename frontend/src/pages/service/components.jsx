@@ -265,6 +265,7 @@ const ModalForm = ({ isOpen, onClose, token, fetchUserProfile }) => {
                             <label htmlFor="venueDetails.capacity" className="block mb-1">Capacity</label>
                             <input
                                 type="number"
+                                min={0}
                                 name="venueDetails.capacity"
                                 placeholder="Capacity"
                                 value={formData.venueDetails.capacity || ""}
@@ -492,6 +493,7 @@ const ModalForm = ({ isOpen, onClose, token, fetchUserProfile }) => {
                                 type="number"
                                 name="carRentalDetails.rentalDuration"
                                 placeholder="Rental Duration (in hours)"
+                                min={0}
                                 value={formData.carRentalDetails.rentalDuration || ""}
                                 onChange={handleChange}
                                 className="border p-2 rounded w-full"
@@ -734,16 +736,7 @@ const ModalForm = ({ isOpen, onClose, token, fetchUserProfile }) => {
                                 name="hennaArtistDetails.materialsUsed"
                                 placeholder="Materials Used (e.g., Natural Henna, Essential Oils)"
                                 value={formData.hennaArtistDetails.materialsUsed || ""}
-                                onChange={(e) => {
-                                    const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-                                    setFormData((prev) => ({
-                                        ...prev,
-                                        hennaArtistDetails: {
-                                            ...prev.hennaArtistDetails,
-                                            materialsUsed: selectedOptions,
-                                        },
-                                    }));
-                                }}
+                                onChange={handleChange}
                                 className="border p-2 rounded w-full"
                             />
                         </div>
@@ -1031,6 +1024,7 @@ const ModalForm = ({ isOpen, onClose, token, fetchUserProfile }) => {
                                 placeholder="Number of Sessions Offered"
                                 value={formData.choreographerDetails.sessionsOffered || ""}
                                 onChange={handleChange}
+                                min={0}
                                 className="border p-2 rounded w-full"
                             />
                         </div>

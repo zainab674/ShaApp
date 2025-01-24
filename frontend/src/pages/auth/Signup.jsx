@@ -18,7 +18,7 @@ const SignupForm = () => {
   };
 
   return (
-    <div className='min-h-screen flex items-center justify-center bg-pink-500 p-4'>
+    <div className='min-h-screen flex items-center justify-center bg-pink-600 p-4'>
       <div className='bg-white p-8 rounded-lg shadow-md w-full max-w-4xl'>
         <h2 className='text-2xl font-bold mb-6 text-center'>Sign Up</h2>
         <p className='text-center mb-4'>
@@ -72,7 +72,7 @@ const SignupForm = () => {
         <div className='col-span-2'>
           <button
             onClick={handleSignUp}
-            className='w-full bg-pink-500 text-white p-2 rounded hover:bg-pink-600 transition duration-200'
+            className='w-full bg-pink-600 text-white p-2 rounded hover:bg-pink-700 transition duration-200'
           >
             Sign Up
           </button>

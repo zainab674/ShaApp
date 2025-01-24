@@ -125,6 +125,7 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
     const handleCloseModal = () => {
         fetchUserProfile();
         setIsModalOpen(false);
+        closeModal();
     };
 
     const handleClick = (id) => {

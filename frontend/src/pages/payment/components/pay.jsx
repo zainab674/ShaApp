@@ -60,76 +60,68 @@ const PaymentForm = ({ booking, id, token, socket }) => {
     const navigate = useNavigate();
 
     const handlePayment = async () => {
-        if (!stripe || !elements) {
-            console.error('Stripe.js has not loaded yet.');
-            return;
-        }
+        if (!stripe || !elements) return;
 
         setIsProcessing(true);
         setError('');
 
         try {
+            const paymentAmount = Math.round(booking.price);
             const response = await fetch('http://localhost:1234/payments/create-payment-intent', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ amount: booking.price * 100 }),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amount: paymentAmount }),
             });
 
             const { clientSecret } = await response.json();
+            console.log('Received clientSecret:', clientSecret);
 
-            const cardElement = elements.getElement(CardElement);
 
             const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: {
-                    card: cardElement,
-                    billing_details: {
-                        name: 'Customer Name', // Optionally fetch from user data
-                    },
+                    card: elements.getElement(CardElement),
+                    billing_details: { name: 'Customer Name' },
                 },
             });
 
             if (error) {
-                console.error('Payment failed:', error);
+                console.error('Payment error:', error);
                 setError(error.message);
-            } else {
-                console.log('Payment successful:', paymentIntent);
-                try {
-                    const response = await UpdateBooking(id, { isPaid: true }, token);
-                    if (response) {
-                        console.log("Booking status updated:", response);
-
-
-                        const userId = response.data.userId; // Assuming response includes userId
-                        const title = response.data.title; // Assuming response includes userId
-
-                        const info = {
-                            userId: userId,
-                            bookingId: id,
-
-                            message: ` booking ${title}'s has been paid `
-                        }
-                        console.log("info", info)
-                        socket.emit('bookingStatusUpdated', info);
-
-                    } else {
-                        console.error("Error updating status");
-                    }
-                } catch (err) {
-                    console.error("Error updating booking status:", err);
-                }
-                alert('Payment successful!');
-                navigate(apiConst.profileMe)
+                setIsProcessing(false);
+                return;
             }
+            try {
+                const response = await UpdateBooking(id, { isPaid: true }, token);
+                if (response) {
+                    console.log("Booking status updated:", response);
+
+
+                    const userId = response.data.userId; // Assuming response includes userId
+                    const title = response.data.title; // Assuming response includes userId
+
+                    const info = {
+                        userId: userId,
+                        bookingId: id,
+
+                        message: ` booking ${title}'s has been paid `
+                    }
+                    console.log("info", info)
+                    socket.emit('bookingStatusUpdated', info);
+
+                } else {
+                    console.error("Error updating status");
+                }
+            } catch (err) {
+                console.error("Error updating booking status:", err);
+            }
+            alert('Payment successful!');
+            navigate(apiConst.profileMe);
         } catch (error) {
-            console.error('Error during payment:', error);
-            setError('Something went wrong. Please try again.');
-        } finally {
+            console.error('Complete payment error:', error);
+            setError('Payment processing failed');
             setIsProcessing(false);
         }
     };
-
     return (
         <div className="flex flex-col md:flex-row justify-between mt-10 p-6 md:p-12">
             <div className=" w-full mx-auto">
@@ -144,8 +136,8 @@ const PaymentForm = ({ booking, id, token, socket }) => {
                     <hr className="text-gray-500 my-10" />
 
                     <div className="flex justify-between text-lg font-medium text-gray-900">
-                        <p>Total (USD)</p>
-                        <p>${booking.price ? Number(booking.price).toFixed(2) : '0.00'}</p>
+                        <p>Total </p>
+                        <p>PKR{booking.price ? Number(booking.price).toFixed(2) : '0.00'}</p>
                     </div>
 
                     <div className="border p-4 rounded-md mb-4">

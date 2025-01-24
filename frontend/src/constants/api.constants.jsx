@@ -8,7 +8,7 @@ export const apiConst = {
   resetPssword: '/reset-password',
 
   //Profile
-  profileMe: 'profile/me',
+  profileMe: '/profile/me',
 
   home: '/',
   card: '/card/:id',
@@ -21,4 +21,4 @@ export const apiConst = {
 
 
 
-};
+}; 

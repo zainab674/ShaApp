@@ -14,7 +14,7 @@ const common_1 = require("@nestjs/common");
 const stripe_1 = require("stripe");
 let StripeService = class StripeService {
     constructor() {
-        this.stripe = new stripe_1.default('rk_test_51QgvsE4RRFp4tU4iYXivaDprP1VrwPhN1DJ2N0h7P6ty3v1G0xJ8a70PDSS9pcqb7QIRBXEmvV00qEHayz0YAdR300NocNQiFr', {
+        this.stripe = new stripe_1.default('sk_test_51QgvsE4RRFp4tU4inLzY2Pp8TPYmuVFJwA7yr3EASY35JFxXkp0GxP77CRbvi8h6qS0t77eC74ktUKBH1yw0hF6d00yFh2YOdR', {
             apiVersion: '2024-12-18.acacia',
         });
     }
@@ -22,6 +22,8 @@ let StripeService = class StripeService {
         return this.stripe.paymentIntents.create({
             amount,
             currency,
+            payment_method_types: ['card'],
+            capture_method: 'automatic',
         });
     }
 };

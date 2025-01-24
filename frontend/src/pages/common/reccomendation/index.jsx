@@ -190,7 +190,7 @@ const AiRecomendation = () => {
             <div className="fixed bottom-36 right-5 z-49 w-1/4 flex justify-end">
                 <button
                     onClick={() => setIsFirstModalOpen(true)}
-                    className=" bg-pink-500 text-white p-3 rounded-full shadow-lg"
+                    className=" bg-pink-600 text-white p-3 rounded-full shadow-lg"
                 >
                     Get Recommendation
                 </button>

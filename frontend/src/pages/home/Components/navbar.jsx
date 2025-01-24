@@ -53,7 +53,7 @@ function DesktopComponent() {
         <>
             <div className={` flex space-x-2 lg:space-x-7  pr-4 pl-4 lg:pl-10 lg:pr-10 bg-white pt-2 justify-between items-center mt-0 top-0 fixed w-full z-50`}>
                 <div className="flex items-center pl-4">
-                    <img src={AWPL} alt="Airbnb Logo" className="w-40 h-auto cursor-pointer" onClick={() => navigate(apiConst.home)} />
+                    <img src={AWPL} alt="Airbnb Logo" className="w-40 h-12 cursor-pointer" onClick={() => navigate(apiConst.home)} />
                 </div>
 
 
@@ -119,20 +119,27 @@ function DesktopComponent() {
                                             </button>
                                         </li>
                                         :
-                                        ""}
+                                        ""
+                                    }
+                                    {token && <>
+                                        <li className="mb-2">
+                                            <button className="text-black hover:text-gray-700 block text-sm py-2 px-4 rounded" onClick={() => {
+                                                console.log('Current Location:', window.location.pathname);
+                                                console.log('Navigating to:', apiConst.profileMe);
+                                                navigate(apiConst.profileMe)
+                                            }}>
+                                                Profile
 
-                                    <li className="mb-2">
-                                        <button className="text-black hover:text-gray-700 block text-sm py-2 px-4 rounded" onClick={() => navigate(apiConst.profileMe)}>
-                                            Profile
+                                            </button>
+                                        </li>
+                                        <li className="mb-2">
+                                            <button className="text-black hover:text-gray-700 block text-sm py-2 px-4 rounded" onClick={() => navigate(apiConst.notifications)}>
+                                                Notifications
 
-                                        </button>
-                                    </li>
-                                    <li className="mb-2">
-                                        <button className="text-black hover:text-gray-700 block text-sm py-2 px-4 rounded" onClick={() => navigate(apiConst.notifications)}>
-                                            Notifications
+                                            </button>
+                                        </li>
+                                    </>}
 
-                                        </button>
-                                    </li>
                                 </ul>
                             </div>
                         )}

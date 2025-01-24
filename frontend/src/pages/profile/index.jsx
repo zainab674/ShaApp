@@ -8,6 +8,7 @@ import MyBookings from "../booking/components/myBookings";
 import Navbar from "../home/Components/navbar";
 import OldBookings from "../booking/components/oldBookings";
 import UserReviews from "../review/UserReviews";
+import ChatLayout from "../privatechat/allChats";
 
 const ProfilePage = () => {
     const { me, token, fetchUserProfile, loading } = useAuth();
@@ -125,14 +126,14 @@ const ProfilePage = () => {
                             <div className="mt-4 flex space-x-4">
 
                                 <button
-                                    className="bg-pink-500 text-white px-4 py-2 rounded-lg"
+                                    className="bg-pink-600 text-white px-4 py-2 rounded-lg"
                                     onClick={() => setModalOpen(true)}
                                 >
                                     Edit Profile
                                 </button>
                                 {me.profile.role === "VENDOR" &&
                                     <button
-                                        className="bg-pink-500 text-white px-4 py-2 rounded-lg"
+                                        className="bg-pink-600 text-white px-4 py-2 rounded-lg"
                                         onClick={() => setServiceModalOpen(true)}
                                     >
                                         Add Service
@@ -162,12 +163,19 @@ const ProfilePage = () => {
                             >
                                 My Activity
                             </button>
+                            <button
+                                className={`pb-2 border-b-2 ${page === "chats" ? "border-blue-600" : ""}`}
+                                onClick={() => setPage("chats")}
+                            >
+                                My Chats
+                            </button>
                         </div>
                     </div>
 
                     {/* Page Content */}
 
                     {page === "bookings" && <div className="mt-8"><MyBookings /></div>}
+                    {page === "chats" && <div className="mt-8"><ChatLayout /></div>}
 
                     {page === "myActivity" && <div className="mt-8">
                         <OldBookings />

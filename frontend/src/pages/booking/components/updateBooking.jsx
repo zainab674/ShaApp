@@ -87,7 +87,9 @@ const UpdateBookingForm = ({ booking, token, isOpen, onClose }) => {
         const response = await UpdateBooking(id, updatedData, token);
 
         if (response) {
+
             console.log("Booking updated successfully:", response);
+            onClose()
         } else {
             console.error("Error updating booking");
         }
