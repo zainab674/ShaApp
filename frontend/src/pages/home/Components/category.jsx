@@ -69,58 +69,57 @@ function Category() {
 
     return (
         <>
-
-            <div className={` ${scrolled ? 'top-14 pt-5 md:pt-10 pb-5' : 'md:top-44 lg:top-36 top-16 '}  fixed z-40 bg-white py-4 w-full flex items-center md:px-10 `}>
-                {/* Left arrow button */}
+            <div
+                className={`${scrolled ? "top-14 pt-5 md:pt-10 pb-5" : "md:top-44 lg:top-36 top-16"
+                    } fixed z-40 bg-white py-4 w-full flex items-center px-4 md:px-10`}
+            >
+                {/* Left arrow button (visible only if scrolling is possible) */}
                 {canScrollLeft && (
                     <button
                         onClick={scrollLeft}
-                        className={` hidden p-2 absolute left-0 ml-0 md:ml-2 lg:ml-2 z-10  items-center ${canScrollLeft ? 'block' : 'hidden'} md:flex lg:flex`}
+                        className="hidden absolute left-0 z-10 p-2 md:flex lg:flex"
                     >
                         <IoIosArrowDropleft className="text-gray-500 text-4xl" />
                     </button>
                 )}
 
                 {/* Scrollable Menu */}
-                <div className="flex-1 flex overflow-hidden md:mx-2 md:mr-20 md:ml-10 mx-0 mr-3 ml-2 relative">
+                <div className="flex-1 flex overflow-hidden mx-2 md:mx-10 relative">
                     <ul
                         ref={scrollContainerRef}
-                        className="flex overflow-x-auto scrollbar-hide"
-                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} // Hide scrollbar for Firefox & IE
+                        className="flex overflow-x-auto scrollbar-hide space-x-4 md:space-x-6"
+                        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }} // Hide scrollbar for Firefox & IE
                     >
                         {Menu.map((item) => (
-                            <li key={item.id} className={`flex text-sm flex-col items-center px-6 whitespace-nowrap cursor-pointer ${selectedCategory === item.type ? 'border-b-2 border-gray-600 pb-1' : 'hover:border-b-2 hover:border-gray-300 hover:pb-1'
-                                } `}
+                            <li
+                                key={item.id}
+                                className={`flex flex-col items-center px-4 whitespace-nowrap cursor-pointer text-sm md:text-base ${selectedCategory === item.type
+                                        ? "border-b-2 border-gray-600 pb-1"
+                                        : "hover:border-b-2 hover:border-gray-300 hover:pb-1"
+                                    }`}
                                 onClick={() => handleCategoryClick(item.type)}
                             >
-                                <item.icon className="text-2xl text-gray-600 " />
-                                <span className="text-gray-600 text-sm ">{item.type}</span>
+                                <item.icon className="text-2xl md:text-3xl text-gray-600" />
+                                <span className="text-gray-600">{item.type}</span>
                             </li>
                         ))}
                     </ul>
                 </div>
 
-                {/* Right arrow button */}
+                {/* Right arrow button (visible only if scrolling is possible) */}
                 {canScrollRight && (
                     <button
                         onClick={scrollRight}
-
-                        className={` hidden p-2 absolute  right-0 md:mr-8 lg:mr-8 mr-0 mb-2 z-10 items-center ${canScrollLeft ? 'block' : 'hidden'} md:flex lg:flex`}
+                        className="hidden absolute right-0 z-10 p-2 md:flex lg:flex"
                     >
                         <IoIosArrowDropright className="text-gray-500 text-4xl" />
                     </button>
                 )}
             </div>
 
-
             <CardsContainer selectedCategory={selectedCategory} />
-
-
-
-
-
-
         </>
+
     );
 }
 

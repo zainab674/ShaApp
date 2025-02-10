@@ -110,9 +110,9 @@ const UpdateBookingForm = ({ booking, token, isOpen, onClose }) => {
     if (!isOpen) return null; // If the modal is not open, don't render anything
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white rounded-lg shadow-lg overflow-auto w-11/12 max-w-2xl p-6 mt-10 max-h-screen">
-                <h2 className="text-xl font-semibold mb-4">Request a Booking</h2>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
+            <div className="bg-white rounded-lg shadow-lg overflow-y-auto w-full max-w-lg sm:max-w-xl md:max-w-2xl p-6 max-h-[90vh]">
+                <h2 className="text-xl font-semibold mb-4 text-center">Request a Booking</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="flex flex-col">
                         <label htmlFor="title" className="text-sm font-semibold">Title</label>
@@ -149,64 +149,68 @@ const UpdateBookingForm = ({ booking, token, isOpen, onClose }) => {
                             id="price"
                             name="price"
                             value={formData.price}
-                            className="border p-2 rounded"
+                            className="border p-2 rounded bg-gray-100"
                             disabled
                             readOnly
                         />
                     </div>
 
-                    <div className="flex flex-col">
-                        <label htmlFor="startDate" className="text-sm font-semibold">Start Date</label>
-                        <input
-                            type="date"
-                            id="startDate"
-                            name="startDate"
-                            value={formData.startDate}
-                            min={new Date().toISOString().split('T')[0]} // Prevent selecting past dates
-                            onChange={handleDateChange}
-                            className="border p-2 rounded"
-                            required
-                        />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="flex flex-col">
+                            <label htmlFor="startDate" className="text-sm font-semibold">Start Date</label>
+                            <input
+                                type="date"
+                                id="startDate"
+                                name="startDate"
+                                value={formData.startDate}
+                                min={new Date().toISOString().split('T')[0]} // Prevent selecting past dates
+                                onChange={handleDateChange}
+                                className="border p-2 rounded"
+                                required
+                            />
+                        </div>
+
+                        <div className="flex flex-col">
+                            <label htmlFor="endDate" className="text-sm font-semibold">End Date</label>
+                            <input
+                                type="date"
+                                id="endDate"
+                                name="endDate"
+                                value={formData.endDate}
+                                min={formData.startDate} // Ensure end date is not before start date
+                                onChange={handleDateChange}
+                                className="border p-2 rounded"
+                                required
+                            />
+                        </div>
                     </div>
 
-                    <div className="flex flex-col">
-                        <label htmlFor="endDate" className="text-sm font-semibold">End Date</label>
-                        <input
-                            type="date"
-                            id="endDate"
-                            name="endDate"
-                            value={formData.endDate}
-                            min={formData.startDate} // End date must be greater than or equal to start date
-                            onChange={handleDateChange}
-                            className="border p-2 rounded"
-                            required
-                        />
-                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="flex flex-col">
+                            <label htmlFor="startTime" className="text-sm font-semibold">Start Time</label>
+                            <input
+                                type="time"
+                                id="startTime"
+                                name="startTime"
+                                value={formData.startTime}
+                                onChange={handleChange}
+                                className="border p-2 rounded"
+                                required
+                            />
+                        </div>
 
-                    <div className="flex flex-col">
-                        <label htmlFor="startTime" className="text-sm font-semibold">Start Time</label>
-                        <input
-                            type="time"
-                            id="startTime"
-                            name="startTime"
-                            value={formData.startTime}
-                            onChange={handleChange}
-                            className="border p-2 rounded"
-                            required
-                        />
-                    </div>
-
-                    <div className="flex flex-col">
-                        <label htmlFor="endTime" className="text-sm font-semibold">End Time</label>
-                        <input
-                            type="time"
-                            id="endTime"
-                            name="endTime"
-                            value={formData.endTime}
-                            onChange={handleChange}
-                            className="border p-2 rounded"
-                            required
-                        />
+                        <div className="flex flex-col">
+                            <label htmlFor="endTime" className="text-sm font-semibold">End Time</label>
+                            <input
+                                type="time"
+                                id="endTime"
+                                name="endTime"
+                                value={formData.endTime}
+                                onChange={handleChange}
+                                className="border p-2 rounded"
+                                required
+                            />
+                        </div>
                     </div>
 
                     <div className="flex justify-end gap-4 mt-6">
@@ -227,6 +231,7 @@ const UpdateBookingForm = ({ booking, token, isOpen, onClose }) => {
                 </form>
             </div>
         </div>
+
     );
 };
 

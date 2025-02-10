@@ -187,28 +187,28 @@ const AiRecomendation = () => {
 
     return (
         <div>
-            <div className="fixed bottom-36 right-5 z-49 w-1/4 flex justify-end">
+            {/* Fixed Button for Opening Modal */}
+            <div className="fixed bottom-36 right-2 sm:right-5 z-50 w-1/2 sm:w-1/3 lg:w-1/4 flex justify-end">
                 <button
                     onClick={() => setIsFirstModalOpen(true)}
-                    className=" bg-pink-600 text-white p-3 rounded-full shadow-lg"
+                    className="bg-pink-600 text-white p-2 sm:p-3 rounded-full shadow-lg text-sm sm:text-base"
                 >
                     Get Recommendation
                 </button>
             </div>
 
+            {/* First Modal */}
             {isFirstModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
-                        <div className="flex justify-between">
-                            <h2 className="text-lg font-bold mb-4">AI Service Recommendation</h2>
-                            <button
-                                onClick={() => setIsFirstModalOpen(false)}
-                                className=" text-red-600 hover:text-gray-900"
-                            >
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
+                    <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 w-[90%] sm:w-3/4 md:w-2/3 lg:w-1/2 max-h-[80vh] overflow-y-auto">
+                        <div className="flex justify-between items-center">
+                            <h2 className="text-lg font-bold">AI Service Recommendation</h2>
+                            <button onClick={() => setIsFirstModalOpen(false)} className="text-red-600 hover:text-gray-900">
                                 ✕
                             </button>
                         </div>
 
+                        {/* Form */}
                         <form
                             onSubmit={(e) => {
                                 e.preventDefault();
@@ -271,10 +271,7 @@ const AiRecomendation = () => {
                                 />
                             </label>
 
-                            <button
-                                type="submit"
-                                className="w-full bg-blue-600 text-white py-2 rounded-md"
-                            >
+                            <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-md">
                                 Get Recommendation
                             </button>
                         </form>
@@ -282,99 +279,81 @@ const AiRecomendation = () => {
                 </div>
             )}
 
+            {/* Loading Spinner */}
             {loading && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <LoadingSpinner />
                 </div>
             )}
 
+            {/* Second Modal (Recommendation Result) */}
             {isSecondModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-auto">
-                    <div
-                        className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg max-h-screen overflow-y-auto"
-                        style={{
-                            margin: "0 1rem", // Add margins to ensure the modal doesn't touch the edges on smaller screens
-                        }}
-                    >
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
+                    <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 w-[90%] sm:w-3/4 md:w-2/3 lg:w-1/2 max-h-[80vh] overflow-y-auto">
                         <div className="flex justify-between items-center">
-
-                            <button
-                                onClick={() => setIsSecondModalOpen(false)}
-                                className="text-red-600 hover:text-gray-900"
-                            >
+                            <button onClick={() => setIsSecondModalOpen(false)} className="text-red-600 hover:text-gray-900">
                                 ✕
                             </button>
                         </div>
+
+                        {/* Display Recommendation Data */}
                         {loading ? (
                             <LoadingSpinner />
                         ) : (
                             <div className="mt-4">
-                                {console.log("recoooo", recommendation)}
-                                {recommendation && (
-                                    <div>
-                                        {(() => {
-                                            try {
-                                                const cleanedRecommendation = recommendation
-                                                    .replace(/^\s*```json\s*/, '')
-                                                    .replace(/```[\s\S]*$/, '')
-                                                    .trim();
+                                {recommendation ? (
+                                    (() => {
+                                        try {
+                                            const cleanedRecommendation = recommendation
+                                                .replace(/^\s*```json\s*/, '')
+                                                .replace(/```[\s\S]*$/, '')
+                                                .trim();
 
-                                                const parsedRecommendation = JSON.parse(cleanedRecommendation);
-                                                const id = parsedRecommendation?.output?.id
-                                                return (
-                                                    <>
-                                                        {id ?
-                                                            <>
-                                                                {Object.entries(parsedRecommendation.output).map(([key, value]) => (
-                                                                    <div key={key} className="mb-4">
-                                                                        <h3 className="font-bold">{key}</h3>
-                                                                        {typeof value === "object" && value !== null ? (
-                                                                            <ul className="list-disc list-inside">
-                                                                                {Object.entries(value).map(([subKey, subValue]) => (
-                                                                                    <li key={subKey}>
-                                                                                        <strong>{subKey}:</strong> {subValue}
-                                                                                    </li>
-                                                                                ))}
-                                                                            </ul>
-                                                                        ) : (
-                                                                            <p>{value}</p>
-                                                                        )}
-                                                                    </div>
-                                                                ))}
+                                            const parsedRecommendation = JSON.parse(cleanedRecommendation);
+                                            const id = parsedRecommendation?.output?.id;
 
+                                            return id ? (
+                                                <>
+                                                    {Object.entries(parsedRecommendation.output).map(([key, value]) => (
+                                                        <div key={key} className="mb-4">
+                                                            <h3 className="font-bold">{key}</h3>
+                                                            {typeof value === "object" && value !== null ? (
+                                                                <ul className="list-disc list-inside">
+                                                                    {Object.entries(value).map(([subKey, subValue]) => (
+                                                                        <li key={subKey}>
+                                                                            <strong>{subKey}:</strong> {subValue}
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            ) : (
+                                                                <p>{value}</p>
+                                                            )}
+                                                        </div>
+                                                    ))}
 
-                                                                <button
-                                                                    onClick={() => navigate(apiConst.card.replace(':id', parsedRecommendation?.output?.id))}
-                                                                    className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-                                                                >
-                                                                    View Service Details
-                                                                </button>
-                                                            </>
-                                                            :
-                                                            <p>NO SERVICES AVAILABLE </p>
-                                                        }
-
-                                                    </>
-                                                )
-
-                                            } catch (error) {
-                                                console.error("Error parsing recommendation:", error.message);
-                                                return <p>Unable to parse recommendation data.</p>;
-                                            }
-                                        })()}
-
-                                    </div>
-                                )}
-
+                                                    <button
+                                                        onClick={() => navigate(apiConst.card.replace(':id', parsedRecommendation?.output?.id))}
+                                                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+                                                    >
+                                                        View Service Details
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                <p>No services available.</p>
+                                            );
+                                        } catch (error) {
+                                            console.error("Error parsing recommendation:", error.message);
+                                            return <p>Unable to parse recommendation data.</p>;
+                                        }
+                                    })()
+                                ) : null}
                             </div>
                         )}
                     </div>
                 </div>
+            )}
+        </div>
 
-            )
-            }
-
-        </div >
     );
 };
 

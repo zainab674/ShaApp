@@ -9,6 +9,8 @@ const ChatLayout = () => {
     const [currentMessages, setCurrentMessages] = useState([]);
     const [userNames, setUserNames] = useState({});
     const [selectedUserName, setSelectedUserName] = useState('');
+    const [isMobileConversationView, setIsMobileConversationView] = useState(true);
+
 
     const fetchUserName = async (userId) => {
         try {
@@ -62,6 +64,7 @@ const ChatLayout = () => {
     const handleUserSelect = (userId) => {
         setSelectedUser(userId);
         fetchUserName(userId);
+        setIsMobileConversationView(false);
 
         if (socket) {
             socket.emit('getChatHistory', { receiverId: userId });
@@ -134,7 +137,10 @@ const ChatLayout = () => {
         }
     }, [socket, token.userId, selectedUser]);
 
-
+    const handleBackToConversations = () => {
+        setIsMobileConversationView(true);
+        setSelectedUser(null);
+    };
 
     const handleSendMessage = (text) => {
         if (socket && selectedUser) {
@@ -152,10 +158,13 @@ const ChatLayout = () => {
     };
 
     return (
-        <div className="flex h-[85vh] border border-pink-600">
-            {/* Conversations List */}
-            <div className="w-1/4 bg-gray-100 border-r border-pink-600 overflow-y-auto">
-                <div className="p-4 bg-white border-b border-pink-600  shadow-sm">
+        <div className="flex flex-col md:flex-row h-screen">
+            {/* Conversations List - Mobile & Desktop */}
+            <div className={`
+            ${isMobileConversationView ? 'w-full' : 'hidden md:block'} 
+            md:w-1/4 bg-gray-100 border-r border-pink-600 overflow-y-auto
+        `}>
+                <div className="p-4 bg-white border-b border-pink-600 shadow-sm">
                     <h2 className="text-xl font-semibold text-pink-600">Chats</h2>
                 </div>
                 {conversations.map((conversation) => (
@@ -179,25 +188,35 @@ const ChatLayout = () => {
                 ))}
             </div>
 
-            {/* Chat Window */}
-            <div className="w-3/4 flex flex-col">
+            {/* Chat Window - Mobile & Desktop */}
+            <div className={`
+            ${isMobileConversationView ? 'hidden md:flex' : 'w-full'} 
+            md:w-3/4 flex-col relative
+        `}>
                 {selectedUser ? (
                     <>
+                        {/* Mobile Back Button */}
+                        <button
+                            onClick={handleBackToConversations}
+                            className="md:hidden absolute top-2 left-2 z-10 bg-gray-200 p-2 rounded-full"
+                        >
+                            ← Back
+                        </button>
+
                         {/* Chat Header */}
-                        <div className="p-4 bg-gray-100 border-b border-pink-600 ">
-                            <h3 className="text-lg font-semibold">{selectedUserName || selectedUser}</h3>
+                        <div className="p-4 bg-gray-100 border-b border-pink-600">
+                            <h3 className="text-lg font-semibold">
+                                {selectedUserName || selectedUser}
+                            </h3>
                         </div>
 
                         {/* Messages */}
                         <div className="flex-grow overflow-y-auto p-4 space-y-4">
                             {currentMessages.map((message, index) => (
-
                                 <div
                                     key={index}
                                     className={`flex ${message.isSender ? 'justify-end' : 'justify-start'}`}
                                 >
-                                    {console.log("message.isSender", message.isSender, message)}
-                                    {console.log("me", me)}
                                     <div
                                         className={`max-w-xs p-3 rounded-lg ${message.isSender
                                             ? 'bg-blue-500 text-white'

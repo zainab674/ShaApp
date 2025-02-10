@@ -28,9 +28,7 @@ const HomePage = () => {
 
             <Footer />
         </div>
-        {/* <div className="block md:hidden">
-            <FixedFooter />
-        </div> */}
+
 
     </>)
 }

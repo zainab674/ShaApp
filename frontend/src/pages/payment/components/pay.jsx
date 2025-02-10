@@ -14,8 +14,6 @@ const ConfirmAndPay = () => {
     const [loading, setLoading] = useState(true);
     const [booking, setBooking] = useState(null);
 
-
-
     useEffect(() => {
         if (token && id) {
             fetchBooking();
@@ -74,8 +72,6 @@ const PaymentForm = ({ booking, id, token, socket }) => {
             });
 
             const { clientSecret } = await response.json();
-            console.log('Received clientSecret:', clientSecret);
-
 
             const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: {
@@ -90,30 +86,26 @@ const PaymentForm = ({ booking, id, token, socket }) => {
                 setIsProcessing(false);
                 return;
             }
+
             try {
                 const response = await UpdateBooking(id, { isPaid: true }, token);
                 if (response) {
-                    console.log("Booking status updated:", response);
-
-
-                    const userId = response.data.userId; // Assuming response includes userId
-                    const title = response.data.title; // Assuming response includes userId
+                    const userId = response.data.userId;
+                    const title = response.data.title;
 
                     const info = {
                         userId: userId,
                         bookingId: id,
-
                         message: ` booking ${title}'s has been paid `
-                    }
-                    console.log("info", info)
+                    };
                     socket.emit('bookingStatusUpdated', info);
-
                 } else {
                     console.error("Error updating status");
                 }
             } catch (err) {
                 console.error("Error updating booking status:", err);
             }
+
             alert('Payment successful!');
             navigate(apiConst.profileMe);
         } catch (error) {
@@ -122,37 +114,55 @@ const PaymentForm = ({ booking, id, token, socket }) => {
             setIsProcessing(false);
         }
     };
+
     return (
-        <div className="flex flex-col md:flex-row justify-between mt-10 p-6 md:p-12">
-            <div className=" w-full mx-auto">
-                <div className="border border-pink-500 rounded-lg p-6 space-y-6">
-                    <div className="flex space-x-4">
-                        <div>
-                            <h3 className="text-lg font-semibold text-left">{booking.title || 'No Title'}</h3>
-                            <p className="text-gray-700 text-left">{booking.description || 'No Description'}</p>
-                        </div>
+        <div className="container mx-auto px-4 py-8">
+            <div className="max-w-md mx-auto">
+                <div className="bg-white shadow-md rounded-lg p-6 space-y-6">
+                    <div className="text-center">
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">{booking.title || 'No Title'}</h3>
+                        <p className="text-gray-600 mb-4">{booking.description || 'No Description'}</p>
                     </div>
 
-                    <hr className="text-gray-500 my-10" />
+                    <hr className="border-gray-300" />
 
-                    <div className="flex justify-between text-lg font-medium text-gray-900">
-                        <p>Total </p>
-                        <p>PKR{booking.price ? Number(booking.price).toFixed(2) : '0.00'}</p>
+                    <div className="flex justify-between items-center text-lg font-semibold text-gray-900">
+                        <span>Total</span>
+                        <span>PKR {booking.price ? Number(booking.price).toFixed(2) : '0.00'}</span>
                     </div>
 
-                    <div className="border p-4 rounded-md mb-4">
-                        <CardElement />
+                    <div className="border border-gray-300 p-3 rounded-md mb-4">
+                        <CardElement
+                            options={{
+                                style: {
+                                    base: {
+                                        fontSize: '16px',
+                                        color: '#424770',
+                                        '::placeholder': {
+                                            color: '#aab7c4',
+                                        },
+                                    },
+                                    invalid: {
+                                        color: '#9e2146',
+                                    },
+                                },
+                            }}
+                        />
                     </div>
 
                     <button
                         onClick={handlePayment}
-                        className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
+                        className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300 ease-in-out"
                         disabled={isProcessing}
                     >
                         {isProcessing ? 'Processing...' : 'Pay Now'}
                     </button>
 
-                    {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+                    {error && (
+                        <p className="text-red-500 text-center mt-4 text-sm">
+                            {error}
+                        </p>
+                    )}
                 </div>
             </div>
         </div>

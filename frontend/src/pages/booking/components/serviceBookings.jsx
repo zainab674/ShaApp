@@ -233,9 +233,9 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
     }, [serviceBookings, searchQuery]);
 
     return (
-        <>
-            {all &&
-                <div className="flex items-center mb-4">
+        <div className="overflow-x-auto mt-10">
+            {all && (
+                <div className="flex items-center mb-4 px-4">
                     <input
                         type="text"
                         placeholder="Search bookings..."
@@ -243,212 +243,51 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
                         onChange={handleSearch}
                         className="border border-pink-500 rounded px-4 py-2 w-full"
                     />
-
                 </div>
-            }
+            )}
 
             <table className="min-w-full border-collapse border border-gray-300">
-
-                {all &&
+                {all && (
                     <>
-                        <thead>
+                        <thead className="bg-gray-100 text-sm md:text-base">
                             <tr>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Booking Name</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Service Name</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Price</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">No. of Days</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Status</th>
-
+                                <th className="border border-gray-300 px-2 md:px-4 py-2 text-left">Booking Name</th>
+                                <th className="border border-gray-300 px-2 md:px-4 py-2 text-left">Service Name</th>
+                                <th className="border border-gray-300 px-2 md:px-4 py-2 text-left">Price</th>
+                                <th className="border border-gray-300 px-2 md:px-4 py-2 text-left">No. of Days</th>
+                                <th className="border border-gray-300 px-2 md:px-4 py-2 text-left">Status</th>
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody className="text-sm md:text-base">
                             {filteredBookings.map(({ service, bookings }) =>
                                 bookings.map((booking) => (
-                                    <tr key={booking._id} className="hover:bg-gray-100 cursor-pointer ">
-
-                                        <td className="border border-gray-300 px-4 py-2"
-                                            onClick={() => openModal(booking)}
-                                        >{booking.title}</td>
-                                        <td className="border border-gray-300 px-4 py-2 text-blue-600 font-semibold"
+                                    <tr key={booking._id} className="hover:bg-gray-100 cursor-pointer">
+                                        <td className="border border-gray-300 px-2 md:px-4 py-2" onClick={() => openModal(booking)}>
+                                            {booking.title}
+                                        </td>
+                                        <td
+                                            className="border border-gray-300 px-2 md:px-4 py-2 text-blue-600 font-semibold"
                                             onClick={() => handleClick(service._id)}
                                         >
                                             {service.title}
                                         </td>
-                                        <td className="border border-gray-300 px-4 py-2">${booking.price}</td>
-                                        <td className="border border-gray-300 px-4 py-2">
+                                        <td className="border border-gray-300 px-2 md:px-4 py-2">${booking.price}</td>
+                                        <td className="border border-gray-300 px-2 md:px-4 py-2">
                                             {calculateDays(booking.startDate, booking.endDate)} days
                                         </td>
-                                        <td className="border border-gray-300 px-4 py-2">
+                                        <td className="border border-gray-300 px-2 md:px-4 py-2">
                                             <span style={getStatusStyle(booking.status)}>{booking.status}</span>
                                         </td>
-
-
                                     </tr>
                                 ))
                             )}
                         </tbody>
                     </>
-                }
-                {confirmed &&
-                    <>
-                        <thead>
-                            <tr>
-
-                                <th className="border border-gray-300 px-4 py-2 text-left">Booking Name</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Service Name</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Price</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">No. of Days</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Status</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Payment</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {confirmedBookings.map(({ service, booking }) => (
-                                <tr key={booking._id} className="hover:bg-gray-100 cursor-pointer">
-                                    <td className="border border-gray-300 px-4 py-2"
-                                        onClick={() => openModal(booking)}
-                                    >
-                                        {booking.title}
-                                    </td>
-                                    <td className="border border-gray-300 px-4 py-2 text-blue-600 font-semibold"
-                                        onClick={() => handleClick(service._id)}
-                                    >
-                                        {service.title}
-                                    </td>
-                                    <td className="border border-gray-300 px-4 py-2">${booking.price}</td>
-                                    <td className="border border-gray-300 px-4 py-2">
-                                        {calculateDays(booking.startDate, booking.endDate)} days
-                                    </td>
-                                    <td className="border border-gray-300 px-4 py-2">
-                                        <span style={getStatusStyle(booking.status)}>{booking.status}</span>
-                                    </td>
-                                    <td className="border border-gray-300 px-4 py-2">
-                                        <span >{booking.isPaid == true ? "Paid" : "NotPaid"}</span>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </>
-                }
-                {pending &&
-                    <>
-                        <thead>
-                            <tr>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Booking Name</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Service Name</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Price</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">No. of Days</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Status</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Confirm</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Reject</th>
-
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {pendingBookings.map(({ service, booking }) => (
-                                <tr
-                                    key={booking._id}
-                                    className={`hover:bg-gray-100 cursor-pointer ${overlappingBookings.has(booking._id) ? "bg-red-100" : ""}`}
-                                >
-                                    <td
-                                        className="border border-gray-300 px-4 py-2"
-                                        onClick={() => openModal(booking)}
-                                    >
-                                        {booking.title}
-                                        {overlappingBookings.has(booking._id) && (
-                                            <span className="text-red-500 ml-2">⚠️</span>
-                                        )}
-                                    </td>
-                                    <td
-                                        className="border border-gray-300 px-4 py-2 text-blue-600 font-semibold"
-                                        onClick={() => handleClick(service._id)}
-                                    >
-                                        {service.title}
-                                    </td>
-                                    <td className="border border-gray-300 px-4 py-2">${booking.price}</td>
-                                    <td className="border border-gray-300 px-4 py-2">
-                                        {calculateDays(booking.startDate, booking.endDate)} days
-                                    </td>
-                                    <td className="border border-gray-300 px-4 py-2">
-                                        <span style={getStatusStyle(booking.status)}>{booking.status}</span>
-                                    </td>
-                                    <td className="border border-gray-300 px-4 py-2 text-center">
-                                        <button
-                                            className={`px-4 py-2 rounded text-white ${overlappingWithConfirmed.has(booking._id) || booking.status === "confirmed"
-                                                ? "bg-gray-500 cursor-not-allowed"
-                                                : "bg-green-500 hover:bg-green-600"
-                                                }`}
-                                            disabled={
-                                                overlappingWithConfirmed.has(booking._id) || booking.status === "confirmed"
-                                            }
-                                            onClick={() => handleUpdateStatus(booking._id, "confirmed")}
-                                        >
-                                            Confirm
-                                        </button>
-
-                                    </td>
-                                    <td className="border border-gray-300 px-4 py-2 text-center">
-                                        <button className="bg-red-500 text-white px-4 py-2 rounded" onClick={() => handleUpdateStatus(booking._id, "rejected")}   >    Reject  </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </>
-                }
-                {paid &&
-                    <>
-                        <thead>
-                            <tr>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Booking Name</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Service Name</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Price</th>
-                                <th className="border border-gray-300 px-4 py-2 text-left">No. of Days</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {isPaid.map(({ service, booking }) => (
-                                <tr key={booking._id} className="hover:bg-gray-100 cursor-pointer">
-                                    <td className="border border-gray-300 px-4 py-2" onClick={() => openModal(booking)} >  {booking.title} </td>
-                                    <td className="border border-gray-300 px-4 py-2 text-blue-600 font-semibold" onClick={() => handleClick(service._id)} > {service.title} </td>
-                                    <td className="border border-gray-300 px-4 py-2">${booking.price}</td>
-                                    <td className="border border-gray-300 px-4 py-2"> {calculateDays(booking.startDate, booking.endDate)} days </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </>
-                }
+                )}
             </table>
+        </div>
 
-            {selectedBooking && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-white w-2/3 p-6 rounded-lg relative">
-                        <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-800" onClick={closeModal} >  <FaTimes style={{ color: 'red', fontSize: '24px' }} /> </button>
-                        {selectedBooking.status === "confirmed" ? ""
-                            :
-                            <div className="absolute top-2 right-10 flex space-x-4">
-                                <button className="text-blue-500 hover:text-blue-700" onClick={() => handleUpdate(selectedBooking)} >   <FaPen style={{ color: 'blue', fontSize: '15px' }} /> </button>
-                                <button className="text-red-500 hover:text-red-700" onClick={() => handleDelete(selectedBooking._id)} >   <FaTrash style={{ color: 'red', fontSize: '15px' }} /> </button>
-                            </div>
-                        }
-                        <h2 className="text-2xl font-bold mb-4">Booking Details</h2>
-                        <p><strong>Booking ID:</strong> {selectedBooking._id}</p>
-                        <p><strong>Title:</strong> {selectedBooking.title}</p>
-                        <p><strong>Description:</strong> {selectedBooking.description}</p>
-                        <p><strong>Price:</strong> ${selectedBooking.price}</p>
-                        <p><strong>Start Date:</strong> {new Date(selectedBooking.startDate).toLocaleDateString()}</p>
-                        <p><strong>End Date:</strong> {new Date(selectedBooking.endDate).toLocaleDateString()}</p>
-                        <p><strong>Status:</strong> {selectedBooking.status}</p>
-                    </div>
-                </div>
-            )}
-
-            {isModalOpen && (
-                <UpdateBookingForm booking={updateBooking} token={token} isOpen={isModalOpen} onClose={handleCloseModal} />
-            )}
-        </>
     );
 };
 

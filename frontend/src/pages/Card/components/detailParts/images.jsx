@@ -7,39 +7,37 @@ const Images = ({ service }) => {
     const smallerImages = service.image.slice(1); // Remaining images
 
     return (
-        <div className="p-4 px-16">
+        <div className="p-4 md:px-16">
             <div className="flex justify-between">
-                <h1 className="text-2xl font-medium mb-5 text-left">{service.title}</h1>
+                <h1 className="text-xl md:text-2xl font-medium mb-5 text-left">{service.title}</h1>
             </div>
 
-            <div className="grid grid-cols-3 gap-4" id="photos" style={{ height: '500px' }}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4" id="photos" style={{ height: 'auto' }}>
                 {/* Large image */}
-                <div className="col-span-2 h-full">
+                <div className="md:col-span-2 h-64 md:h-[500px]">
                     <img
                         src={`http://localhost:1234/uploads/${largeImage}`}
                         alt="Large Image"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover rounded-lg"
                     />
                 </div>
 
                 {/* Smaller images */}
                 {smallerImages.length > 0 && (
-                    <div className="grid gap-4 h-full">
+                    <div className="grid grid-cols-2 sm:grid-cols-1 gap-4">
                         {smallerImages.map((img, index) => (
                             <img
                                 key={index}
                                 src={`http://localhost:1234/uploads/${img}`}
                                 alt={`Small Image ${index + 1}`}
-                                className={`w-full object-cover`}
-                                style={{
-                                    height: `calc(500px / ${Math.min(smallerImages.length, 2)})`,
-                                }}
+                                className="w-full h-32 sm:h-[250px] object-cover rounded-lg"
                             />
                         ))}
                     </div>
                 )}
             </div>
         </div>
+
     );
 };
 

@@ -69,29 +69,32 @@ const OldBookings = () => {
     }
 
     return (
-        <div className="my-10 px-4 md:px-6">
-            <h1 className="text-2xl font-semibold mb-4">My Past Bookings</h1>
+        <div className="my-10 mt-10 px-4 sm:px-6 lg:px-8">
+            <h1 className="text-xl sm:text-2xl font-semibold mb-4 text-center sm:text-left">
+                My Past Bookings
+            </h1>
 
-            {hasBookings === false ? <p>No bookings found.</p> : ""}
+            {hasBookings === false ? <p className="text-center sm:text-left">No bookings found.</p> : ""}
+
             <div className="mb-8">
                 <div className="space-y-4">
                     {pastBookings.length === 0 ? (
-                        <p>No past bookings.</p>
+                        <p className="text-center sm:text-left">No past bookings.</p>
                     ) : (
                         pastBookings.map((booking) => (
                             <div
                                 key={booking._id}
-                                className="p-4 bg-white rounded-md shadow-md border border-gray-200"
+                                className="p-4 bg-white rounded-md shadow-md border border-gray-200 transition hover:shadow-lg cursor-pointer"
                                 onClick={() => handleTitleClick(booking)}
                             >
-                                <div className="flex justify-between items-center">
-                                    <h3 className="text-lg font-semibold">
-                                        {booking.title}
-                                    </h3>
-                                    {/* Button to open CreateReview modal */}
+                                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                                    <h3 className="text-lg font-semibold">{booking.title}</h3>
                                     <button
-                                        className="text-blue-500 text-sm"
-                                        onClick={() => handleReviewClick(booking)}
+                                        className="text-blue-500 text-sm mt-2 sm:mt-0"
+                                        onClick={(e) => {
+                                            e.stopPropagation(); // Prevents click bubbling
+                                            handleReviewClick(booking);
+                                        }}
                                     >
                                         Add Review
                                     </button>
@@ -115,7 +118,7 @@ const OldBookings = () => {
                 />
             )}
 
-            {/* CreateReview Modal */}
+            {/* Create Review Modal */}
             {isReviewModalOpen && (
                 <CreateReview
                     booking={selectedBooking}
@@ -125,6 +128,7 @@ const OldBookings = () => {
                 />
             )}
         </div>
+
     );
 };
 

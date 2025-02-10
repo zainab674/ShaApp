@@ -7,10 +7,11 @@ import { FaInstagramSquare } from "react-icons/fa";
 const Footer = () => {
     return (
         <>
-            <hr className='w-full border border-t-gray-200 mb-4 mt-10' />
-            <footer className="bg-gray-100 px-8 sm:px-10 md:px-16 bottom-1">
-                <div className="container ">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <hr className="w-full border border-t-gray-200 mb-4 mt-10" />
+            <footer className="bg-gray-100 px-6 sm:px-8 md:px-16 py-6">
+                <div className="container mx-auto">
+                    {/* Footer Links */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
                         <div className="col-span-1 text-left">
                             <h3 className="text-sm font-medium mb-2">Support</h3>
                             <ul className="text-sm space-y-2">
@@ -25,44 +26,47 @@ const Footer = () => {
                                 <li>Newsroom</li>
                                 <li>New features</li>
                                 <li>Careers</li>
-
                             </ul>
                         </div>
                         <div className="col-span-1 text-left">
                             <h3 className="text-sm font-medium mb-2">AWP</h3>
                             <ul className="text-sm space-y-2">
-
                                 <li>Investors</li>
                                 <li>Gift cards</li>
-                                <li>emergency </li>
+                                <li>Emergency</li>
                             </ul>
                         </div>
                     </div>
 
                     <hr className="w-full border border-t-gray-200 my-4" />
-                    <div className="mt-8 mb-10 flex flex-col md:flex-row justify-between items-center text-sm">
-                        <div className="flex flex-wrap space-x-4 mb-4 md:mb-0 text-left">
-                            <p className="text-gray-800">&copy; 2025 AWP, Inc.</p>
-                            <a href="#" className="text-gray-800 hover:text-gray-900">Terms</a>
-                            <a href="#" className="text-gray-800 hover:text-gray-900">Sitemap</a>
-                            <a href="#" className="text-gray-800 hover:text-gray-900">Privacy</a>
-                            <a href="#" className="text-gray-800 hover:text-gray-900">Your Privacy Choices</a>
+
+                    {/* Footer Bottom */}
+                    <div className="mt-6 flex flex-col md:flex-row justify-between items-center text-sm">
+                        {/* Left Links */}
+                        <div className="flex flex-wrap justify-center md:justify-start space-x-3 text-gray-800 mb-4 md:mb-0">
+                            <p>&copy; 2025 AWP, Inc.</p>
+                            <a href="#" className="hover:text-gray-900">Terms</a>
+                            <a href="#" className="hover:text-gray-900">Sitemap</a>
+                            <a href="#" className="hover:text-gray-900">Privacy</a>
+                            <a href="#" className="hover:text-gray-900">Your Privacy Choices</a>
                         </div>
-                        <div className="flex space-x-4 text-left">
+
+                        {/* Right Section */}
+                        <div className="flex flex-wrap justify-center md:justify-end space-x-4">
                             <div className="flex items-center space-x-2">
-                                <RiGlobalLine className="text-xl font-extralight" />
-                                <span className="mr-2">English (US)</span>
+                                <RiGlobalLine className="text-xl" />
+                                <span>English (US)</span>
                             </div>
-                            <span className="mr-2">PKR</span>
-                            <FaFacebookSquare className="text-xl font-extralight" />
-                            <FaTwitterSquare className="text-xl font-extralight" />
-                            <FaInstagramSquare className="text-xl font-extralight" />
+                            <span>PKR</span>
+                            <FaFacebookSquare className="text-xl hover:text-gray-700" />
+                            <FaTwitterSquare className="text-xl hover:text-gray-700" />
+                            <FaInstagramSquare className="text-xl hover:text-gray-700" />
                         </div>
                     </div>
                 </div>
             </footer>
-
         </>
+
 
     );
 };

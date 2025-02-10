@@ -30,13 +30,11 @@ const ChatComponent = ({ messages, onSendMessage }) => {
 
     return (
 
-        <div className="fixed inset-0 flex flex-col bg-white mx-10 my-5 mb-5 h-full">
-
-            {/* Chat Header */}
-            {/* Chat Header */}
+        <div className="fixed inset-0 flex flex-col bg-white h-full w-full sm:w-[90%] md:w-[80%] lg:w-[60%] mx-auto">
+            {/* Header */}
             <div className="flex items-center justify-between p-4 bg-pink-600 text-white">
                 <button
-                    onClick={() => navigate(-1)} // Navigate back
+                    onClick={() => navigate(-1)}
                     className="p-2 text-white bg-transparent rounded hover:bg-pink-700"
                 >
                     ← Back
@@ -47,12 +45,9 @@ const ChatComponent = ({ messages, onSendMessage }) => {
             {/* Chat Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
                 {messages.map((msg, index) => (
-                    <div
-                        key={index}
-                        className={`flex ${msg.isSender ? 'justify-end' : 'justify-start'}`}
-                    >
+                    <div key={index} className={`flex ${msg.isSender ? 'justify-end' : 'justify-start'}`}>
                         <div
-                            className={`p-3 max-w-xs text-sm rounded-lg shadow-md ${msg.isSender
+                            className={`p-3 max-w-[80%] sm:max-w-[70%] md:max-w-xs text-sm rounded-lg shadow-md ${msg.isSender
                                 ? 'bg-green-500 text-white rounded-tr-none'
                                 : 'bg-gray-200 text-gray-800 rounded-tl-none'
                                 }`}
@@ -71,7 +66,7 @@ const ChatComponent = ({ messages, onSendMessage }) => {
             </div>
 
             {/* Input Box */}
-            <div className="flex items-center p-4 mb-6 bg-white border border-pink-600 m-5">
+            <div className="flex items-center p-4 bg-white border border-pink-600 fixed bottom-0 w-full sm:w-[90%] md:w-[80%] lg:w-[60%] mx-auto">
                 <input
                     type="text"
                     value={newMessage}
@@ -82,12 +77,13 @@ const ChatComponent = ({ messages, onSendMessage }) => {
                 />
                 <button
                     onClick={handleSendMessage}
-                    className="ml-2 px-4 py-2 text-white bg-green-500 rounded-lg shadow hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300"
+                    className="ml-2 px-4 py-2 text-white bg-pink-500 rounded-lg shadow hover:bg-pink-600 focus:outline-none focus:ring focus:ring-green-300"
                 >
                     Send
                 </button>
             </div>
         </div>
+
 
     );
 };

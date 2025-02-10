@@ -51,105 +51,107 @@ function DesktopComponent() {
 
     return (
         <>
-            <div className={` flex space-x-2 lg:space-x-7  pr-4 pl-4 lg:pl-10 lg:pr-10 bg-white pt-2 justify-between items-center mt-0 top-0 fixed w-full z-50`}>
-                <div className="flex items-center pl-4">
-                    <img src={AWPL} alt="Airbnb Logo" className="w-40 h-12 cursor-pointer" onClick={() => navigate(apiConst.home)} />
+            <div className="flex items-center justify-between fixed top-0 w-full bg-white p-3 lg:p-5 z-50 shadow-md ">
+                {/* Logo */}
+                <div className="pl-2 lg:pl-10">
+                    <img
+                        src={AWPL}
+                        alt="Logo"
+                        className="w-28 h-10 lg:w-40 lg:h-12 cursor-pointer"
+                        onClick={() => navigate(apiConst.home)}
+                    />
                 </div>
 
+                {/* Right Side */}
+                <div className="flex items-center space-x-2 lg:space-x-6 pr-2 lg:pr-5">
+                    {token && <div className="hidden lg:flex items-center"></div>}
 
-
-
-                <div className="flex space-x-2 lg:space-x-6 items-center pr-2 lg:pr-5">
-
-
-                    {token &&
-                        <>
-                            <div className="flex items-center" >
-
-                            </div>
-
-                        </>
-                    }
+                    {/* Hamburger & Profile Icon */}
                     <div className="relative">
                         <button
                             ref={buttonRef}
-                            className="rounded-full px-3 py-1 mb-2 flex items-center border border-gray-300 hover:shadow-2xl"
+                            className="flex items-center space-x-2 px-3 py-1 rounded-full border border-gray-300 hover:shadow-lg"
                             onClick={toggleSidebar}
                         >
-                            <IoReorderThreeSharp className="text-2xl text-black pt-1" />
+                            <IoReorderThreeSharp className="text-2xl text-black" />
                             <IoPersonCircle className="text-4xl text-gray-500" />
                         </button>
 
+                        {/* Dropdown */}
                         {isOpen && (
                             <div
                                 ref={dropdownRef}
-                                className="absolute top-10 right-6 mt-2 bg-white border border-gray-300 shadow-lg text-black w-64 transition-transform duration-300 ease-in-out rounded-lg"
+                                className="absolute right-0 top-12 mt-2 w-64 bg-white border border-gray-300 shadow-lg rounded-lg transition-transform duration-300 ease-in-out"
                             >
-                                <ul className="text-left pt-0">
-                                    {token ?
-
+                                <ul className="text-left">
+                                    {token ? (
                                         <>
-                                            <li className="mb-2">
-                                                <a href="#" className="block text-sm py-2 px-4 rounded hover:bg-gray-200" onClick={logout}>
+                                            <li>
+                                                <a
+                                                    href="#"
+                                                    className="block text-sm py-2 px-4 hover:bg-gray-200"
+                                                    onClick={logout}
+                                                >
                                                     Log Out
                                                 </a>
                                             </li>
+                                            <li>
+                                                <button
+                                                    className="block text-sm py-2 px-4 hover:bg-gray-200 w-full text-left"
+                                                    onClick={() => navigate(apiConst.profileMe)}
+                                                >
+                                                    Profile
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button
+                                                    className="block text-sm py-2 px-4 hover:bg-gray-200 w-full text-left"
+                                                    onClick={() => navigate(apiConst.notifications)}
+                                                >
+                                                    Notifications
+                                                </button>
+                                            </li>
                                         </>
-                                        :
+                                    ) : (
                                         <>
-                                            <li className="mb-2">
-                                                <a href="#" className="block text-sm py-2 px-4 rounded hover:bg-gray-200" onClick={() => navigate(apiConst.login)}>
-                                                    Log in
+                                            <li>
+                                                <a
+                                                    href="#"
+                                                    className="block text-sm py-2 px-4 hover:bg-gray-200"
+                                                    onClick={() => navigate(apiConst.login)}
+                                                >
+                                                    Log In
                                                 </a>
                                             </li>
-                                            <li className="mb-2">
-                                                <a href="#" className="block text-sm py-2 px-4 rounded hover:bg-gray-200" onClick={() => navigate(apiConst.signUp)}>
-                                                    Sign up
+                                            <li>
+                                                <a
+                                                    href="#"
+                                                    className="block text-sm py-2 px-4 hover:bg-gray-200"
+                                                    onClick={() => navigate(apiConst.signUp)}
+                                                >
+                                                    Sign Up
                                                 </a>
                                             </li>
                                         </>
-                                    }
-
-                                    <hr className="border-t border-gray-300" />
-                                    {(me && me.profile.role == "VENDOR") ?
-                                        <li className="mb-2">
-                                            <button className="text-black hover:text-gray-700 block text-sm py-2 px-4 rounded" onClick={() => navigate(apiConst.dashboard)}>
+                                    )}
+                                    {me?.profile?.role === "VENDOR" && (
+                                        <li>
+                                            <button
+                                                className="block text-sm py-2 px-4 hover:bg-gray-200 w-full text-left"
+                                                onClick={() => navigate(apiConst.dashboard)}
+                                            >
                                                 Dashboard
-
                                             </button>
                                         </li>
-                                        :
-                                        ""
-                                    }
-                                    {token && <>
-                                        <li className="mb-2">
-                                            <button className="text-black hover:text-gray-700 block text-sm py-2 px-4 rounded" onClick={() => {
-                                                console.log('Current Location:', window.location.pathname);
-                                                console.log('Navigating to:', apiConst.profileMe);
-                                                navigate(apiConst.profileMe)
-                                            }}>
-                                                Profile
-
-                                            </button>
-                                        </li>
-                                        <li className="mb-2">
-                                            <button className="text-black hover:text-gray-700 block text-sm py-2 px-4 rounded" onClick={() => navigate(apiConst.notifications)}>
-                                                Notifications
-
-                                            </button>
-                                        </li>
-                                    </>}
-
+                                    )}
                                 </ul>
                             </div>
                         )}
                     </div>
                 </div>
-
             </div>
-
-
         </>
+
 
     );
 }
