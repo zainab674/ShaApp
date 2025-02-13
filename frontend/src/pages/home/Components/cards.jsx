@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { apiConst } from './../../../constants/api.constants';
 import { AllServices, SearchServiceByName } from '../../../connection/apis';
+import Category from './category';
 
 
 function CardsContainer({ selectedCategory }) {
@@ -12,17 +13,7 @@ function CardsContainer({ selectedCategory }) {
     const [searchQuery, setSearchQuery] = useState(null);
     const [scrolled, setScrolled] = useState(false);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY > 1) {
-                setScrolled(true);
-            } else {
-                setScrolled(false);
-            }
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+
 
     const fetchServices = async () => {
         try {
@@ -82,7 +73,7 @@ function CardsContainer({ selectedCategory }) {
 
     return (
         <>
-            <div className={`${scrolled ? 'hidden' : 'flex'} hidden md:flex mt-20 items-center justify-between bg-white shadow-md rounded-full p-1 py-1 px-2 w-full max-w-xl mx-auto text-left border border-gray-300`}>
+            <div className={`flex mt-20 items-center justify-between bg-white shadow-md rounded-full p-1 py-1 px-2 w-full max-w-xl mx-auto text-left border border-gray-300`}>
                 <input
                     type="text"
                     placeholder="Search services by name..."
@@ -101,7 +92,7 @@ function CardsContainer({ selectedCategory }) {
                     <AiOutlineSearch className="text-xl" />
                 </button>
             </div>
-
+            <Category />
             <ul className="flex flex-wrap justify-start items-start py-4 lg:px-16 mt-36 lg:mt-20 md:mt-24 list-none mx-auto hover:cursor-pointer">
                 {filteredServices.map((service) => (
                     <li key={service._id} className="relative w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 p-2 mb-5 bg-white rounded-lg shadow-md">

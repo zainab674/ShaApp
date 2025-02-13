@@ -53,25 +53,14 @@ function Category() {
         };
     }, []);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY > 1) {
-                setScrolled(true);
-            } else {
-                setScrolled(false);
-            }
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
 
 
     return (
         <>
             <div
-                className={`${scrolled ? "top-14 pt-5 md:pt-10 pb-5" : "md:top-44 lg:top-36 top-16"
-                    } fixed z-40 bg-white py-4 w-full flex items-center px-4 md:px-10`}
+                className={`
+                      bg-white py-4 w-full flex items-center px-4 md:px-10`}
             >
                 {/* Left arrow button (visible only if scrolling is possible) */}
                 {canScrollLeft && (
@@ -93,13 +82,13 @@ function Category() {
                         {Menu.map((item) => (
                             <li
                                 key={item.id}
-                                className={`flex flex-col items-center px-4 whitespace-nowrap cursor-pointer text-sm md:text-base ${selectedCategory === item.type
-                                        ? "border-b-2 border-gray-600 pb-1"
-                                        : "hover:border-b-2 hover:border-gray-300 hover:pb-1"
+                                className={`flex flex-col items-center px-4 whitespace-nowrap cursor-pointer text-sm  ${selectedCategory === item.type
+                                    ? "border-b-2 border-gray-600 pb-1"
+                                    : "hover:border-b-2 hover:border-gray-300 hover:pb-1"
                                     }`}
                                 onClick={() => handleCategoryClick(item.type)}
                             >
-                                <item.icon className="text-2xl md:text-3xl text-gray-600" />
+                                <item.icon className="text-xl md:text-xl text-gray-600" />
                                 <span className="text-gray-600">{item.type}</span>
                             </li>
                         ))}
