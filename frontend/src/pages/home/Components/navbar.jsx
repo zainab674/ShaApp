@@ -74,7 +74,16 @@ function DesktopComponent() {
                             onClick={toggleSidebar}
                         >
                             <IoReorderThreeSharp className="text-2xl text-black" />
-                            <IoPersonCircle className="text-4xl text-gray-500" />
+                            <img
+                                src={
+                                    me.profile.avatar
+                                        ? `http://localhost:1234/${me.profile.avatar}`
+                                        : "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
+                                }
+                                alt="Logo"
+                                className="w-12 h-10 rounded-full cursor-pointer"
+
+                            />
                         </button>
 
                         {/* Dropdown */}

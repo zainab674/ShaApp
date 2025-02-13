@@ -107,7 +107,7 @@ const ProfilePage = () => {
 
         <>
             <Navbar />
-            <div className="min-h-screen bg-gray-100 flex justify-center p-8 mt-5">
+            <div className="min-h-screen bg-gray-100 flex justify-center p-8 mt-14">
                 <div className="max-w-6xl w-full bg-white rounded-lg shadow-md p-8">
                     <div className="flex flex-col md:flex-row md:items-center md:space-x-8">
                         <img
