@@ -79,7 +79,7 @@ const Menu = [
         type: "Choreographers"
     },
     {
-        id: 11,
+        id: 12,
         icon: MiconMap.FaLandmark,
         type: "CarRental"
     },

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { UpdateBooking } from '../../../connection/apis';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Make sure to import this CSS for styling
+
 
 const UpdateBookingForm = ({ booking, token, isOpen, onClose }) => {
     const [formData, setFormData] = useState({
@@ -8,8 +11,7 @@ const UpdateBookingForm = ({ booking, token, isOpen, onClose }) => {
         price: 0, // Initialize with a default value
         startDate: '',
         endDate: '',
-        startTime: '',
-        endTime: '',
+
         status: '',
     });
 
@@ -61,8 +63,6 @@ const UpdateBookingForm = ({ booking, token, isOpen, onClose }) => {
                 price: booking.price || 0,
                 startDate: booking.startDate ? booking.startDate.split('T')[0] : '', // Ensure the date format is 'yyyy-MM-dd'
                 endDate: booking.endDate ? booking.endDate.split('T')[0] : '', // Ensure the date format is 'yyyy-MM-dd'
-                startTime: booking.startTime || '',
-                endTime: booking.endTime || '',
                 status: booking.status || '',
             });
         }
@@ -89,6 +89,8 @@ const UpdateBookingForm = ({ booking, token, isOpen, onClose }) => {
         if (response) {
 
             console.log("Booking updated successfully:", response);
+            toast.success("Booking updated successfully!");
+
             onClose()
         } else {
             console.error("Error updating booking");
@@ -185,33 +187,7 @@ const UpdateBookingForm = ({ booking, token, isOpen, onClose }) => {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="flex flex-col">
-                            <label htmlFor="startTime" className="text-sm font-semibold">Start Time</label>
-                            <input
-                                type="time"
-                                id="startTime"
-                                name="startTime"
-                                value={formData.startTime}
-                                onChange={handleChange}
-                                className="border p-2 rounded"
-                                required
-                            />
-                        </div>
 
-                        <div className="flex flex-col">
-                            <label htmlFor="endTime" className="text-sm font-semibold">End Time</label>
-                            <input
-                                type="time"
-                                id="endTime"
-                                name="endTime"
-                                value={formData.endTime}
-                                onChange={handleChange}
-                                className="border p-2 rounded"
-                                required
-                            />
-                        </div>
-                    </div>
 
                     <div className="flex justify-end gap-4 mt-6">
                         <button

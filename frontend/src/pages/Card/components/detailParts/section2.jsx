@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { FaRegStar } from "react-icons/fa";
+import React from 'react'
+
 
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../../authContext';

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { SpecificUser } from '../../../../connection/apis';
+import React from 'react'
+
 
 const calculateAverageRating = (ratings) => {
     if (!ratings || ratings.length === 0) return 0;

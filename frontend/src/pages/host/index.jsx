@@ -1,5 +1,6 @@
 
 import HostDe from "./components/hostDetail";
+import React from 'react'
 
 import Footer from "../common/footer";
 import Navbar from "../home/Components/navbar";

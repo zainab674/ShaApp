@@ -88,28 +88,6 @@ __decorate([
     __metadata("design:type", Date)
 ], BookingEntity.prototype, "endDate", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_jsonschema_1.JSONSchema)({
-        description: "Start time of booking",
-        title: "Start Time",
-    }),
-    (0, mongoose_1.Prop)({ type: "string", trim: true, required: true, default: "" }),
-    __metadata("design:type", String)
-], BookingEntity.prototype, "startTime", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_jsonschema_1.JSONSchema)({
-        description: "End time of booking",
-        title: "End Time",
-    }),
-    (0, mongoose_1.Prop)({ type: "string", trim: true, required: true, default: "" }),
-    __metadata("design:type", String)
-], BookingEntity.prototype, "endTime", void 0);
-__decorate([
     (0, class_validator_1.IsEnum)(constants_1.BookingStatus),
     (0, class_validator_1.IsString)(),
     (0, swagger_1.ApiProperty)(),

@@ -53,16 +53,27 @@ function Category() {
         };
     }, []);
 
-
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 1) {
+                setScrolled(true);
+            } else {
+                setScrolled(false);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
 
     return (
         <>
             <div
-                className={`
-                      bg-white py-4 w-full flex items-center px-4 md:px-10`}
+
+                className={`${scrolled ? "top-14 pt-5 md:pt-10 pb-5" : "md:top-44 lg:top-36 top-16"
+                    } fixed z-40 bg-white py-4 w-full flex items-center px-4 md:px-10`}
+
             >
-                {/* Left arrow button (visible only if scrolling is possible) */}
                 {canScrollLeft && (
                     <button
                         onClick={scrollLeft}
@@ -104,7 +115,7 @@ function Category() {
                         <IoIosArrowDropright className="text-gray-500 text-4xl" />
                     </button>
                 )}
-            </div>
+            </div >
 
             <CardsContainer selectedCategory={selectedCategory} />
         </>

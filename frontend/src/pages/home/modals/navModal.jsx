@@ -4,11 +4,11 @@ import flexible from './../../../assets/flexible.jpg'
 
 import { AiOutlineSearch } from 'react-icons/ai';
 
-import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { SingleInputDateRangeField } from '@mui/x-date-pickers-pro'; // Adjust the path according to your package and setup
+// import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { SingleInputDateRangeField } from '@mui/x-date-pickers-pro'; // Adjust the path according to your package and setup
 
 
 const SingleInputDatePicker = () => (

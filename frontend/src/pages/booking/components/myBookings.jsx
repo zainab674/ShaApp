@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { apiConst } from '../../../constants/api.constants';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import UpdateBookingForm from './updateBooking';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Make sure to import this CSS for styling
 
 
 const MyBookings = () => {
@@ -52,7 +54,9 @@ const MyBookings = () => {
             const response = await DeleteBooking(id, token);
             if (response) {
                 fetchUserProfile()
-                console.log("Service deleted successfully", response);
+                console.log("booking deleted successfully", response);
+                toast.success("booking deleted successfully!");
+
 
             } else {
                 console.error("Error Deleting service");

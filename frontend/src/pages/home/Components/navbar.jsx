@@ -51,7 +51,7 @@ function DesktopComponent() {
 
     return (
         <>
-            <div className="flex items-center justify-between fixed top-0 w-full bg-white p-3 lg:p-5 z-50 shadow-md ">
+            <div className="flex items-center justify-between fixed top-0 w-full bg-white p-3 lg:p-5 z-50  ">
                 {/* Logo */}
                 <div className="pl-2 lg:pl-10">
                     <img
@@ -76,7 +76,7 @@ function DesktopComponent() {
                             <IoReorderThreeSharp className="text-2xl text-black" />
                             <img
                                 src={
-                                    me.profile.avatar
+                                    me?.profile?.avatar
                                         ? `http://localhost:1234/${me.profile.avatar}`
                                         : "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
                                 }

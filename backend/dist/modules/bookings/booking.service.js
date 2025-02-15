@@ -23,16 +23,10 @@ let BookingService = class BookingService {
         this.schemaModel = schemaModel;
     }
     async create(createDto) {
-        const { serviceId, startDate, startTime, endTime } = createDto;
+        const { serviceId, startDate } = createDto;
         const overlappingBooking = await this.schemaModel.findOne({
             serviceId,
             startDate,
-            $or: [
-                {
-                    startTime: { $lt: endTime },
-                    endTime: { $gt: startTime },
-                },
-            ],
         });
         if (overlappingBooking) {
             throw new common_1.HttpException("The selected time slot is already booked.", exceptions_1.ResponseCode.BAD_REQUEST);

@@ -1,5 +1,7 @@
 import { CardDetail, HomePage, HostDetail, SignInPage } from '../../pages';
 import SignupForm from '../../pages/auth/Signup';
+import React from 'react'
+
 
 const authenticatedRoutes = [
   {

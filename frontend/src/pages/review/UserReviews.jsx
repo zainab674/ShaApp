@@ -3,6 +3,8 @@ import { DeleteRating, SpecificService, UserRatings } from '../../connection/api
 import { useAuth } from '../../authContext';
 import UpdateReview from './updateReviewModal';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Make sure to import this CSS for styling
 
 const UserReviews = () => {
     const { token } = useAuth();
@@ -34,6 +36,8 @@ const UserReviews = () => {
             const response = await DeleteRating(id, token);
             if (response) {
                 fetchReviews()
+                toast.success("rating deleted successfully");
+
                 console.log("rating deleted successfully", response);
 
             } else {

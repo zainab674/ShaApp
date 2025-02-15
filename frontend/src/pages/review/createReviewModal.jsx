@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { AddReview } from '../../connection/apis';
 import { apiConst } from '../../constants/api.constants';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Make sure to import this CSS for styling
 
 const CreateReview = ({ booking, token, isOpen, onClose, }) => {
     const navigate = useNavigate();
@@ -51,6 +53,8 @@ const CreateReview = ({ booking, token, isOpen, onClose, }) => {
 
         if (response) {
             console.log("Rating created successfully:", response);
+            toast.success("Rated successfully!");
+
             navigate(apiConst.card.replace(":id", booking.serviceId));
         } else {
             console.error("Error creating rating");

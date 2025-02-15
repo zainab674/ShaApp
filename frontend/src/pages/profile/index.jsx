@@ -9,6 +9,8 @@ import Navbar from "../home/Components/navbar";
 import OldBookings from "../booking/components/oldBookings";
 import UserReviews from "../review/UserReviews";
 import ChatLayout from "../privatechat/allChats";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Make sure to import this CSS for styling
 
 const ProfilePage = () => {
     const { me, token, fetchUserProfile, loading } = useAuth();
@@ -87,6 +89,8 @@ const ProfilePage = () => {
                 fetchUserProfile();
                 setPage(response.role)
                 console.log("Profile updated successfully", response);
+                toast.success("Profile updated successfully");
+
                 setModalOpen(false);
             } else {
                 console.error("Error updating profile");

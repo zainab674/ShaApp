@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { RequestBooking } from '../../../connection/apis';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Make sure to import this CSS for styling
+
 
 const RequestBookingForm = ({ service, token, isOpen, onClose, socket }) => {
 
@@ -11,8 +14,7 @@ const RequestBookingForm = ({ service, token, isOpen, onClose, socket }) => {
         price: service.price, // Initialize with service price
         startDate: '',
         endDate: '',
-        startTime: '',
-        endTime: '',
+
     });
 
     // Handle form data change
@@ -87,6 +89,8 @@ const RequestBookingForm = ({ service, token, isOpen, onClose, socket }) => {
 
             socket.emit('bookingStatusUpdated', info);
             console.log("Booking created successfully:", response);
+            toast.success("Booking created successfully!");
+
         } else {
             console.error("Error creating booking");
         }
@@ -184,33 +188,7 @@ const RequestBookingForm = ({ service, token, isOpen, onClose, socket }) => {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="flex flex-col">
-                            <label htmlFor="startTime" className="text-sm font-semibold">Start Time</label>
-                            <input
-                                type="time"
-                                id="startTime"
-                                name="startTime"
-                                value={formData.startTime}
-                                onChange={handleChange}
-                                className="border p-2 rounded"
-                                required
-                            />
-                        </div>
 
-                        <div className="flex flex-col">
-                            <label htmlFor="endTime" className="text-sm font-semibold">End Time</label>
-                            <input
-                                type="time"
-                                id="endTime"
-                                name="endTime"
-                                value={formData.endTime}
-                                onChange={handleChange}
-                                className="border p-2 rounded"
-                                required
-                            />
-                        </div>
-                    </div>
 
                     <div className="flex justify-end gap-4 mt-6">
                         <button

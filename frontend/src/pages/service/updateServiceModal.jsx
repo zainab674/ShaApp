@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { UpdateService } from "../../connection/apis"; // Import the UpdateService function
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Make sure to import this CSS for styling
+
 
 const UpdateModalForm = ({ isOpen, onClose, token, service, fetchUserProfile }) => {
     const ServiceCategory = {
@@ -307,7 +310,9 @@ const UpdateModalForm = ({ isOpen, onClose, token, service, fetchUserProfile }) 
             const updatedService = await UpdateService(service.id, data, token);
             if (updatedService) {
                 fetchUserProfile();
-                alert("Service updated successfully!");
+                // alert("Service updated successfully!");
+                toast.success("Service updated successfully!");
+
                 onClose(); // Close the modal on success
             }
         } catch (err) {

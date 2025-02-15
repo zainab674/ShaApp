@@ -1,6 +1,7 @@
 
 import Detail from "./components/details";
 import Footer from "./../common/footer"
+import React from 'react'
 
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";

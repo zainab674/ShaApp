@@ -3,6 +3,8 @@ import Location from "./detailParts/location";
 import Reviews from "./detailParts/reviews";
 import ImageCarousel from "../../home/modals/ImageCarousel";
 import Images from "./detailParts/images";
+import React from 'react'
+
 
 const Detail = ({ Service, Vendor, reviews }) => {
 

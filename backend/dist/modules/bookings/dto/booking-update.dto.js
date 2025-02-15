@@ -96,30 +96,6 @@ __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_jsonschema_1.JSONSchema)({
-        description: "Start time of booking",
-        title: "Start Time",
-    }),
-    (0, mongoose_1.Prop)({ type: "string", trim: true, required: true, default: "" }),
-    __metadata("design:type", String)
-], UpdateBookingDto.prototype, "startTime", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_jsonschema_1.JSONSchema)({
-        description: "End time of booking",
-        title: "End Time",
-    }),
-    (0, mongoose_1.Prop)({ type: "string", trim: true, required: true, default: "" }),
-    __metadata("design:type", String)
-], UpdateBookingDto.prototype, "endTime", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_jsonschema_1.JSONSchema)({
         description: "Status of booking",
         title: "Status of booking ",
     }),

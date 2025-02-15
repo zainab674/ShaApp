@@ -1,3 +1,4 @@
+import React from 'react'
 
 import { HomePage, Notifications, Private } from '../../pages';
 import { CardDetail } from '../../pages';

@@ -19,19 +19,13 @@ export class BookingService {
 
     async create(createDto: BookingEntity) {
 
-        const { serviceId, startDate, startTime, endTime } = createDto;
+        const { serviceId, startDate } = createDto;
 
 
         const overlappingBooking = await this.schemaModel.findOne({
             serviceId,
             startDate,
-            $or: [
-                {
 
-                    startTime: { $lt: endTime },
-                    endTime: { $gt: startTime },
-                },
-            ],
         });
 
         if (overlappingBooking) {

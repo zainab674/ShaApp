@@ -4,6 +4,8 @@ import { apiConst } from "../../constants/api.constants";
 import { DeleteService, UpdateUser } from "../../connection/apis";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import UpdateModalForm from "../service/updateServiceModal";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Make sure to import this CSS for styling
 
 const ShowAllServices = ({ me, token, fetchUserProfile }) => {
     const navigate = useNavigate();
@@ -20,6 +22,8 @@ const ShowAllServices = ({ me, token, fetchUserProfile }) => {
             if (response) {
                 fetchUserProfile();
                 console.log("Service deleted successfully", response);
+                toast.success("Service deleted successfully!");
+
             } else {
                 console.error("Error Deleting service");
             }

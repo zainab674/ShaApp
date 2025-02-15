@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../authContext';
 import { SpecificUser } from '../../connection/apis';
 
@@ -10,6 +10,7 @@ const ChatLayout = () => {
     const [userNames, setUserNames] = useState({});
     const [selectedUserName, setSelectedUserName] = useState('');
     const [isMobileConversationView, setIsMobileConversationView] = useState(true);
+    const messagesEndRef = useRef(null);
 
 
     const fetchUserName = async (userId) => {
@@ -32,6 +33,15 @@ const ChatLayout = () => {
             return userId;
         }
     };
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    // Scroll to bottom when messages change
+    useEffect(() => {
+        scrollToBottom();
+    }, [currentMessages]);
     useEffect(() => {
         if (!socket) return;
 
@@ -211,7 +221,7 @@ const ChatLayout = () => {
                         </div>
 
                         {/* Messages */}
-                        <div className="flex-grow overflow-y-auto p-4 space-y-4">
+                        <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ height: 'calc(100vh - 140px)' }}>
                             {currentMessages.map((message, index) => (
                                 <div
                                     key={index}
@@ -230,6 +240,7 @@ const ChatLayout = () => {
                                     </div>
                                 </div>
                             ))}
+                            <div ref={messagesEndRef} /> {/* Scroll anchor */}
                         </div>
 
                         {/* Message Input */}

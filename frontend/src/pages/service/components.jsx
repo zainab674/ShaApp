@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { CreateService } from "../../connection/apis";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Make sure to import this CSS for styling
+
 
 const ModalForm = ({ isOpen, onClose, token, fetchUserProfile }) => {
     const ServiceCategory = {
@@ -219,7 +222,8 @@ const ModalForm = ({ isOpen, onClose, token, fetchUserProfile }) => {
                 fetchUserProfile();
 
                 console.log("Service created successfully:", response);
-                alert("Service created successfully!");
+                // alert("Service created successfully!");
+                toast.success("Service created successfully!");
                 // Reset form
                 setFormData({
                     title: "",
@@ -246,6 +250,7 @@ const ModalForm = ({ isOpen, onClose, token, fetchUserProfile }) => {
                 });
                 onClose()
             }
+
         } catch (error) {
             console.error("Error creating service:", error);
             alert("Failed to create service. Please try again.");

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from "react";
-import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { apiConst } from '../../constants/api.constants';
 import { OnSignUp } from '../../connection/apiFunction';

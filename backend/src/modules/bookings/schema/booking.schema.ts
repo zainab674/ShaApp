@@ -99,30 +99,6 @@ export class BookingEntity {
 
 
 
-
-    @IsString()
-    @ApiProperty()
-    @IsOptional()
-    @JSONSchema({
-        description: "Start time of booking",
-        title: "Start Time",
-    })
-    @Prop({ type: "string", trim: true, required: true, default: "" })
-    startTime: string;
-
-
-
-    @IsString()
-    @ApiProperty()
-    @IsOptional()
-    @JSONSchema({
-        description: "End time of booking",
-        title: "End Time",
-    })
-    @Prop({ type: "string", trim: true, required: true, default: "" })
-    endTime: string;
-
-
     @IsEnum(BookingStatus)
     @IsString()
     @ApiProperty()

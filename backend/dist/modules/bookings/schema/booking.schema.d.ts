@@ -31,8 +31,6 @@ export declare class BookingEntity {
     price: string;
     startDate: Date;
     endDate: Date;
-    startTime: string;
-    endTime: string;
     status: string;
     isPaid: Boolean;
     userId: string;

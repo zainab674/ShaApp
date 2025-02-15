@@ -1,3 +1,6 @@
+import React from 'react'
+
+
 const Images = ({ service }) => {
     if (!service || !service.image || service.image.length === 0) {
         return <div>No images available</div>;

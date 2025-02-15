@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { AddReview, UpdateRating } from '../../connection/apis';
 import { apiConst } from '../../constants/api.constants';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Make sure to import this CSS for styling
 
 const UpdateReview = ({ review, token, isOpen, onClose, }) => {
     const navigate = useNavigate();
@@ -57,6 +59,8 @@ const UpdateReview = ({ review, token, isOpen, onClose, }) => {
 
         if (response) {
             console.log("Rating updated successfully:", response);
+            toast.success("Rating updated successfully!");
+
             navigate(apiConst.card.replace(":id", review.serviceId));
         } else {
             console.error("Error updating rating");
