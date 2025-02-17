@@ -202,10 +202,14 @@ const UpdateModalForm = ({ isOpen, onClose, token, service, fetchUserProfile }) 
     const handlePhotoChange = (e) => {
         const files = Array.from(e.target.files);
 
-        if (formData.newImages.length + files.length > 5) {
-            alert("You can only upload up to 5 images.");
+
+        const totalImagesAfterAdd = formData.oldImages.length + formData.newImages.length + files.length;
+
+        if (totalImagesAfterAdd > 3) { // or 5, depending on your actual limit
+            alert(`You can only have up to 3 images total. You currently have ${formData.oldImages.length + formData.newImages.length} images.`);
             return;
         }
+
 
         // Add the selected files to the `newImages` array in the state
         setFormData((prev) => ({

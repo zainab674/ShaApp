@@ -1,4 +1,4 @@
-
+import React from "react";
 import PayNav from "./components/PayNav";
 import ConfirmAndPay from "./components/pay";
 

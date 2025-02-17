@@ -70,7 +70,7 @@ function Category() {
         <>
             <div
 
-                className={`${scrolled ? "top-14 pt-5 md:pt-10 pb-5" : "md:top-44 lg:top-36 top-16"
+                className={`${scrolled ? "top-14 pt-5 md:pt-10 pb-5" : "md:top-44 lg:top-40 top-16"
                     } fixed z-40 bg-white py-4 w-full flex items-center px-4 md:px-10`}
 
             >

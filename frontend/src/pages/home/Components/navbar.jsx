@@ -76,14 +76,16 @@ function DesktopComponent() {
                             <IoReorderThreeSharp className="text-2xl text-black" />
                             <img
                                 src={
-                                    me?.profile?.avatar
-                                        ? `http://localhost:1234/${me.profile.avatar}`
+                                    token
+                                        ? me?.profile?.avatar
+                                            ? `http://localhost:1234/${me.profile.avatar}`
+                                            : "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
                                         : "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
                                 }
-                                alt="Logo"
-                                className="w-12 h-10 rounded-full cursor-pointer"
-
+                                alt="Profile"
+                                className={`${token ? "w-12 h-10" : "w-7 h-6"} rounded-full cursor-pointer`}
                             />
+
                         </button>
 
                         {/* Dropdown */}
@@ -143,16 +145,21 @@ function DesktopComponent() {
                                             </li>
                                         </>
                                     )}
-                                    {me?.profile?.role === "VENDOR" && (
-                                        <li>
-                                            <button
-                                                className="block text-sm py-2 px-4 hover:bg-gray-200 w-full text-left"
-                                                onClick={() => navigate(apiConst.dashboard)}
-                                            >
-                                                Dashboard
-                                            </button>
-                                        </li>
-                                    )}
+                                    {token &&
+                                        <>
+                                            {me?.profile?.role === "VENDOR" && (
+                                                <li>
+                                                    <button
+                                                        className="block text-sm py-2 px-4 hover:bg-gray-200 w-full text-left"
+                                                        onClick={() => navigate(apiConst.dashboard)}
+                                                    >
+                                                        Dashboard
+                                                    </button>
+                                                </li>
+                                            )}
+                                        </>
+                                    }
+
                                 </ul>
                             </div>
                         )}

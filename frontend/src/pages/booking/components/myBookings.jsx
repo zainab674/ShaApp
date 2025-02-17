@@ -53,9 +53,10 @@ const MyBookings = () => {
         try {
             const response = await DeleteBooking(id, token);
             if (response) {
-                fetchUserProfile()
+                fetchBookings()
                 console.log("booking deleted successfully", response);
-                toast.success("booking deleted successfully!");
+                toast.error("booking deleted successfully!");
+
 
 
             } else {

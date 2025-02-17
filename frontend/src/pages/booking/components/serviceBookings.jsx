@@ -66,7 +66,7 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
 
     const getStatusStyle = (status) => ({
         backgroundColor: status === "pending" ? "yellow" : status === "confirmed" ? "green" : "gray",
-        color: "white",
+        color: status === "pending" ? "black" : status === "confirmed" ? "white" : "white",
         padding: "4px 8px",
         borderRadius: "4px",
         textAlign: "center",

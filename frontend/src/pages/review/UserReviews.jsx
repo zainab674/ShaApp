@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import React from 'react';
 import { DeleteRating, SpecificService, UserRatings } from '../../connection/apis';
 import { useAuth } from '../../authContext';
 import UpdateReview from './updateReviewModal';

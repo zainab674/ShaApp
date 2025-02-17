@@ -8,7 +8,7 @@ const Footer = () => {
     return (
         <>
             <hr className="w-full border border-t-gray-200 mb-4 mt-10" />
-            <footer className="bg-gray-100 px-6 sm:px-8 md:px-16 py-6  bottom-0">
+            <footer className="  bg-gray-100 px-6 sm:px-8 md:px-16 py-6  bottom-0">
                 <div className="container mx-auto">
                     {/* Footer Links */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
@@ -52,7 +52,7 @@ const Footer = () => {
                         </div>
 
                         {/* Right Section */}
-                        <div className="flex flex-wrap justify-center md:justify-end space-x-4 cursor-pointer">
+                        <div className="flex flex-wrap text-left space-x-4 cursor-pointer">
                             <div className="flex items-center space-x-2">
                                 <RiGlobalLine className="text-xl" />
                                 <span>English (US)</span>

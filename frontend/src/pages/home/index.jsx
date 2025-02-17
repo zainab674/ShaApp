@@ -11,29 +11,24 @@ import AiRecomendation from "../common/reccomendation";
 import { useAuth } from "../../authContext";
 
 const HomePage = () => {
-    // const { token } = useAuth();
+    const { token } = useAuth();
     return (
         <>
+            <div className="min-h-screen flex flex-col">
+                <Navbar />
 
-            <Navbar />
-            <Category />
-            {/* {token ? <>
-
-            <FloatingChatbot />
-            <AiRecomendation />
-
-            </>
-                :
-                ""
-
-            } */}
-
-            <div className="pb-20 md:pb-0">
+                <main className="flex-grow">
+                    <Category />
+                    {token && (
+                        <>
+                            <FloatingChatbot />
+                            <AiRecomendation />
+                        </>
+                    )}
+                </main>
 
                 <Footer />
             </div>
-
-
         </>
 
     )

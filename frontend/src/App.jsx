@@ -11,6 +11,7 @@ import {
   PublicRoutes,
 } from './routes';
 import { useAuth } from './authContext';
+import { ToastContainer } from 'react-toastify';
 function App() {
   const { token } = useAuth();
 
@@ -37,7 +38,10 @@ function App() {
       );
     }
   }
-  return <Router>{renderRoutes()}</Router>;
+  return <Router>
+    {renderRoutes()}
+    <ToastContainer position="top-right" autoClose={3000} />
+  </Router>;
 
 
 
