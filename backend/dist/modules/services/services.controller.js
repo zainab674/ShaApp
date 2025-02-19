@@ -159,7 +159,7 @@ __decorate([
 ], ServiceController.prototype, "searchByCategory", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)(constants_1.constTexts.searcRoute.filter),
+    (0, common_1.Post)(constants_1.constTexts.serviceRoute.filter),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, swagger_1.ApiOkResponse)({ type: service_schema_1.ServiceEntity, description: "Successfully Filtered" }),
     __param(0, (0, common_1.Body)()),

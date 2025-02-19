@@ -6,3 +6,4 @@ export { default as ProfilePage } from './profile';
 export { default as SignInPage } from './auth/signin';
 export { default as Notifications } from './notifications/index';
 export { default as Private } from './privatechat/index';
+export { default as ContactSection } from './common/contactUs'

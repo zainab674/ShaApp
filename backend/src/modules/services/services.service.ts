@@ -158,12 +158,8 @@ export class ServiceService {
 
     async filterEvents(filterDto: FilterDto): Promise<any> {
 
-        const category = filterDto.category;
-        const location = filterDto.location;
-        const radius = filterDto.radius;
         const city = filterDto.city;
         const country = filterDto.country;
-        const price = filterDto.price;
 
 
 
@@ -171,33 +167,15 @@ export class ServiceService {
         const pipeline = [];
 
 
-        if (location && location.coordinates && radius) {
-            const [longitude, latitude] = location.coordinates;
-            pipeline.push({
-                $match: {
-                    location: {
-                        $geoWithin: {
-                            $centerSphere: [
-                                [longitude, latitude],
-                                radius / 6371.1,
-                            ],
-                        },
-                    },
-                },
-            });
-        }
-        if (category) {
-            pipeline.push({ $match: { category }, });
-        }
+
+
         if (country) {
             pipeline.push({ $match: { country }, });
         }
         if (city) {
             pipeline.push({ $match: { city }, });
         }
-        if (price) {
-            pipeline.push({ $match: { price }, });
-        }
+
 
 
 

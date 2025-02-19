@@ -47,6 +47,7 @@ export const constTexts = {
     withinRadius: "withinRadius",
     searchByName: "searchByName",
     searchByCategory: "searchByCategory",
+    filter: "filter"
   },
   bookingRoute: {
     name: "booking",

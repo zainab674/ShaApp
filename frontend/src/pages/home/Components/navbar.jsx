@@ -51,7 +51,7 @@ function DesktopComponent() {
 
     return (
         <>
-            <div className="flex items-center justify-between fixed top-0 w-full bg-white p-3 lg:p-5 z-50  ">
+            <div className="flex items-center justify-between fixed top-0 w-full bg-white p-3 lg:p-5 z-50  cursor-pointer ">
                 {/* Logo */}
                 <div className="pl-2 lg:pl-10">
                     <img
@@ -64,7 +64,29 @@ function DesktopComponent() {
 
                 {/* Right Side */}
                 <div className="flex items-center space-x-2 lg:space-x-6 pr-2 lg:pr-5">
-                    {token && <div className="hidden lg:flex items-center"></div>}
+                    <ul className='flex'>
+                        <li
+                            className='text-black mx-2 text-sm hover:text-pink-600'
+                            onClick={() => {
+                                token
+                                    ? navigate(apiConst.contact)
+                                    : navigate(apiConst.login)
+                            }}
+                        >
+                            Call For Consultation
+                        </li>
+
+                        <li
+                            className='text-black mx-2 text-sm hover:text-pink-600'
+                            onClick={() => {
+                                token
+                                    ? navigate(apiConst.dashboard)
+                                    : navigate(apiConst.login)
+                            }}
+                        >
+                            List Your business
+                        </li>
+                    </ul>
 
                     {/* Hamburger & Profile Icon */}
                     <div className="relative">
@@ -165,7 +187,7 @@ function DesktopComponent() {
                         )}
                     </div>
                 </div>
-            </div>
+            </div >
         </>
 
 

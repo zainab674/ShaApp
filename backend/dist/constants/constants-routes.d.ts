@@ -47,6 +47,7 @@ export declare const constTexts: {
         withinRadius: string;
         searchByName: string;
         searchByCategory: string;
+        filter: string;
     };
     bookingRoute: {
         name: string;

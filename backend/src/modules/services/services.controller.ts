@@ -124,7 +124,7 @@ export class ServiceController {
 
 
     @Public()
-    @Post(constTexts.searcRoute.filter)
+    @Post(constTexts.serviceRoute.filter)
     @HttpCode(HttpStatus.OK)
     @ApiOkResponse({ type: ServiceEntity, description: "Successfully Filtered" })
     async filteredEvents(@Body() filterDto: FilterDto): Promise<any> {

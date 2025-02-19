@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { HomePage, Notifications, Private } from '../../pages';
+import { ContactSection, HomePage, Notifications, Private } from '../../pages';
 import { CardDetail } from '../../pages';
 import { HostDetail } from '../../pages';
 import { Payment } from '../../pages';
@@ -49,6 +49,11 @@ const authenticatedRoutes = [
         key: 7,
         path: '/chat/:id',
         element: Private,
+    },
+    {
+        key: 8,
+        path: '/contact',
+        element: ContactSection,
     },
 
 ];

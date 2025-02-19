@@ -408,6 +408,34 @@ export const SearchServiceByName = async (dataa) => {
 
     }
 };
+export const FilterService = async (dataa) => {
+
+    try {
+        const response = await fetch("http://localhost:1234/service/filter", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+
+            },
+            body: JSON.stringify(
+                dataa
+            ),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData);
+            return; // Indicate failure
+        }
+
+        const data = await response.json();
+        console.log("service filtered successfully:", data);
+        return data;
+    } catch (err) {
+        console.log(err);
+
+    }
+};
 
 
 
