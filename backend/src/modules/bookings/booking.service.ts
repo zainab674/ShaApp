@@ -19,21 +19,9 @@ export class BookingService {
 
     async create(createDto: BookingEntity) {
 
-        const { serviceId, startDate } = createDto;
 
 
-        const overlappingBooking = await this.schemaModel.findOne({
-            serviceId,
-            startDate,
 
-        });
-
-        if (overlappingBooking) {
-            throw new HttpException(
-                "The selected time slot is already booked.",
-                ResponseCode.BAD_REQUEST
-            );
-        }
 
 
         const create: BookingDocument = new this.schemaModel(createDto);
@@ -117,17 +105,26 @@ export class BookingService {
 
     async findByServiceAndUserId(serviceId: string, userId: string): Promise<any> {
         try {
+            // Create start of today's date
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
             const booking = await this.schemaModel.findOne({
                 serviceId,
                 userId,
+                // Add date filter condition
+                startDate: {
+                    $gte: today // Greater than or equal to start of today
+                },
+                status: { $ne: 'rejected' } // Not equal to rejected
             });
 
             if (booking) {
-                console.log("booking", booking)
-                return booking; // Return the booking document if it exists.
+                console.log("booking", booking);
+                return booking;
             }
 
-            return null; // Return null if no booking is found.
+            return null;
         } catch (err) {
             throw new HttpException(err.message, ResponseCode.BAD_REQUEST);
         }

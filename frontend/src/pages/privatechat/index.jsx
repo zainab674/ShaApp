@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../authContext';
 import { SpecificUser } from '../../connection/apis';
+import { toast } from 'react-toastify';
 
 const ChatComponent = ({ messages, onSendMessage }) => {
     const [newMessage, setNewMessage] = useState('');
@@ -108,7 +109,10 @@ const Private = () => {
                     setMessages(formattedMessages);
                 });
 
+
+
                 socket.on('receiveMessage', (message) => {
+
                     setMessages((prevMessages) => [
                         ...prevMessages,
                         {
@@ -118,7 +122,8 @@ const Private = () => {
                         },
                     ]);
                 });
-            } else {
+            }
+            else {
                 console.error("Socket not initialized or not connected.");
             }
         };

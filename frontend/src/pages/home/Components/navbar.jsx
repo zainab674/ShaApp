@@ -221,7 +221,6 @@ const Navbar = () => {
     }, [socket]);
     return (
         <>
-            <ToastContainer />
             <DesktopComponent />
 
 

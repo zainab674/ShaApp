@@ -16,6 +16,7 @@ const RequestBookingForm = ({ service, token, isOpen, onClose, socket }) => {
         endDate: '',
 
     });
+    console.log("service usrid", service)
 
     // Handle form data change
     const handleChange = (e) => {
@@ -85,9 +86,16 @@ const RequestBookingForm = ({ service, token, isOpen, onClose, socket }) => {
 
                 message: ` booking has been requested `
             }
+            const infoVendor = {
+                userId: service.userId,
+                bookingId: bookid,
+
+                message: ` booking has been requested `
+            }
             console.log("info", info)
 
             socket.emit('bookingStatusUpdated', info);
+            socket.emit('bookingStatusUpdated', infoVendor);
             console.log("Booking created successfully:", response);
             toast.success("Booking created successfully!");
 
