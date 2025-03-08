@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { DeleteBooking, ServiceBookings, UpdateBooking } from "../../../connection/apis";
+import { DeleteBooking, ServiceBookings, SpecificUser, UpdateBooking } from "../../../connection/apis";
 import { useAuth } from "../../../authContext";
 import UpdateBookingForm from "./updateBooking";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,8 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
     const [pendingBookings, setPendingBookings] = useState([]);
     const [searchQuery, setSearchQuery] = useState(""); // For search input
     const navigate = useNavigate();
+    const [users, setUsers] = useState({}); // To store user data by their userId
+
 
     useEffect(() => {
         const fetchBookings = async () => {
@@ -58,10 +60,76 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
         fetchBookings();
     }, [me.services]);
 
+    useEffect(() => {
+        const fetchUserData = async () => {
+            // Create a set of unique userIds from all booking types
+            const userIdsSet = new Set();
+
+            // Add userIds from all booking categories
+            const addUserIds = (bookingsList) => {
+                bookingsList.forEach(({ booking }) => {
+                    if (booking.userId) {
+                        userIdsSet.add(booking.userId);
+                    }
+                });
+            };
+
+            addUserIds(confirmedBookings);
+            addUserIds(pendingBookings);
+            addUserIds(isPaid);
+
+            // Fetch user data for each unique userId that hasn't been fetched yet
+            const uniqueUserIds = [...userIdsSet];
+            for (const userId of uniqueUserIds) {
+                if (!users[userId]) {
+                    await GetUser(userId);
+                }
+            }
+        };
+
+        fetchUserData();
+    }, [confirmedBookings, pendingBookings, isPaid, users]);
+
+    const GetUser = async (id) => {
+        try {
+            const res = await SpecificUser(id);
+            setUsers((prevUsers) => ({
+                ...prevUsers,
+                [id]: {
+                    name: res?.name || 'Anonymous',
+
+                }
+            }));
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+            setUsers((prevUsers) => ({
+                ...prevUsers,
+                [id]: {
+                    name: 'Anonymous',
+                    avatar: null
+                }
+            }));
+        }
+    };
+
+    // Function to get username from userId
+    const getUserName = (userId) => {
+        return users[userId]?.name || 'Loading...';
+    };
+
+    const handleClickUser = (id) => {
+
+        navigate(apiConst.profileUser.replace(':id', id));
+    };
+
+
+
     const calculateDays = (startDate, endDate) => {
         const start = new Date(startDate);
         const end = new Date(endDate);
-        return Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+
+        const ans = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+        return ans === 0 ? "Half Day" : ans + " days";
     };
 
     const getStatusStyle = (status) => ({
@@ -85,6 +153,7 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
             const response = await DeleteBooking(id, token);
             if (response) {
                 fetchUserProfile();
+                setSelectedBooking(null)
                 toast.success("booking deleted successfully!");
 
             } else {
@@ -254,10 +323,13 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
                     <>
                         <thead className="bg-gray-100 text-sm md:text-base">
                             <tr>
-                                <th className="border border-gray-300 px-2 md:px-4 py-2 text-left">Booking Name</th>
+                                <th className="border border-gray-300 px-2 md:px-4 py-2 text-left">Booking Title</th>
+                                <th className="border border-gray-300 px-2 md:px-4 py-2 text-left">Booking User</th>
                                 <th className="border border-gray-300 px-2 md:px-4 py-2 text-left">Service Name</th>
                                 <th className="border border-gray-300 px-2 md:px-4 py-2 text-left">Price</th>
                                 <th className="border border-gray-300 px-2 md:px-4 py-2 text-left">No. of Days</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">Start Date</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">End Date</th>
                                 <th className="border border-gray-300 px-2 md:px-4 py-2 text-left">Status</th>
                             </tr>
                         </thead>
@@ -265,9 +337,15 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
                         <tbody className="text-sm md:text-base">
                             {filteredBookings.map(({ service, bookings }) =>
                                 bookings.map((booking) => (
+
                                     <tr key={booking._id} className="hover:bg-gray-100 cursor-pointer">
+                                        {console.log("booking", booking)}
                                         <td className="border border-gray-300 px-2 md:px-4 py-2" onClick={() => openModal(booking)}>
                                             {booking.title}
+                                        </td>
+                                        <td className="border border-gray-300 px-2 md:px-4 py-2" onClick={() => handleClickUser(booking.userId)}>
+                                            {getUserName(booking.userId)}
+
                                         </td>
                                         <td
                                             className="border border-gray-300 px-2 md:px-4 py-2 text-blue-600 font-semibold"
@@ -277,7 +355,13 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
                                         </td>
                                         <td className="border border-gray-300 px-2 md:px-4 py-2">${booking.price}</td>
                                         <td className="border border-gray-300 px-2 md:px-4 py-2">
-                                            {calculateDays(booking.startDate, booking.endDate)} days
+                                            {calculateDays(booking.startDate, booking.endDate)}
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2">
+                                            {new Date(booking.startDate).toLocaleDateString()}
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2">
+                                            {new Date(booking.endDate).toLocaleDateString()}
                                         </td>
                                         <td className="border border-gray-300 px-2 md:px-4 py-2">
                                             <span style={getStatusStyle(booking.status)}>{booking.status}</span>
@@ -293,10 +377,13 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
                     <>
                         <thead>
                             <tr>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Booking Name</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">Booking Title</th>
+                                <th className="border border-gray-300 px-2 md:px-4 py-2 text-left">Booking User</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">Service Name</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">Price</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">No. of Days</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">Start Date</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">End Date</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">Status</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">Payment</th>
                             </tr>
@@ -309,6 +396,10 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
                                     >
                                         {booking.title}
                                     </td>
+                                    <td className="border border-gray-300 px-2 md:px-4 py-2" onClick={() => handleClickUser(booking.userId)}>
+                                        {getUserName(booking.userId)}
+
+                                    </td>
                                     <td className="border border-gray-300 px-4 py-2 text-blue-600 font-semibold"
                                         onClick={() => handleClick(service._id)}
                                     >
@@ -316,7 +407,13 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
                                     </td>
                                     <td className="border border-gray-300 px-4 py-2">${booking.price}</td>
                                     <td className="border border-gray-300 px-4 py-2">
-                                        {calculateDays(booking.startDate, booking.endDate)} days
+                                        {calculateDays(booking.startDate, booking.endDate)}
+                                    </td>
+                                    <td className="border border-gray-300 px-4 py-2">
+                                        {new Date(booking.startDate).toLocaleDateString()}
+                                    </td>
+                                    <td className="border border-gray-300 px-4 py-2">
+                                        {new Date(booking.endDate).toLocaleDateString()}
                                     </td>
                                     <td className="border border-gray-300 px-4 py-2">
                                         <span style={getStatusStyle(booking.status)}>{booking.status}</span>
@@ -333,10 +430,13 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
                     <>
                         <thead>
                             <tr>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Booking Name</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">Booking Title</th>
+                                <th className="border border-gray-300 px-2 md:px-4 py-2 text-left">Booking User</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">Service Name</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">Price</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">No. of Days</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">Start Date</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">End Date</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">Status</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">Confirm</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">Reject</th>
@@ -357,6 +457,10 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
                                             <span className="text-red-500 ml-2">⚠️</span>
                                         )}
                                     </td>
+                                    <td className="border border-gray-300 px-2 md:px-4 py-2" onClick={() => handleClickUser(booking.userId)}>
+                                        {getUserName(booking.userId)}
+
+                                    </td>
                                     <td
                                         className="border border-gray-300 px-4 py-2 text-blue-600 font-semibold"
                                         onClick={() => handleClick(service._id)}
@@ -365,7 +469,13 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
                                     </td>
                                     <td className="border border-gray-300 px-4 py-2">${booking.price}</td>
                                     <td className="border border-gray-300 px-4 py-2">
-                                        {calculateDays(booking.startDate, booking.endDate)} days
+                                        {calculateDays(booking.startDate, booking.endDate)}
+                                    </td>
+                                    <td className="border border-gray-300 px-4 py-2">
+                                        {new Date(booking.startDate).toLocaleDateString()}
+                                    </td>
+                                    <td className="border border-gray-300 px-4 py-2">
+                                        {new Date(booking.endDate).toLocaleDateString()}
                                     </td>
                                     <td className="border border-gray-300 px-4 py-2">
                                         <span style={getStatusStyle(booking.status)}>{booking.status}</span>
@@ -396,19 +506,32 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
                     <>
                         <thead>
                             <tr>
-                                <th className="border border-gray-300 px-4 py-2 text-left">Booking Name</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">Booking Title</th>
+                                <th className="border border-gray-300 px-2 md:px-4 py-2 text-left">Booking User</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">Service Name</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">Price</th>
                                 <th className="border border-gray-300 px-4 py-2 text-left">No. of Days</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">Start Date</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left">End Date</th>
                             </tr>
                         </thead>
                         <tbody>
                             {isPaid.map(({ service, booking }) => (
                                 <tr key={booking._id} className="hover:bg-gray-100 cursor-pointer">
                                     <td className="border border-gray-300 px-4 py-2" onClick={() => openModal(booking)} >  {booking.title} </td>
+                                    <td className="border border-gray-300 px-2 md:px-4 py-2" onClick={() => handleClickUser(booking.userId)}>
+                                        {getUserName(booking.userId)}
+
+                                    </td>
                                     <td className="border border-gray-300 px-4 py-2 text-blue-600 font-semibold" onClick={() => handleClick(service._id)} > {service.title} </td>
                                     <td className="border border-gray-300 px-4 py-2">${booking.price}</td>
-                                    <td className="border border-gray-300 px-4 py-2"> {calculateDays(booking.startDate, booking.endDate)} days </td>
+                                    <td className="border border-gray-300 px-4 py-2"> {calculateDays(booking.startDate, booking.endDate)}  </td>
+                                    <td className="border border-gray-300 px-4 py-2">
+                                        {new Date(booking.startDate).toLocaleDateString()}
+                                    </td>
+                                    <td className="border border-gray-300 px-4 py-2">
+                                        {new Date(booking.endDate).toLocaleDateString()}
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -424,7 +547,11 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
                             :
                             <div className="absolute top-2 right-10 flex space-x-4">
                                 <button className="text-blue-500 hover:text-blue-700" onClick={() => handleUpdate(selectedBooking)} >   <FaPen style={{ color: 'blue', fontSize: '15px' }} /> </button>
-                                <button className="text-red-500 hover:text-red-700" onClick={() => handleDelete(selectedBooking._id)} >   <FaTrash style={{ color: 'red', fontSize: '15px' }} /> </button>
+                                <button className="text-red-500 hover:text-red-700" onClick={() => {
+                                    handleDelete(selectedBooking._id)
+
+                                }
+                                } >   <FaTrash style={{ color: 'red', fontSize: '15px' }} /> </button>
                             </div>
                         }
                         <h2 className="text-2xl font-bold mb-4">Booking Details</h2>

@@ -10,21 +10,27 @@ const calculateAverageRating = (ratings) => {
 };
 
 const Reviews = ({ service, rating }) => {
-    const [users, setUsers] = useState({}); // To store user names by their userId
+    const [users, setUsers] = useState({}); // To store user data by their userId
 
-    // Fetch user name by userId and update the state
+    // Fetch user data by userId and update the state
     const GetUser = async (id) => {
         try {
             const res = await SpecificUser(id);
             setUsers((prevUsers) => ({
                 ...prevUsers,
-                [id]: res?.name || 'Anonymous', // Store user name by userId
+                [id]: {
+                    name: res?.name || 'Anonymous',
+                    avatar: res?.avatar || null // Store avatar URL if available
+                }
             }));
         } catch (error) {
             console.error("Error fetching user data:", error);
             setUsers((prevUsers) => ({
                 ...prevUsers,
-                [id]: 'Anonymous',
+                [id]: {
+                    name: 'Anonymous',
+                    avatar: null
+                }
             }));
         }
     };
@@ -32,11 +38,11 @@ const Reviews = ({ service, rating }) => {
     // Calculate average rating
     const averageRating = calculateAverageRating(rating);
 
-    // Fetch all user names when the component mounts
+    // Fetch all user data when the component mounts
     useEffect(() => {
         rating.forEach((review) => {
             if (review.userId && !users[review.userId]) {
-                GetUser(review.userId); // Fetch user name for each unique userId
+                GetUser(review.userId); // Fetch user data for each unique userId
             }
         });
     }, [rating, users]); // Only refetch if rating or users changes
@@ -74,13 +80,23 @@ const Reviews = ({ service, rating }) => {
                         <div className="bg-white shadow-lg rounded-lg p-4">
                             {/* First Row */}
                             <div className="flex flex-col sm:flex-row items-center">
-
-                                <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-600 text-lg font-bold text-white mr-4">
-                                    {/* {users[review.userId].charAt(0).toUpperCase()} */}
+                                {/* User Avatar - Now displays image if available, fallback to initials */}
+                                <div className="w-12 h-12 flex items-center justify-center rounded-full overflow-hidden mr-4">
+                                    {users[review.userId]?.avatar ? (
+                                        <img
+                                            src={`http://localhost:1234/${users[review.userId].avatar}`}
+                                            alt={`${users[review.userId]?.name || 'User'} avatar`}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center bg-pink-600 text-lg font-bold text-white">
+                                            {(users[review.userId]?.name || 'A').charAt(0).toUpperCase()}
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="mt-4 sm:mt-0 sm:ml-4">
                                     <h2 className="text-lg font-semibold whitespace-nowrap">
-                                        {users[review.userId] || 'Anonymous'}
+                                        {users[review.userId]?.name || 'Anonymous'}
                                     </h2>
                                 </div>
                             </div>

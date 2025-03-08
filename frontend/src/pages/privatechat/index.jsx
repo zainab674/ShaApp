@@ -40,7 +40,7 @@ const ChatComponent = ({ messages, onSendMessage }) => {
                 >
                     ← Back
                 </button>
-                <h1 className="text-lg font-bold">Chat With Host</h1>
+                <h1 className="text-lg font-bold">Chat </h1>
             </div>
 
             {/* Chat Messages */}

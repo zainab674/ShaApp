@@ -157,16 +157,22 @@ const Section2 = ({ service, vendor }) => {
                     <h2 className="text-xl font-bold text-gray-800 mb-2">Pkr {Dservice.price} </h2>
                     {token ?
                         <>
-                            {status === "pending" ?
-                                <button className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md mt-4 w-full"
-
-                                >Requested For Booking</button>
-                                :
-
-                                <button className="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-md mt-4 w-full"
+                            {status === "pending" ? (
+                                <button className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md mt-4 w-full">
+                                    Requested For Booking
+                                </button>
+                            ) : status === "confirmed" ? (
+                                <button className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md mt-4 w-full">
+                                    Booking Confirmed
+                                </button>
+                            ) : (
+                                <button
+                                    className="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-md mt-4 w-full"
                                     onClick={handleOpenModal}
-                                >Request</button>
-                            }
+                                >
+                                    Request
+                                </button>
+                            )}
                         </>
                         :
                         <button className="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-md mt-4 w-full"

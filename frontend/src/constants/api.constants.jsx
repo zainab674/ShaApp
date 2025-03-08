@@ -9,6 +9,7 @@ export const apiConst = {
 
   //Profile
   profileMe: '/profile/me',
+  profileUser: '/profile/:id',
 
   home: '/',
   card: '/card/:id',

@@ -55,6 +55,11 @@ const authenticatedRoutes = [
         path: '/contact',
         element: ContactSection,
     },
+    {
+        key: 9,
+        path: '/profile/:id',
+        element: ProfilePage,
+    },
 
 ];
 
