@@ -128,8 +128,10 @@ const ServiceBookingsList = ({ me, all, pending, confirmed, paid }) => {
         const start = new Date(startDate);
         const end = new Date(endDate);
 
-        const ans = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-        return ans === 0 ? "Half Day" : ans + " days";
+        const ans = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+        // return ans === 0 ? "Half Day" : ans + " days";
+        return ans
+
     };
 
     const getStatusStyle = (status) => ({

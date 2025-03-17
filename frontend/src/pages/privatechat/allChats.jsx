@@ -171,7 +171,7 @@ const ChatLayout = () => {
     };
 
     return (
-        <div className="flex flex-col md:flex-row h-screen">
+        <div className="flex flex-col md:flex-row h-[80vh]">
             {/* Conversations List - Mobile & Desktop */}
             <div className={`
             ${isMobileConversationView ? 'w-full' : 'hidden md:block'} 
@@ -217,14 +217,14 @@ const ChatLayout = () => {
                         </button>
 
                         {/* Chat Header */}
-                        <div className="p-4 bg-gray-100 border-b border-pink-600">
+                        <div className="p-4 bg-gray-100 border-b border-pink-600 h-16">
                             <h3 className="text-lg font-semibold">
                                 {selectedUserName || selectedUser}
                             </h3>
                         </div>
 
                         {/* Messages */}
-                        <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ height: 'calc(100vh - 140px)' }}>
+                        <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ height: "calc(100% - 116px)" }} >
                             {currentMessages.map((message, index) => (
                                 <div
                                     key={index}
@@ -267,7 +267,7 @@ const ChatLayout = () => {
                                 />
                                 <button
                                     type="submit"
-                                    className="bg-blue-500 text-white p-2 rounded-lg"
+                                    className="bg-pink-500 text-white p-2 rounded-lg"
                                 >
                                     Send
                                 </button>
