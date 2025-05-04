@@ -188,7 +188,7 @@ const AiRecomendation = () => {
     return (
         <div>
             {/* Fixed Button for Opening Modal */}
-            <div className="fixed bottom-36 right-2 sm:right-5 z-50 w-1/2 sm:w-1/3 lg:w-1/4 flex justify-end">
+            <div className="fixed bottom-36 right-2 sm:right-5 z-49 w-1/2 sm:w-1/3 lg:w-1/4 flex justify-end">
                 <button
                     onClick={() => setIsFirstModalOpen(true)}
                     className="bg-pink-600 text-white p-2 sm:p-3 rounded-full shadow-lg text-sm sm:text-base"

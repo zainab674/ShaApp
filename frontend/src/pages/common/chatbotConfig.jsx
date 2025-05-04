@@ -1,6 +1,9 @@
 import { createChatBotMessage } from "react-chatbot-kit";
 import MainOptions from "./options";
 import { GeneralQuestions, ServiceSearch, Bookings, Payments, EventPlanning } from "./generalQuestions";
+import React from "react";
+
+
 
 
 const config = {
